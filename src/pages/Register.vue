@@ -172,6 +172,17 @@ const register = async () => {
       throw new Error(data.message || 'Registration failed')
     }
 
+    localStorage.setItem(
+      'carhub_registered_user',
+      JSON.stringify({
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        phone: data.phone,
+        password: password.value
+      })
+    )
+
     message.value = `Account created successfully for ${data.firstName}!`
 
     console.log('Registered user:', data)
@@ -196,7 +207,8 @@ const register = async () => {
       #70C1B3,
       #B2DBBF,
       #F7FFF7
-    );}
+    );
+}
 
 .register-header {
   padding: 16px 0;

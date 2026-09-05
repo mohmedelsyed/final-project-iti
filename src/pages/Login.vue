@@ -102,6 +102,35 @@ const login = async () => {
   error.value = false
 
   try {
+    const registeredUser = JSON.parse(
+      localStorage.getItem('carhub_registered_user')
+    )
+
+    if (registeredUser) {
+      if (
+        registeredUser.email.toLowerCase() === email.value.toLowerCase() &&
+        registeredUser.password === password.value
+      ) {
+        const userData = {
+          firstName: registeredUser.firstName,
+          lastName: registeredUser.lastName,
+          email: registeredUser.email,
+          phone: registeredUser.phone
+        }
+
+        localStorage.setItem('carhub_token', 'local-token')
+        localStorage.setItem('carhub_user', JSON.stringify(userData))
+
+        message.value = `Welcome back, ${registeredUser.firstName}!`
+
+        setTimeout(() => {
+          router.push('/dashboard')
+        }, 1000)
+
+        return
+      }
+    }
+
     const usersResponse = await fetch(
       `https://dummyjson.com/users/search?q=${encodeURIComponent(email.value)}`
     )
@@ -142,7 +171,9 @@ const login = async () => {
 
     console.log('Login successful:', data)
 
-    setTimeout(() => router.push('/dashboard'), 1000)
+    setTimeout(() => {
+      router.push('/dashboard')
+    }, 1000)
 
   } catch (err) {
     error.value = true
@@ -164,7 +195,8 @@ const login = async () => {
       #70C1B3,
       #B2DBBF,
       #F7FFF7
-    );}
+    );
+}
 
 .login-header {
   padding: 16px 0;
