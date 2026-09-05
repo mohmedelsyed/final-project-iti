@@ -1,330 +1,354 @@
+```vue
 <template>
-  <section id="role-selector" class="role-section">
+  <section class="role-section">
+
     <div class="container">
-      <div class="section-header">
-        <h2 class="title">اختر مسارك في المنصة</h2>
-        <p class="subtitle">سواء كنت تبحث عن شراء سيارتك القادمة أو تريد بيع سيارتك بأفضل سعر وحماية كاملة</p>
+
+      <!-- Section Header -->
+      <div class="role-header">
+
+        <span class="role-badge">
+          GET STARTED
+        </span>
+
+        <h2>
+          What are you <span>looking for?</span>
+        </h2>
+
+        <p>
+          Choose how you want to use our platform.
+        </p>
+
       </div>
 
-      <!-- Role Cards Toggle -->
-      <div class="role-cards">
-        <!-- Buyer Card -->
-        <div 
-          class="role-card" 
-          :class="{ 'active': activeRole === 'buyer' }"
-          @click="selectRole('buyer')"
-        >
-          <div class="role-badge">المشتري (Buyer)</div>
-          <div class="icon-circle">
-            <span>🔑</span>
-          </div>
-          <h3>أريد شراء سيارة</h3>
-          <p>تصفح آلاف السيارات المفحوصة والمضمونة مع خيارات تقسيط ميسرة وحماية لجميع أموالك.</p>
-          
-          <ul class="role-features">
-            <li>✓ فحص فني شامل بـ 150+ نقطة</li>
-            <li>✓ ضمان كامل لمدة سنة أو 20,000 كم</li>
-            <li>✓ تقسيط مباشر بدون حظر ملكية</li>
-          </ul>
 
-          <button class="btn-role" :class="activeRole === 'buyer' ? 'btn-active' : 'btn-inactive'">
-            {{ activeRole === 'buyer' ? 'أنت في وضع المشتري الان 🎯' : 'اختر وضع المشتري' }}
-          </button>
+      <!-- Roles -->
+      <div class="row g-4 justify-content-center">
+
+        <!-- Buyer -->
+        <div class="col-lg-4 col-md-6">
+
+          <div
+            class="role-card"
+            @click="selectRole('buyer')"
+            :class="{ active: selectedRole === 'buyer' }"
+          >
+
+            <div class="role-icon">
+              <i class="bi bi-car-front-fill"></i>
+            </div>
+
+            <div class="role-content">
+
+              <h3>
+                I'm Looking for a Car
+              </h3>
+
+              <p>
+                Browse cars and find the perfect one
+                for your needs and budget.
+              </p>
+
+            </div>
+
+            <div class="role-arrow">
+              <i class="bi bi-arrow-right"></i>
+            </div>
+
+          </div>
+
         </div>
 
-        <!-- Seller Card -->
-        <div 
-          class="role-card" 
-          :class="{ 'active': activeRole === 'seller' }"
-          @click="selectRole('seller')"
-        >
-          <div class="role-badge seller-badge">البائع (Seller)</div>
-          <div class="icon-circle seller-icon">
-            <span>💰</span>
-          </div>
-          <h3>أريد بيع سيارتي</h3>
-          <p>اعرض سيارتك لأكثر من 500,000 مشتري جاد أو بعها فوراً للمعرض بأعلى تقييم عادل.</p>
-          
-          <ul class="role-features">
-            <li>✓ تقييم فوري مجاني من الخبراء</li>
-            <li>✓ دفع نقدي أونلاين فور توقيع العقد</li>
-            <li>✓ نقل ملكية آمن وبدون إجراءات تعقيدية</li>
-          </ul>
 
-          <button class="btn-role" :class="activeRole === 'seller' ? 'btn-active-seller' : 'btn-inactive'">
-            {{ activeRole === 'seller' ? 'أنت في وضع البائع الان ⚡' : 'اختر وضع البائع' }}
-          </button>
+        <!-- Seller -->
+        <div class="col-lg-4 col-md-6">
+
+          <div
+            class="role-card"
+            @click="selectRole('seller')"
+            :class="{ active: selectedRole === 'seller' }"
+          >
+
+            <div class="role-icon">
+              <i class="bi bi-tag-fill"></i>
+            </div>
+
+            <div class="role-content">
+
+              <h3>
+                I'm Selling a Car
+              </h3>
+
+              <p>
+                List your car and reach people
+                looking for their next vehicle.
+              </p>
+
+            </div>
+
+            <div class="role-arrow">
+              <i class="bi bi-arrow-right"></i>
+            </div>
+
+          </div>
+
         </div>
+
       </div>
 
-      <!-- Steps Breakdown -->
-      <div class="steps-container">
-        <h4 class="steps-title">
-          خطوات {{ activeRole === 'buyer' ? 'الشراء' : 'البيع' }} في 3 خطوات بسيطة:
-        </h4>
-
-        <div class="steps-grid" v-if="activeRole === 'buyer'">
-          <div class="step-card">
-            <span class="step-num">01</span>
-            <h4>اختر السيارة</h4>
-            <p>تصفح واقارن الموديلات والأسعار مع تقارير الفحص المرفقة.</p>
-          </div>
-          <div class="step-card">
-            <span class="step-num">02</span>
-            <h4>احجز معاينة</h4>
-            <p>حدد موعد لمعاينة السيارة وتجربة القيادة بنفسك.</p>
-          </div>
-          <div class="step-card">
-            <span class="step-num">03</span>
-            <h4>استلم المفتاح</h4>
-            <p>استكمل نقل الملكية بسهولة واستلم سيارتك جاهزة!</p>
-          </div>
-        </div>
-
-        <div class="steps-grid" v-else>
-          <div class="step-card">
-            <span class="step-num">01</span>
-            <h4>أضف البيانات</h4>
-            <p>ادخل تفاصيل السيارة والصور لتلقي عروض الشراء.</p>
-          </div>
-          <div class="step-card">
-            <span class="step-num">02</span>
-            <h4>الفحص التقييمي</h4>
-            <p>يقوم الخبير بفحص السيارة وتأكيد قيمتها العادلة.</p>
-          </div>
-          <div class="step-card">
-            <span class="step-num">03</span>
-            <h4>قبول العرض والكاش</h4>
-            <p>وافق على العرض واستلم أموالك في نفس اليوم!</p>
-          </div>
-        </div>
-      </div>
     </div>
+
   </section>
 </template>
 
+
 <script setup>
-import { ref } from 'vue'
 
-const emit = defineEmits(['role-change'])
+import { ref } from "vue";
 
-const activeRole = ref('buyer')
+const selectedRole = ref(null);
 
 const selectRole = (role) => {
-  activeRole.value = role
-  emit('role-change', role)
-}
+
+  selectedRole.value = role;
+
+  console.log("Selected Role:", role);
+
+};
+
 </script>
+
 
 <style scoped>
 .role-section {
-  padding: 6rem 0;
-  background: #0f172a;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 65px 0;
+  background:
+    linear-gradient(
+      135deg,
+      #F7FFF7,
+      #B2DBBF
+    );
+
+  font-family: "Poppins", "Cairo", sans-serif;
 }
 
-.container {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 2rem;
-}
 
-.section-header {
+/* =========================
+   HEADER
+========================= */
+
+.role-header {
   text-align: center;
-  margin-bottom: 3.5rem;
+  max-width: 650px;
+  margin: 0 auto 35px;
 }
 
-.title {
-  font-size: 2.2rem;
-  font-weight: 800;
-  color: #f8fafc;
-  margin-bottom: 0.75rem;
+
+.role-badge {
+  display: inline-block;
+  padding: 6px 15px;
+  margin-bottom: 12px;
+  border-radius: 30px;
+  border: 1px solid #70C1B3;
+  background: rgba(112, 193, 179, .12);
+  color: #1F6F5B;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .8px;
 }
 
-.subtitle {
-  color: #94a3b8;
-  font-size: 1.1rem;
-  max-width: 600px;
-  margin: 0 auto;
+
+.role-header h2 {
+  margin-bottom: 10px;
+  color: #102A27;
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -1px;
 }
 
-.role-cards {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
-  margin-bottom: 4rem;
+
+.role-header h2 span {
+  color: #1F6F5B;
 }
+
+
+.role-header p {
+  margin: 0;
+  color: #102A27;
+  opacity: .65;
+  font-size: 14px;
+}
+
+
+/* =========================
+   ROLE CARD
+========================= */
 
 .role-card {
   position: relative;
-  background: #1e293b;
-  border: 2px solid rgba(255, 255, 255, 0.08);
-  border-radius: 24px;
-  padding: 2.5rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  height: 100%;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding: 24px;
+  cursor: pointer;
+  background: rgba(247, 255, 247, .9);
+  border: 1px solid rgba(112, 193, 179, .35);
+  border-radius: 18px;
+  box-shadow:
+    0 8px 25px rgba(16, 42, 39, .07);
+  transition: all .3s ease;
 }
+
+
+/* Hover */
 
 .role-card:hover {
-  transform: translateY(-5px);
-  border-color: rgba(66, 184, 131, 0.4);
+  transform: translateY(-6px);
+  border-color: #70C1B3;
+  box-shadow:
+    0 15px 35px rgba(16, 42, 39, .13);
 }
+
+
+/* Active */
 
 .role-card.active {
-  background: linear-gradient(145deg, #1e293b, #0f172a);
-  border-color: #42b883;
-  box-shadow: 0 20px 40px -10px rgba(66, 184, 131, 0.25);
+  border-color: #1F6F5B;
+  background: #F7FFF7;
+  box-shadow:
+    0 0 0 3px rgba(31, 111, 91, .15);
 }
 
-.role-badge {
-  position: absolute;
-  top: 1.5rem;
-  left: 1.5rem;
-  background: rgba(66, 184, 131, 0.15);
-  color: #42b883;
-  padding: 0.3rem 0.9rem;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 700;
-}
 
-.seller-badge {
-  background: rgba(56, 189, 248, 0.15);
-  color: #38bdf8;
-}
+/* =========================
+   ICON
+========================= */
 
-.icon-circle {
-  width: 65px;
-  height: 65px;
-  border-radius: 50%;
-  background: rgba(66, 184, 131, 0.15);
+.role-icon {
+  min-width: 55px;
+  width: 55px;
+  height: 55px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
+  border-radius: 14px;
+  background:
+    linear-gradient(
+      135deg,
+      #1F6F5B,
+      #70C1B3
+    );
+
+  color: #F7FFF7;
+  font-size: 23px;
+  box-shadow:
+    0 7px 18px rgba(31, 111, 91, .2);
+  transition: .3s ease;
 }
 
-.seller-icon {
-  background: rgba(56, 189, 248, 0.15);
+
+.role-card:hover .role-icon {
+  transform: scale(1.08);
+
 }
 
-.role-card h3 {
-  font-size: 1.6rem;
+
+/* =========================
+   CONTENT
+========================= */
+
+.role-content {
+  flex: 1;
+}
+
+
+.role-content h3 {
+  margin: 0 0 6px;
+  color: #102A27;
+  font-size: 18px;
   font-weight: 700;
-  color: #f8fafc;
-  margin-bottom: 0.75rem;
+
 }
 
-.role-card p {
-  color: #94a3b8;
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
-  font-size: 1rem;
-}
 
-.role-features {
-  list-style: none;
-  margin-bottom: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.role-features li {
-  color: #cbd5e1;
-  font-size: 0.95rem;
-  font-weight: 600;
-}
-
-.btn-role {
-  margin-top: auto;
-  padding: 0.85rem 1.5rem;
-  border-radius: 12px;
-  font-weight: 700;
-  font-size: 1rem;
-  border: none;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  font-family: inherit;
-}
-
-.btn-active {
-  background: #42b883;
-  color: #0f172a;
-  box-shadow: 0 4px 15px rgba(66, 184, 131, 0.3);
-}
-
-.btn-active-seller {
-  background: #38bdf8;
-  color: #0f172a;
-  box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
-}
-
-.btn-inactive {
-  background: rgba(255, 255, 255, 0.05);
-  color: #94a3b8;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.steps-container {
-  background: rgba(30, 41, 59, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 20px;
-  padding: 2.5rem;
-}
-
-.steps-title {
-  font-size: 1.3rem;
-  color: #f8fafc;
-  margin-bottom: 2rem;
-  text-align: center;
-}
-
-.steps-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-}
-
-.step-card {
-  background: #0f172a;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 1.75rem;
-  border-radius: 16px;
-  position: relative;
-}
-
-.step-num {
-  font-size: 2.2rem;
-  font-weight: 800;
-  color: rgba(66, 184, 131, 0.2);
-  position: absolute;
-  top: 1rem;
-  left: 1.25rem;
-}
-
-.step-card h4 {
-  font-size: 1.15rem;
-  color: #f8fafc;
-  margin-bottom: 0.5rem;
-}
-
-.step-card p {
-  color: #94a3b8;
-  font-size: 0.9rem;
+.role-content p {
+  margin: 0;
+  color: #102A27;
+  opacity: .65;
+  font-size: 13px;
   line-height: 1.5;
+
 }
 
-@media (max-width: 900px) {
-  .role-cards {
-    grid-template-columns: 1fr;
+
+/* =========================
+   ARROW
+========================= */
+
+.role-arrow {
+  color: #1F6F5B;
+  font-size: 18px;
+  transition: .3s ease;
+}
+
+
+.role-card:hover .role-arrow {
+  transform: translateX(5px);
+  color: #102A27;
+
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 576px) {
+
+  .role-section {
+
+    padding: 50px 0;
+
   }
 
-  .steps-grid {
-    grid-template-columns: 1fr;
+  .role-header h2 {
+
+    font-size: 30px;
+
   }
+
+  .role-card {
+
+    padding: 19px;
+
+  }
+
+  .role-icon {
+
+    min-width: 48px;
+
+    width: 48px;
+
+    height: 48px;
+
+    font-size: 20px;
+
+  }
+
+  .role-content h3 {
+
+    font-size: 16px;
+
+  }
+
+  .role-content p {
+
+    font-size: 12px;
+
+  }
+
 }
+
 </style>
+```

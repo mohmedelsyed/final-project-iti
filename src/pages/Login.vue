@@ -73,9 +73,9 @@
 
           <p class="register-text">
             No account yet?
-            <a href="#">
+            <RouterLink to="/register">
               Create one
-            </a>
+            </RouterLink>
           </p>
 
           <div
@@ -101,6 +101,12 @@
 
 <script setup>
 import { ref } from 'vue'
+<<<<<<< HEAD
+=======
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+>>>>>>> origin/main
 
 const email = ref('')
 const password = ref('')
@@ -154,6 +160,11 @@ const login = async () => {
 
     console.log('Login successful:', data)
 
+<<<<<<< HEAD
+=======
+    setTimeout(() => router.push('/dashboard'), 1000)
+
+>>>>>>> origin/main
   } catch (err) {
     error.value = true
     message.value = err.message

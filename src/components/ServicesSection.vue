@@ -1,203 +1,522 @@
+```vue
 <template>
-  <section id="services" class="services-section">
+  <section class="services-section">
+
     <div class="container">
-      <div class="section-header">
-        <span class="badge-tag">خدماتنا المتكاملة</span>
-        <h2 class="title">كل ما تحتاجه لتجربة شراء وبيع سلسة</h2>
-        <p class="subtitle">نوفر لك باقة شاملة من الخدمات الاحترافية لتضمن حماية استثمارك وأمان معلقاتك المالية.</p>
-      </div>
 
-      <div class="services-grid">
-        <div 
-          v-for="service in services" 
-          :key="service.id"
-          class="service-card"
-        >
-          <div class="icon-box">
-            <span>{{ service.icon }}</span>
-          </div>
-          <h3>{{ service.title }}</h3>
-          <p>{{ service.description }}</p>
-          
-          <ul class="feature-list">
-            <li v-for="(feat, idx) in service.features" :key="idx">
-              • {{ feat }}
-            </li>
-          </ul>
+      <!-- Header -->
+      <div class="services-header">
 
-          <a href="#" class="service-link">
-            <span>معرفة المزيد</span>
-            <span class="arrow">←</span>
-          </a>
+        <div>
+          <span class="services-badge">OUR SERVICES</span>
+
+          <h2>
+            More Than Just
+            <span>Cars</span>
+          </h2>
         </div>
+
+        <p>
+          Everything you need to buy, sell, and take care
+          of your car in one simple platform.
+        </p>
+
       </div>
+
+
+      <!-- Services -->
+      <div class="services-list">
+
+        <!-- Service 01 -->
+        <div class="service-item">
+
+          <div class="service-number">
+            01
+          </div>
+
+          <div class="service-icon">
+            <i class="bi bi-car-front-fill"></i>
+          </div>
+
+          <div class="service-info">
+
+            <h3>Find Your Car</h3>
+
+            <p>
+              Search and discover cars that match
+              your budget, lifestyle, and preferences.
+            </p>
+
+          </div>
+
+          <button class="service-btn">
+            <i class="bi bi-arrow-up-right"></i>
+          </button>
+
+        </div>
+
+
+        <!-- Service 02 -->
+        <div class="service-item">
+
+          <div class="service-number">
+            02
+          </div>
+
+          <div class="service-icon">
+            <i class="bi bi-tag-fill"></i>
+          </div>
+
+          <div class="service-info">
+
+            <h3>Sell Your Car</h3>
+
+            <p>
+              Create your listing and connect with
+              potential buyers easily and quickly.
+            </p>
+
+          </div>
+
+          <button class="service-btn">
+            <i class="bi bi-arrow-up-right"></i>
+          </button>
+
+        </div>
+
+
+        <!-- Service 03 -->
+        <div class="service-item">
+
+          <div class="service-number">
+            03
+          </div>
+
+          <div class="service-icon">
+            <i class="bi bi-tools"></i>
+          </div>
+
+          <div class="service-info">
+
+            <h3>Car Care</h3>
+
+            <p>
+              Find maintenance, repair, and other
+              services to keep your car running smoothly.
+            </p>
+
+          </div>
+
+          <button class="service-btn">
+            <i class="bi bi-arrow-up-right"></i>
+          </button>
+
+        </div>
+
+      </div>
+
     </div>
+
   </section>
 </template>
 
-<script setup>
-const services = [
-  {
-    id: 1,
-    icon: '📋',
-    title: 'فحص فني شامل بـ 150 نقطة',
-    description: 'تقرير فحص دقيق يغطي المحرك، الناقل، الدهانات، والهيكل مع ضمان خلو السيارة من الحوادث الجسيمة.',
-    features: ['تقرير ديجيتال بالصور', 'قياس سمك الطلاء', 'اختبار الأعطال بالكمبيوتر']
-  },
-  {
-    id: 2,
-    icon: '💳',
-    title: 'تمويل وتقسيط ميسر',
-    description: 'خطط تقسيط مرنة حتى 7 سنوات بالتعاون مع كبرى البنوك وشركات التمويل بدون إجراءات معقدة.',
-    features: ['موافقة خلال 24 ساعة', 'مقدم يبدأ من 20%', 'بدون حظر ملكية (اختياري)']
-  },
-  {
-    id: 3,
-    icon: '🛡️',
-    title: 'ضمان ممتد مجاناً',
-    description: 'احصل على ضمان حقيقي يغطي المحرك والفتيس ونظام التكييف لمدة عام كامل مع خدمة سحب السيارة.',
-    features: ['تغطية لأجزاء المحرك', 'مساعدة على الطريق 24/7', 'استبدال قطع غيار أصلية']
-  },
-  {
-    id: 4,
-    icon: '📑',
-    title: 'نقل ملكية وتسجيل قانوني',
-    description: 'يتولى فريقنا القانوني كافة إجراءات الشهر العقاري والمرور لضمان سلامة الأوراق ونقل الملكية بصفة رسمية.',
-    features: ['الاستعلام عن المخالفات', 'توثيق العقود فوراً', 'تسليم الرخصة في المنزل']
-  }
-]
-</script>
 
 <style scoped>
+
 .services-section {
-  padding: 6rem 0;
-  background: #0f172a;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+
+  padding: 75px 0;
+
+  background: #F7FFF7;
+
+  font-family:
+    "Poppins",
+    "Cairo",
+    sans-serif;
+
 }
 
-.container {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 2rem;
+
+/* =========================
+   HEADER
+========================= */
+
+.services-header {
+
+  display: flex;
+
+  align-items: end;
+
+  justify-content: space-between;
+
+  gap: 30px;
+
+  margin-bottom: 40px;
+
 }
 
-.section-header {
-  text-align: center;
-  margin-bottom: 4rem;
-}
 
-.badge-tag {
-  background: rgba(56, 189, 248, 0.15);
-  color: #38bdf8;
-  padding: 0.4rem 1rem;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  border: 1px solid rgba(56, 189, 248, 0.3);
+.services-badge {
+
   display: inline-block;
-  margin-bottom: 1rem;
+
+  margin-bottom: 12px;
+
+  padding: 6px 14px;
+
+  border: 1px solid #70C1B3;
+
+  border-radius: 30px;
+
+  color: #1F6F5B;
+
+  background: rgba(112, 193, 179, .12);
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  letter-spacing: .8px;
+
 }
 
-.title {
-  font-size: 2.2rem;
-  font-weight: 800;
-  color: #f8fafc;
-  margin-bottom: 0.75rem;
+
+.services-header h2 {
+
+  margin: 0;
+
+  color: #102A27;
+
+  font-size: clamp(32px, 5vw, 45px);
+
+  font-weight: 700;
+
+  line-height: 1.1;
+
+  letter-spacing: -1.5px;
+
 }
 
-.subtitle {
-  color: #94a3b8;
-  font-size: 1.1rem;
-  max-width: 650px;
-  margin: 0 auto;
+
+.services-header h2 span {
+
+  color: #1F6F5B;
+
 }
 
-.services-grid {
+
+.services-header > p {
+
+  max-width: 390px;
+
+  margin: 0;
+
+  color: #102A27;
+
+  opacity: .65;
+
+  font-size: 14px;
+
+  line-height: 1.7;
+
+}
+
+
+/* =========================
+   SERVICE ITEM
+========================= */
+
+.service-item {
+
+  position: relative;
+
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
-}
 
-.service-card {
-  background: #1e293b;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 20px;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  transition: all 0.3s ease;
-}
+  grid-template-columns:
+    60px
+    70px
+    1fr
+    50px;
 
-.service-card:hover {
-  transform: translateY(-8px);
-  border-color: rgba(56, 189, 248, 0.4);
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
-}
-
-.icon-box {
-  width: 55px;
-  height: 55px;
-  border-radius: 16px;
-  background: rgba(56, 189, 248, 0.15);
-  display: flex;
   align-items: center;
+
+  gap: 25px;
+
+  padding: 25px 20px;
+
+  border-top: 1px solid
+    rgba(31, 111, 91, .2);
+
+  transition: .3s ease;
+
+}
+
+
+.service-item:last-child {
+
+  border-bottom: 1px solid
+    rgba(31, 111, 91, .2);
+
+}
+
+
+/* Hover */
+
+.service-item:hover {
+
+  padding-left: 30px;
+
+  padding-right: 30px;
+
+  background: #B2DBBF;
+
+  border-radius: 12px;
+
+}
+
+
+/* =========================
+   NUMBER
+========================= */
+
+.service-number {
+
+  color: #1F6F5B;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+}
+
+
+/* =========================
+   ICON
+========================= */
+
+.service-icon {
+
+  width: 58px;
+
+  height: 58px;
+
+  display: flex;
+
+  align-items: center;
+
   justify-content: center;
-  font-size: 1.8rem;
-  margin-bottom: 1.5rem;
+
+  border-radius: 15px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #1F6F5B,
+      #70C1B3
+    );
+
+  color: #F7FFF7;
+
+  font-size: 23px;
+
+  transition: .3s ease;
+
 }
 
-.service-card h3 {
-  font-size: 1.25rem;
-  color: #f8fafc;
-  margin-bottom: 0.75rem;
+
+.service-item:hover .service-icon {
+
+  transform:
+    rotate(-5deg)
+    scale(1.08);
+
+}
+
+
+/* =========================
+   INFO
+========================= */
+
+.service-info h3 {
+
+  margin: 0 0 6px;
+
+  color: #102A27;
+
+  font-size: 20px;
+
   font-weight: 700;
+
 }
 
-.service-card p {
-  color: #94a3b8;
-  font-size: 0.9rem;
+
+.service-info p {
+
+  max-width: 650px;
+
+  margin: 0;
+
+  color: #102A27;
+
+  opacity: .65;
+
+  font-size: 13px;
+
   line-height: 1.6;
-  margin-bottom: 1.25rem;
+
 }
 
-.feature-list {
-  list-style: none;
-  margin-bottom: 1.75rem;
+
+/* =========================
+   BUTTON
+========================= */
+
+.service-btn {
+
+  width: 45px;
+
+  height: 45px;
+
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
 
-.feature-list li {
-  font-size: 0.825rem;
-  color: #cbd5e1;
-}
-
-.service-link {
-  margin-top: auto;
-  color: #38bdf8;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 0.9rem;
-  display: flex;
   align-items: center;
-  gap: 0.4rem;
-  transition: gap 0.25s ease;
+
+  justify-content: center;
+
+  border: 1px solid #70C1B3;
+
+  border-radius: 50%;
+
+  background: transparent;
+
+  color: #1F6F5B;
+
+  font-size: 17px;
+
+  cursor: pointer;
+
+  transition: .3s ease;
+
 }
 
-.service-card:hover .service-link {
-  gap: 0.8rem;
+
+.service-item:hover .service-btn {
+
+  background: #102A27;
+
+  border-color: #102A27;
+
+  color: #F7FFF7;
+
+  transform:
+    rotate(45deg);
+
 }
 
-@media (max-width: 1024px) {
-  .services-grid {
-    grid-template-columns: repeat(2, 1fr);
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 768px) {
+
+  .services-header {
+
+    align-items: start;
+
+    flex-direction: column;
+
   }
+
+  .services-header > p {
+
+    max-width: 600px;
+
+  }
+
+  .service-item {
+
+    grid-template-columns:
+      45px
+      55px
+      1fr
+      45px;
+
+    gap: 15px;
+
+  }
+
 }
 
-@media (max-width: 600px) {
-  .services-grid {
-    grid-template-columns: 1fr;
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 576px) {
+
+  .services-section {
+
+    padding: 55px 0;
+
   }
+
+  .services-header {
+
+    margin-bottom: 25px;
+
+  }
+
+  .service-item {
+
+    grid-template-columns:
+      40px
+      50px
+      1fr;
+
+    gap: 12px;
+
+    padding: 20px 5px;
+
+  }
+
+  .service-item:hover {
+
+    padding-left: 10px;
+
+    padding-right: 10px;
+
+  }
+
+  .service-icon {
+
+    width: 48px;
+
+    height: 48px;
+
+    font-size: 19px;
+
+  }
+
+  .service-info h3 {
+
+    font-size: 16px;
+
+  }
+
+  .service-info p {
+
+    font-size: 11px;
+
+  }
+
+  .service-btn {
+
+    display: none;
+
+  }
+
 }
+
 </style>
+```
