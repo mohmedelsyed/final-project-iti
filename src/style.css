@@ -1,49 +1,690 @@
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&family=Outfit:wght@400;600;700;800&display=swap');
+```css
+/* =========================================
+   CARHUB DESIGN SYSTEM
+   ========================================= */
 
 :root {
-  --primary: #42b883;
-  --primary-dark: #33a06f;
-  --bg-dark: #0f172a;
-  --bg-darker: #0b1120;
-  --card-bg: #1e293b;
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --accent: #38bdf8;
-  --font-family: 'Cairo', 'Outfit', sans-serif;
+
+    /* =========================
+       Colors
+       ========================= */
+
+    --dark: #102A27;
+    --primary: #1F6F5B;
+    --secondary: #70C1B3;
+    --light: #B2DBBF;
+    --background: #F7FFF7;
+
+    --white: #ffffff;
+    --black: #000000;
+    --text: #102A27;
+    --gray: #6c757d;
+
+
+    /* =========================
+       Spacing
+       ========================= */
+
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 24px;
+    --space-6: 32px;
+    --space-7: 48px;
+    --space-8: 64px;
+
+
+    /* =========================
+       Border Radius
+       ========================= */
+
+    --radius-button: 10px;
+    --radius-input: 10px;
+    --radius-card: 16px;
+    --radius-image: 16px;
+    --radius-large: 20px;
+
+
+    /* =========================
+       Shadows
+       ========================= */
+
+    --shadow-card:
+        0 4px 15px rgba(16, 42, 39, 0.10);
+
+    --shadow-hover:
+        0 10px 25px rgba(16, 42, 39, 0.18);
 }
 
+
+/* =========================================
+   GLOBAL
+   ========================================= */
+
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 html {
-  scroll-behavior: smooth;
+    scroll-behavior: smooth;
 }
 
 body {
-  font-family: var(--font-family);
-  background-color: var(--bg-dark);
-  color: var(--text-main);
-  min-height: 100vh;
-  overflow-x: hidden;
+    font-family: "Poppins", "Cairo", sans-serif;
+    background-color: var(--background);
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.6;
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 10px;
+
+/* =========================================
+   CONTAINER
+   ========================================= */
+
+.container {
+    width: 100%;
 }
 
-::-webkit-scrollbar-track {
-  background: var(--bg-darker);
+
+/* =========================================
+   SECTIONS
+   ========================================= */
+
+section {
+    padding: 64px 0;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #334155;
-  border-radius: 5px;
+
+/* =========================================
+   HEADINGS
+   ========================================= */
+
+h1 {
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--dark);
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--primary);
+h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--dark);
+}
+
+h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+p {
+    font-size: 16px;
+    color: var(--gray);
+}
+
+.small-text {
+    font-size: 14px;
+}
+
+
+/* =========================================
+   BUTTONS
+   ========================================= */
+
+.btn-carhub {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 12px 24px;
+
+    background-color: var(--primary);
+    color: var(--white);
+
+    border: 2px solid var(--primary);
+    border-radius: var(--radius-button);
+
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+}
+
+.btn-carhub:hover {
+    background-color: var(--dark);
+    border-color: var(--dark);
+
+    color: var(--white);
+
+    transform: translateY(-2px);
+}
+
+
+/* =========================================
+   OUTLINE BUTTON
+   ========================================= */
+
+.btn-carhub-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 12px 24px;
+
+    background-color: transparent;
+    color: var(--primary);
+
+    border: 2px solid var(--primary);
+    border-radius: var(--radius-button);
+
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+}
+
+.btn-carhub-outline:hover {
+    background-color: var(--primary);
+    color: var(--white);
+
+    transform: translateY(-2px);
+}
+
+
+/* =========================================
+   INPUTS
+   ========================================= */
+
+.form-control,
+.form-select {
+    width: 100%;
+
+    padding: 12px 16px;
+
+    border: 1px solid var(--light);
+    border-radius: var(--radius-input);
+
+    background-color: var(--white);
+
+    color: var(--dark);
+
+    font-size: 16px;
+
+    transition: all 0.3s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+
+    border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 3px rgba(112, 193, 179, 0.25);
+
+    outline: none;
+}
+
+
+/* =========================================
+   LABEL
+   ========================================= */
+
+.form-label {
+    margin-bottom: 8px;
+
+    color: var(--dark);
+
+    font-size: 16px;
+    font-weight: 600;
+}
+
+
+/* =========================================
+   CARDS
+   ========================================= */
+
+.carhub-card {
+
+    padding: 20px;
+
+    background-color: var(--white);
+
+    border-radius: var(--radius-card);
+
+    box-shadow: var(--shadow-card);
+
+    transition: all 0.3s ease;
+}
+
+.carhub-card:hover {
+
+    transform: translateY(-5px);
+
+    box-shadow: var(--shadow-hover);
+}
+
+
+/* =========================================
+   CARD IMAGE
+   ========================================= */
+
+.carhub-card-img {
+
+    width: 100%;
+    height: 220px;
+
+    object-fit: cover;
+
+    border-radius: var(--radius-image);
+
+    margin-bottom: 20px;
+}
+
+
+/* =========================================
+   CARD TITLE
+   ========================================= */
+
+.carhub-card-title {
+
+    font-size: 20px;
+    font-weight: 600;
+
+    color: var(--dark);
+
+    margin-bottom: 8px;
+}
+
+
+/* =========================================
+   CARD TEXT
+   ========================================= */
+
+.carhub-card-text {
+
+    font-size: 16px;
+
+    color: var(--gray);
+
+    margin-bottom: 16px;
+}
+
+
+/* =========================================
+   PRICE
+   ========================================= */
+
+.carhub-price {
+
+    font-size: 20px;
+    font-weight: 700;
+
+    color: var(--primary);
+}
+
+
+/* =========================================
+   BADGE
+   ========================================= */
+
+.carhub-badge {
+
+    display: inline-block;
+
+    padding: 4px 12px;
+
+    background-color: var(--light);
+
+    color: var(--dark);
+
+    border-radius: 20px;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+/* =========================================
+   NAVBAR
+   ========================================= */
+
+.carhub-navbar {
+
+    background-color: var(--dark);
+
+    padding: 16px 0;
+
+    position: relative;
+    z-index: 1000;
+}
+
+.carhub-navbar .navbar-brand {
+
+    color: var(--white);
+
+    font-size: 24px;
+    font-weight: 700;
+
+    text-decoration: none;
+}
+
+.carhub-navbar .navbar-brand:hover {
+    color: var(--secondary);
+}
+
+.carhub-navbar .nav-link {
+
+    color: var(--white);
+
+    margin-left: 8px;
+    margin-right: 8px;
+
+    transition: all 0.3s ease;
+
+    border-radius: var(--radius-button);
+}
+
+.carhub-navbar .nav-link:hover {
+
+    color: var(--secondary);
+
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+
+/* =========================================
+   ACTIVE / BROWSE CAR
+   ========================================= */
+
+.carhub-navbar .nav-link.bg-black {
+
+    color: var(--white) !important;
+
+    background-color: var(--black) !important;
+
+    padding: 8px 16px;
+
+    border-radius: var(--radius-button);
+}
+
+.carhub-navbar .nav-link.bg-black:hover {
+
+    background-color: var(--primary) !important;
+
+    color: var(--white) !important;
+}
+
+
+/* =========================================
+   NAVBAR TOGGLER
+   ========================================= */
+
+.carhub-navbar .navbar-toggler {
+
+    border: 1px solid var(--white);
+
+    padding: 6px 10px;
+}
+
+.carhub-navbar .navbar-toggler:focus {
+
+    box-shadow:
+        0 0 0 3px rgba(112, 193, 179, 0.35);
+}
+
+.carhub-navbar .navbar-toggler-icon {
+
+    filter: invert(1);
+}
+
+
+/* =========================================
+   HERO
+   ========================================= */
+
+.carhub-hero {
+
+    min-height: 80vh;
+
+    display: flex;
+    align-items: center;
+
+    background:
+        linear-gradient(
+            45deg,
+            #102A27,
+            #1F6F5B,
+            #70C1B3,
+            #B2DBBF,
+            #F7FFF7
+        );
+}
+
+
+/* =========================================
+   HERO TITLE
+   ========================================= */
+
+.carhub-hero h1 {
+
+    font-size: 48px;
+
+    color: var(--white);
+
+    margin-bottom: 16px;
+}
+
+
+/* =========================================
+   HERO TEXT
+   ========================================= */
+
+.carhub-hero p {
+
+    font-size: 18px;
+
+    color: var(--white);
+
+    margin-bottom: 24px;
+}
+
+
+/* =========================================
+   SPACING CLASSES
+   ========================================= */
+
+.mt-1 {
+    margin-top: 4px;
+}
+
+.mt-2 {
+    margin-top: 8px;
+}
+
+.mt-3 {
+    margin-top: 12px;
+}
+
+.mt-4 {
+    margin-top: 16px;
+}
+
+.mt-5 {
+    margin-top: 24px;
+}
+
+.mt-6 {
+    margin-top: 32px;
+}
+
+.mt-7 {
+    margin-top: 48px;
+}
+
+.mt-8 {
+    margin-top: 64px;
+}
+
+
+.mb-1 {
+    margin-bottom: 4px;
+}
+
+.mb-2 {
+    margin-bottom: 8px;
+}
+
+.mb-3 {
+    margin-bottom: 12px;
+}
+
+.mb-4 {
+    margin-bottom: 16px;
+}
+
+.mb-5 {
+    margin-bottom: 24px;
+}
+
+.mb-6 {
+    margin-bottom: 32px;
+}
+
+.mb-7 {
+    margin-bottom: 48px;
+}
+
+.mb-8 {
+    margin-bottom: 64px;
+}
+
+
+/* =========================================
+   FOOTER
+   ========================================= */
+
+.carhub-footer {
+
+    padding: 48px 0;
+
+    background-color: var(--dark);
+
+    color: var(--white);
+}
+
+.carhub-footer p {
+
+    color: var(--light);
+}
+
+
+/* =========================================
+   BOOTSTRAP GRID
+   ========================================= */
+
+/*
+    Bootstrap:
+
+    row g-4
+
+    Desktop:
+    col-lg-4 → 3 cards
+
+    Tablet:
+    col-md-6 → 2 cards
+
+    Mobile:
+    col-12 → 1 card
+*/
+
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 991px) {
+
+    .carhub-navbar .nav-link {
+        margin: 4px 0;
+    }
+
+    .carhub-navbar .navbar-nav {
+        padding-top: 16px;
+    }
+
+}
+
+
+@media (max-width: 768px) {
+
+    section {
+        padding: 40px 0;
+    }
+
+    h1 {
+        font-size: 36px;
+    }
+
+    h2 {
+        font-size: 28px;
+    }
+
+    h3 {
+        font-size: 20px;
+    }
+
+    .carhub-hero h1 {
+        font-size: 36px;
+    }
+
+    .carhub-card-img {
+        height: 200px;
+    }
+
+}
+
+
+@media (max-width: 576px) {
+
+    h1 {
+        font-size: 30px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    p {
+        font-size: 15px;
+    }
+
+    .carhub-hero h1 {
+        font-size: 30px;
+    }
+
+    .carhub-hero p {
+        font-size: 16px;
+    }
+
+    .btn-carhub,
+    .btn-carhub-outline {
+        width: 100%;
+    }
+
+    .carhub-card {
+        padding: 16px;
+    }
+
+    .carhub-navbar {
+        padding: 12px 0;
+    }
+
 }
