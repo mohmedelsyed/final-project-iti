@@ -1,4 +1,3 @@
-```vue
 <template>
   <section class="services-section">
 
@@ -127,7 +126,16 @@
 
   padding: 75px 0;
 
-  background: #F7FFF7;
+  /* background: #F7FFF7; */
+    background:
+    linear-gradient(
+      45deg,
+      #102A27,
+      #1F6F5B,
+      #70C1B3,
+      #B2DBBF,
+      #F7FFF7
+    );
 
   font-family:
     "Poppins",
@@ -519,4 +527,3 @@
 }
 
 </style>
-```

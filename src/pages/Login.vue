@@ -1,22 +1,7 @@
 <template>
   <div class="login-page">
 
-    <header class="login-header">
-      <div class="container">
-        <div class="header-content">
-
-          <div class="logo">
-            <span class="logo-icon">🚗</span>
-            <span>CarHub</span>
-          </div>
-
-          <button class="menu-btn" type="button">
-            <i class="bi bi-list"></i>
-          </button>
-
-        </div>
-      </div>
-    </header>
+    <Navbar />
 
     <main class="login-content">
       <div class="container">
@@ -35,14 +20,14 @@
 
             <div class="form-group">
               <label for="email">
-                Email
+                Email or Username
               </label>
 
               <input
                 id="email"
                 v-model="email"
-                type="email"
-                placeholder="you@example.com"
+                type="text"
+                placeholder="you@example.com or emilys"
                 required
               />
             </div>
@@ -87,8 +72,19 @@
           </div>
 
           <div class="demo-box">
-            <strong>Demo:</strong>
-            Use a DummyJSON test user account to test the API login.
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <strong>Demo Account:</strong>
+                <div><code>emilys</code> / <code>emilyspass</code></div>
+              </div>
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-success"
+                @click="fillDemo"
+              >
+                Fill Demo
+              </button>
+            </div>
           </div>
 
         </div>
@@ -102,6 +98,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import Navbar from '../components/Navbar.vue'
 
 const router = useRouter()
 
@@ -111,24 +108,62 @@ const loading = ref(false)
 const message = ref('')
 const error = ref(false)
 
+const fillDemo = () => {
+  email.value = 'emily.johnson@x.dummyjson.com'
+  password.value = 'emilyspass'
+}
+
 const login = async () => {
   loading.value = true
   message.value = ''
   error.value = false
 
+  const inputVal = email.value.trim()
+  const passVal = password.value
+
   try {
-    const usersResponse = await fetch(
-      `https://dummyjson.com/users/search?q=${encodeURIComponent(email.value)}`
+    // 1. Check local registered users first
+    const registeredUsers = JSON.parse(localStorage.getItem('carhub_registered_users') || '[]')
+    const localUser = registeredUsers.find(
+      u => u.email.toLowerCase() === inputVal.toLowerCase() ||
+           (u.username && u.username.toLowerCase() === inputVal.toLowerCase())
     )
 
-    const usersData = await usersResponse.json()
+    if (localUser) {
+      if (localUser.password !== passVal) {
+        throw new Error('Invalid email or password')
+      }
+      const sessionData = {
+        id: localUser.id || Date.now(),
+        username: localUser.username || inputVal.split('@')[0],
+        email: localUser.email,
+        firstName: localUser.firstName || localUser.name || 'User',
+        lastName: localUser.lastName || '',
+        gender: 'male',
+        image: 'https://dummyjson.com/icon/emilys/128'
+      }
+      localStorage.setItem('carhub_token', 'local-token-' + Date.now())
+      localStorage.setItem('carhub_user', JSON.stringify(sessionData))
+      message.value = `Welcome back, ${sessionData.firstName}!`
+      setTimeout(() => router.push('/dashboard'), 800)
+      return
+    }
 
-    const user = usersData.users.find(
-      item => item.email.toLowerCase() === email.value.toLowerCase()
-    )
-
-    if (!user) {
-      throw new Error('User not found')
+    // 2. Fallback to DummyJSON authentication
+    let usernameToLogin = inputVal
+    if (inputVal.includes('@')) {
+      const usersResponse = await fetch(
+        `https://dummyjson.com/users/search?q=${encodeURIComponent(inputVal)}`
+      )
+      const usersData = await usersResponse.json()
+      const user = usersData.users?.find(
+        item => item.email.toLowerCase() === inputVal.toLowerCase()
+      )
+      if (user) {
+        usernameToLogin = user.username
+      } else {
+        throw new Error('User not found. Please register or use the demo account.')
+      }
     }
 
     const response = await fetch('https://dummyjson.com/auth/login', {
@@ -137,27 +172,25 @@ const login = async () => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        username: user.username,
-        password: password.value,
+        username: usernameToLogin,
+        password: passVal,
         expiresInMins: 30
-      }),
-      credentials: 'include'
+      })
     })
 
     const data = await response.json()
 
     if (!response.ok) {
-      throw new Error(data.message || 'Invalid email or password')
+      throw new Error(data.message || 'Invalid username/email or password')
     }
 
     localStorage.setItem('carhub_token', data.accessToken)
     localStorage.setItem('carhub_user', JSON.stringify(data))
 
     message.value = `Welcome back, ${data.firstName}!`
-
     console.log('Login successful:', data)
 
-    setTimeout(() => router.push('/dashboard'), 1000)
+    setTimeout(() => router.push('/dashboard'), 800)
 
   } catch (err) {
     error.value = true
@@ -171,8 +204,15 @@ const login = async () => {
 <style scoped>
 .login-page {
   min-height: 100vh;
-  background: #f7fff7;
-}
+   background:
+    linear-gradient(
+      45deg,
+      #102A27,
+      #1F6F5B,
+      #70C1B3,
+      #B2DBBF,
+      #F7FFF7
+    );}
 
 .login-header {
   padding: 16px 0;

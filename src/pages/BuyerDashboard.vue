@@ -2,27 +2,7 @@
   <div class="dashboard-page">
 
     <!-- Navbar -->
-    <nav class="dashboard-navbar">
-      <div class="container">
-        <div class="navbar-content">
-
-          <div class="logo">
-            <span>🚗</span>
-            <strong>CarHub</strong>
-          </div>
-
-          <div class="nav-links">
-            <a href="#">Register</a>
-            <a href="#">Login</a>
-
-            <button class="menu-btn" type="button">
-              <i class="bi bi-list"></i>
-            </button>
-          </div>
-
-        </div>
-      </div>
-    </nav>
+    <Navbar />
 
 
     <!-- Hero -->
@@ -64,14 +44,7 @@
                 EGP {{ budget.toLocaleString() }}
               </div>
 
-              <input
-                v-model.number="budget"
-                type="range"
-                min="100000"
-                max="5000000"
-                step="50000"
-                class="budget-slider"
-              >
+              <input v-model.number="budget" type="range" min="100000" max="5000000" step="50000" class="budget-slider">
 
             </div>
 
@@ -110,12 +83,7 @@
 
             <div class="col-12 col-md-2">
 
-              <button
-                type="button"
-                class="location-btn"
-                :disabled="detectingLocation"
-                @click="detectLocation"
-              >
+              <button type="button" class="location-btn" :disabled="detectingLocation" @click="detectLocation">
 
                 <i class="bi bi-geo-alt"></i>
 
@@ -132,12 +100,7 @@
 
             <div class="col-12 col-md-3">
 
-              <button
-                type="button"
-                class="search-btn"
-                :disabled="loading"
-                @click="searchCars"
-              >
+              <button type="button" class="search-btn" :disabled="loading" @click="searchCars">
 
                 <i class="bi bi-search"></i>
 
@@ -241,11 +204,7 @@
 
         <div class="row g-4">
 
-          <div
-            v-for="category in categories"
-            :key="category.name"
-            class="col-12 col-md-6 col-lg-4"
-          >
+          <div v-for="category in categories" :key="category.name" class="col-12 col-md-6 col-lg-4">
 
             <div class="category-card">
 
@@ -302,10 +261,7 @@
 
 
         <!-- Active Brand Filter -->
-        <div
-          v-if="activeBrandFilter"
-          class="filter-chip"
-        >
+        <div v-if="activeBrandFilter" class="filter-chip">
 
           Filtering by:
 
@@ -313,10 +269,7 @@
             {{ activeBrandFilter }}
           </strong>
 
-          <button
-            type="button"
-            @click="clearBrandFilter"
-          >
+          <button type="button" @click="clearBrandFilter">
 
             <i class="bi bi-x"></i>
 
@@ -326,10 +279,7 @@
 
 
         <!-- Loading -->
-        <div
-          v-if="loading"
-          class="api-message"
-        >
+        <div v-if="loading" class="api-message">
 
           <i class="bi bi-arrow-repeat"></i>
 
@@ -339,10 +289,7 @@
 
 
         <!-- Error -->
-        <div
-          v-if="apiError"
-          class="api-message error"
-        >
+        <div v-if="apiError" class="api-message error">
 
           {{ apiError }}
 
@@ -352,21 +299,17 @@
         <!-- Cars -->
         <div class="row g-4">
 
-          <div
-            v-for="car in filteredCars"
-            :key="car.id"
-            class="col-12 col-md-6 col-lg-4"
-          >
+          <div v-for="car in filteredCars" :key="car.id" class="col-12 col-md-6 col-lg-4">
 
             <div class="car-card">
 
               <div class="car-image">
-                <img :src="car.image" :alt="car.name" class="car-photo" >
+                <img :src="car.image" :alt="car.name" class="car-photo">
 
 
 
 
-                
+
 
                 <span class="match-badge">
 
@@ -375,19 +318,12 @@
                 </span>
 
 
-                <button
-                  type="button"
-                  class="favorite-btn"
-                  @click="toggleFavorite(car)"
-                >
+                <button type="button" class="favorite-btn" @click="toggleFavorite(car)">
 
-                  <i
-                    :class="
-                      car.favorite
-                        ? 'bi bi-heart-fill'
-                        : 'bi bi-heart'
-                    "
-                  ></i>
+                  <i :class="car.favorite
+                      ? 'bi bi-heart-fill'
+                      : 'bi bi-heart'
+                    "></i>
 
                 </button>
 
@@ -449,11 +385,7 @@
                 </div>
 
 
-                <button
-                  type="button"
-                  class="details-btn"
-                  @click="viewDetails(car)"
-                >
+                <button type="button" class="details-btn" @click="viewDetails(car)">
 
                   View details
 
@@ -469,14 +401,11 @@
 
 
         <!-- No Cars -->
-        <div
-          v-if="
-            !loading &&
-            !apiError &&
-            filteredCars.length === 0
-          "
-          class="api-message"
-        >
+        <div v-if="
+          !loading &&
+          !apiError &&
+          filteredCars.length === 0
+        " class="api-message">
 
           No cars found. Try changing your budget
           or clearing the brand filter.
@@ -509,16 +438,9 @@
         <!-- Brands -->
         <div class="brands-list">
 
-          <button
-            v-for="brand in brands"
-            :key="brand"
-            type="button"
-            class="brand-btn"
-            :class="{
-              active: activeBrandFilter === brand
-            }"
-            @click="selectBrand(brand)"
-          >
+          <button v-for="brand in brands" :key="brand" type="button" class="brand-btn" :class="{
+            active: activeBrandFilter === brand
+          }" @click="selectBrand(brand)">
 
             {{ brand }}
 
@@ -689,91 +611,7 @@
 
 
     <!-- Footer -->
-    <footer class="footer">
-
-      <div class="container">
-
-        <div class="footer-content">
-
-          <div class="footer-logo">
-            🚗 CarHub
-          </div>
-
-
-          <div class="footer-column">
-
-            <h4>
-              Explore
-            </h4>
-
-            <a href="#">
-              Browse Cars
-            </a>
-
-            <a href="#">
-              Categories
-            </a>
-
-            <a href="#">
-              Brands
-            </a>
-
-          </div>
-
-
-          <div class="footer-column">
-
-            <h4>
-              Tools
-            </h4>
-
-            <a href="#">
-              Financing
-            </a>
-
-            <a href="#">
-              Car Quiz
-            </a>
-
-            <a href="#">
-              Services
-            </a>
-
-          </div>
-
-
-          <div class="footer-column">
-
-            <h4>
-              Account
-            </h4>
-
-            <a href="#">
-              Login
-            </a>
-
-            <a href="#">
-              Register
-            </a>
-
-            <a href="#">
-              Dashboard
-            </a>
-
-          </div>
-
-        </div>
-
-
-        <div class="footer-bottom">
-
-          © 2026 CarHub. All rights reserved.
-
-        </div>
-
-      </div>
-
-    </footer>
+    <FooterSection />
 
   </div>
 </template>
@@ -781,7 +619,12 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import Navbar from '../components/Navbar.vue'
+import FooterSection from '../components/FooterSection.vue'
 
+const router = useRouter()
+const user = ref(null)
 const API_URL = 'http://localhost:3000/cars'
 
 const budget = ref(5000000)
@@ -838,19 +681,33 @@ const brands = [
 ]
 
 
-// Get cars from Fake API
+// Get cars from Fake API or fallback
 const loadCars = async () => {
   loading.value = true
   apiError.value = ''
 
   try {
-    const response = await fetch(API_URL)
-
-    if (!response.ok) {
-      throw new Error('Failed to load cars')
+    let data = null
+    try {
+      const response = await fetch(API_URL)
+      if (response.ok) {
+        data = await response.json()
+      }
+    } catch {
+      // json server not running
     }
 
-    const data = await response.json()
+    if (!data) {
+      const fallback = await fetch('/db.json')
+      if (fallback.ok) {
+        const json = await fallback.json()
+        data = json.cars || []
+      }
+    }
+
+    if (!data || data.length === 0) {
+      throw new Error('No cars available')
+    }
 
     cars.value = data.map(car => ({
       ...car,
@@ -859,9 +716,8 @@ const loadCars = async () => {
 
   } catch (error) {
     console.error('API Error:', error)
-
     apiError.value =
-      'Unable to load cars from API. Make sure JSON Server is running.'
+      'Unable to load cars. Make sure JSON Server or db.json is available.'
   } finally {
     loading.value = false
   }
@@ -959,14 +815,15 @@ const toggleFavorite = (car) => {
 
 // View details
 const viewDetails = (car) => {
-
-  console.log(
-    'Selected car:',
-    car
-  )
-
+  router.push('/cars/' + car.id)
 }
 
+const logout = () => {
+  localStorage.removeItem('carhub_token')
+  localStorage.removeItem('carhub_user')
+  user.value = null
+  router.push('/login')
+}
 
 // Select brand
 const selectBrand = (brand) => {
@@ -1000,24 +857,39 @@ const handleImageError = (event) => {
 }
 
 
-// Load cars when page opens
+// Load cars and user when page opens
 onMounted(() => {
-
+  const saved = localStorage.getItem('carhub_user')
+  if (saved) {
+    try {
+      user.value = JSON.parse(saved)
+    } catch {
+      user.value = null
+    }
+  }
   loadCars()
-
 })
 </script>
 <style scoped>
-
 .dashboard-page {
   min-height: 100vh;
-  background: #f7fff7;
-  color: #102a27;
+  /* background: #f7fff7;
+  color: #102a27; */
+   background:
+    linear-gradient(
+      45deg,
+      #102A27,
+      #1F6F5B,
+      #70C1B3,
+      #B2DBBF,
+      #F7FFF7
+    );
+  
 }
 
 .dashboard-navbar {
   padding: 16px 0;
-  background: #ffffff;
+  background: var(--secondary);
   border-bottom: 1px solid #e5eee9;
 }
 
@@ -1065,14 +937,12 @@ onMounted(() => {
 
 .hero-section {
   padding: 64px 0;
-  background-image: linear-gradient(
-    45deg,
-    #102a27,
-    #1f6f5b,
-    #70c1b3,
-    #b2dbbf,
-    #f7fff7
-  );
+  background-image: linear-gradient(45deg,
+      #102a27,
+      #1f6f5b,
+      #70c1b3,
+      #b2dbbf,
+      #f7fff7);
 }
 
 .hero-content {
@@ -1202,7 +1072,7 @@ onMounted(() => {
   margin-bottom: 32px;
 }
 
-.section-heading > span {
+.section-heading>span {
   display: inline-block;
   margin-bottom: 8px;
   color: #1f6f5b;
@@ -1382,13 +1252,13 @@ onMounted(() => {
 }
 
 .car-info span {
-  color: #666666;
+  color: var(--primary);
   font-size: 13px;
 }
 
 .car-info i {
   margin-right: 4px;
-  color: #1f6f5b;
+  color: var(--primary);
 }
 
 .details-btn {
@@ -1516,8 +1386,17 @@ onMounted(() => {
 
 .footer {
   padding: 48px 0 24px;
-  background: #102a27;
+  /* background: #102a27; */
   color: #ffffff;
+     background:
+    linear-gradient(
+      45deg,
+      #102A27,
+      #1F6F5B,
+      #70C1B3,
+      #B2DBBF,
+      #F7FFF7
+    );
 }
 
 .footer-content {
@@ -1612,5 +1491,4 @@ onMounted(() => {
   }
 
 }
-
 </style>
