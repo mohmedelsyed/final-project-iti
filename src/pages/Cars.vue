@@ -2,127 +2,226 @@
   <section class="cars-page">
     <div class="container">
 
-      <!-- Header -->
       <div class="page-header">
         <h1>Browse Cars</h1>
         <p>Find the perfect car for you</p>
       </div>
 
-      <!-- Search & Filters -->
-      <div class="filters">
-        <div class="search-box">
-          <i class="bi bi-search"></i>
-          <input
-            v-model="search"
-            type="text"
-            placeholder="Search by brand or model..."
-          />
-        </div>
+      <div class="search-box">
+        <i class="bi bi-search"></i>
 
-        <select v-model="selectedBrand">
-          <option value="all">All Brands</option>
-          <option v-for="brand in brands" :key="brand">
-            {{ brand }}
-          </option>
-        </select>
-
-        <select v-model="selectedCondition">
-          <option value="all">All Conditions</option>
-          <option value="new">New</option>
-          <option value="used">Used</option>
-        </select>
-
-        <button @click="resetFilters">Reset</button>
+        <input
+          v-model="search"
+          type="text"
+          placeholder="Search by brand or model..."
+        />
       </div>
 
-      <!-- Results -->
-      <div class="results-header">
-        <h2>Available Cars</h2>
-        <span>{{ filteredCars.length }} cars</span>
-      </div>
+      <div class="cars-layout">
 
-      <!-- Cars -->
-      <div class="row g-4">
-        <div
-          v-for="car in filteredCars"
-          :key="car.id"
-          class="col-lg-4 col-md-6"
-        >
-          <div class="car-card">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+
+          <div class="sidebar-header">
+            <h2>Filters</h2>
+
+            <button @click="resetFilters">
+              Reset
+            </button>
+          </div>
+
+          <div class="filter-group">
+            <label>Brand</label>
+
+            <select v-model="selectedBrand">
+              <option value="all">All Brands</option>
+
+              <option
+                v-for="brand in brands"
+                :key="brand"
+                :value="brand"
+              >
+                {{ brand }}
+              </option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label>Fuel Type</label>
+
+            <select v-model="selectedFuel">
+              <option value="all">All Types</option>
+
+              <option
+                v-for="fuel in fuelTypes"
+                :key="fuel"
+                :value="fuel"
+              >
+                {{ fuel }}
+              </option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label>Location</label>
+
+            <select v-model="selectedLocation">
+              <option value="all">All Locations</option>
+
+              <option
+                v-for="location in locations"
+                :key="location"
+                :value="location"
+              >
+                {{ location }}
+              </option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label>Transmission</label>
+
+            <select v-model="selectedTransmission">
+              <option value="all">All</option>
+              <option value="Automatic">Automatic</option>
+              <option value="Manual">Manual</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label>Maximum Price</label>
+
+            <select v-model="maxPrice">
+              <option value="all">Any Price</option>
+              <option :value="1000000">1,000,000 EGP</option>
+              <option :value="1500000">1,500,000 EGP</option>
+              <option :value="2000000">2,000,000 EGP</option>
+            </select>
+          </div>
+
+        </aside>
+
+        <!-- Cars -->
+        <main class="cars-section">
+
+          <div class="results-header">
+            <h2>Available Cars</h2>
+
+            <span>
+              {{ filteredCars.length }} cars
+            </span>
+          </div>
+
+          <div v-if="loading" class="loading">
+            <i class="bi bi-arrow-repeat"></i>
+            <p>Loading cars...</p>
+          </div>
+
+          <div v-else class="row g-4">
 
             <div
-              class="car-image"
-              :style="{ backgroundColor: car.bgColor }"
+              v-for="car in filteredCars"
+              :key="car.id"
+              class="col-lg-6"
             >
-              <span class="condition">
-                {{ car.condition === 'new' ? 'New' : 'Used' }}
-              </span>
 
-              <button
-                class="favorite"
-                @click="toggleFavorite(car)"
-              >
-                <i
-                  :class="car.isFavorite
-                    ? 'bi bi-heart-fill'
-                    : 'bi bi-heart'"
-                ></i>
-              </button>
+              <div class="car-card">
 
-              <div class="car-icon">
-                {{ car.icon }}
-              </div>
-            </div>
+                <div class="car-image">
 
-            <div class="card-content">
-              <div class="car-info">
-                <span>{{ car.make }}</span>
-                <small>{{ car.year }}</small>
-              </div>
+                  <img
+                    :src="car.image"
+                    :alt="car.name"
+                  />
 
-              <h3>{{ car.title }}</h3>
+                  <span class="match">
+                    {{ car.match }}% Match
+                  </span>
 
-              <div class="specs">
-                <span>
-                  <i class="bi bi-speedometer2"></i>
-                  {{ car.mileage }}
-                </span>
+                  <button
+                    class="favorite"
+                    @click="toggleFavorite(car)"
+                  >
+                    <i
+                      :class="car.isFavorite
+                        ? 'bi bi-heart-fill'
+                        : 'bi bi-heart'"
+                    ></i>
+                  </button>
 
-                <span>
-                  <i class="bi bi-gear"></i>
-                  {{ car.transmission }}
-                </span>
-
-                <span>
-                  <i class="bi bi-fuel-pump"></i>
-                  {{ car.fuel }}
-                </span>
-              </div>
-
-              <div class="card-footer">
-                <div>
-                  <small>Price</small>
-                  <strong>
-                    {{ car.price.toLocaleString() }}
-                    <em>EGP</em>
-                  </strong>
                 </div>
 
-                <button class="details-btn" @click="showDetails(car)">
-                  Details
-                </button>
+                <div class="card-content">
+
+                  <div class="car-info">
+                    <span>{{ car.brand }}</span>
+                    <small>{{ car.year }}</small>
+                  </div>
+                  <h3>{{ car.name }}</h3>
+
+                  <div class="specs">
+
+                    <span>
+                      <i class="bi bi-fuel-pump"></i>
+                      {{ car.fuel }}
+                    </span>
+
+                    <span>
+                      <i class="bi bi-speedometer2"></i>
+                      {{ car.mileage.toLocaleString() }} km
+                    </span>
+
+                    <span>
+                      <i class="bi bi-gear"></i>
+                      {{ car.transmission }}
+                    </span>
+
+                    <span>
+                      <i class="bi bi-geo-alt"></i>
+                      {{ car.location }}
+                    </span>
+
+                  </div>
+
+                  <div class="card-footer">
+
+                    <div>
+                      <small>Price</small>
+
+                      <strong>
+                        {{ car.price.toLocaleString() }}
+                        <em>EGP</em>
+                      </strong>
+                    </div>
+
+                    <button
+                      class="details-btn"
+                      @click="showDetails(car)"
+                    >
+                      Details
+                    </button>
+
+                  </div>
+
+                </div>
+
               </div>
+
             </div>
 
           </div>
-        </div>
-      </div>
 
-      <!-- No Results -->
-      <div v-if="filteredCars.length === 0" class="no-results">
-        <i class="bi bi-car-front"></i>
-        <h3>No cars found</h3>
-        <p>Try another search or filter.</p>
+          <div
+            v-if="!loading && filteredCars.length === 0"
+            class="no-results"
+          >
+            <i class="bi bi-car-front"></i>
+            <h3>No cars found</h3>
+            <p>Try another filter or search.</p>
+          </div>
+
+        </main>
+
       </div>
 
     </div>
@@ -130,149 +229,133 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+
+const cars = ref([])
 
 const search = ref('')
 const selectedBrand = ref('all')
-const selectedCondition = ref('all')
+const selectedFuel = ref('all')
+const selectedLocation = ref('all')
+const selectedTransmission = ref('all')
+const maxPrice = ref('all')
 
-const cars = ref([
-  {
-    id: 1,
-    title: 'Mercedes-Benz E200 AMG',
-    make: 'Mercedes-Benz',
-    year: 2024,
-    price: 4250000,
-    mileage: '0 km',
-    transmission: 'Automatic',
-    fuel: 'Petrol',
-    condition: 'new',
-    bgColor: '#B2DBBF',
-    icon: '🏎️',
-    isFavorite: false
-  },
-  {
-    id: 2,
-    title: 'BMW X5 M50i',
-    make: 'BMW',
-    year: 2023,
-    price: 5600000,
-    mileage: '15,000 km',
-    transmission: 'Automatic',
-    fuel: 'Petrol',
-    condition: 'used',
-    bgColor: '#70C1B3',
-    icon: '🚙',
-    isFavorite: false
-  },
-  {
-    id: 3,
-    title: 'Porsche Taycan GTS',
-    make: 'Porsche',
-    year: 2024,
-    price: 6800000,
-    mileage: '0 km',
-    transmission: 'Automatic',
-    fuel: 'Electric',
-    condition: 'new',
-    bgColor: '#B2DBBF',
-    icon: '⚡',
-    isFavorite: false
-  },
-  {
-    id: 4,
-    title: 'Audi A6 S-Line',
-    make: 'Audi',
-    year: 2022,
-    price: 3100000,
-    mileage: '32,000 km',
-    transmission: 'Automatic',
-    fuel: 'Petrol',
-    condition: 'used',
-    bgColor: '#70C1B3',
-    icon: '🚘',
-    isFavorite: false
-  },
-  {
-    id: 5,
-    title: 'Toyota Land Cruiser VXR',
-    make: 'Toyota',
-    year: 2023,
-    price: 5200000,
-    mileage: '10,000 km',
-    transmission: 'Automatic',
-    fuel: 'Petrol',
-    condition: 'used',
-    bgColor: '#B2DBBF',
-    icon: '🛻',
-    isFavorite: false
-  },
-  {
-    id: 6,
-    title: 'Tesla Model Y',
-    make: 'Tesla',
-    year: 2024,
-    price: 3900000,
-    mileage: '0 km',
-    transmission: 'Automatic',
-    fuel: 'Electric',
-    condition: 'new',
-    bgColor: '#70C1B3',
-    icon: '🔋',
-    isFavorite: false
-  }
-])
+const loading = ref(true)
 
 const brands = computed(() => {
-  return [...new Set(cars.value.map(car => car.make))]
+  return [...new Set(cars.value.map(car => car.brand))]
+})
+
+const fuelTypes = computed(() => {
+  return [...new Set(cars.value.map(car => car.fuel))]
+})
+
+const locations = computed(() => {
+  return [...new Set(cars.value.map(car => car.location))]
 })
 
 const filteredCars = computed(() => {
+
   return cars.value.filter(car => {
+
     const text = search.value.toLowerCase()
 
     const searchMatch =
-      car.title.toLowerCase().includes(text) ||
-      car.make.toLowerCase().includes(text)
+      car.name.toLowerCase().includes(text) ||
+      car.brand.toLowerCase().includes(text)
 
     const brandMatch =
       selectedBrand.value === 'all' ||
-      car.make === selectedBrand.value
+      car.brand === selectedBrand.value
 
-    const conditionMatch =
-      selectedCondition.value === 'all' ||
-      car.condition === selectedCondition.value
+    const fuelMatch =
+      selectedFuel.value === 'all' ||
+      car.fuel === selectedFuel.value
 
-    return searchMatch && brandMatch && conditionMatch
+    const locationMatch =
+      selectedLocation.value === 'all' ||
+      car.location === selectedLocation.value
+
+    const transmissionMatch =
+      selectedTransmission.value === 'all' ||
+      car.transmission === selectedTransmission.value
+
+    const priceMatch =
+      maxPrice.value === 'all' ||
+      car.price <= maxPrice.value
+
+    return (
+      searchMatch &&
+      brandMatch &&
+      fuelMatch &&
+      locationMatch &&
+      transmissionMatch &&
+      priceMatch
+    )
   })
 })
+
+async function getCars() {
+
+  try {
+
+    const response = await fetch(
+      'http://localhost:3000/cars'
+    )
+
+    cars.value = await response.json()
+
+    cars.value.forEach(car => {
+      car.isFavorite = false
+    })
+
+  } catch (error) {
+
+    console.error(
+      'Error loading cars:',
+      error
+    )
+
+  } finally {
+
+    loading.value = false
+  }
+}
 
 function toggleFavorite(car) {
   car.isFavorite = !car.isFavorite
 }
 
 function resetFilters() {
+
   search.value = ''
   selectedBrand.value = 'all'
-  selectedCondition.value = 'all'
+  selectedFuel.value = 'all'
+  selectedLocation.value = 'all'
+  selectedTransmission.value = 'all'
+  maxPrice.value = 'all'
 }
 
 function showDetails(car) {
   console.log('Selected car:', car)
 }
+
+onMounted(() => {
+  getCars()
+})
 </script>
 
 <style scoped>
+
 .cars-page {
   min-height: 100vh;
   padding: 64px 0;
   background: #F7FFF7;
   color: #102A27;
 }
-
 .page-header {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 32px;
 }
 
 .page-header h1 {
@@ -286,51 +369,87 @@ function showDetails(car) {
   font-size: 16px;
 }
 
-.filters {
-  display: flex;
-  gap: 12px;
-  padding: 20px;
-  margin-bottom: 40px;
-  background: white;
-  border: 1px solid #B2DBBF;
-  border-radius: 16px;
-}
-
 .search-box {
   position: relative;
-  flex: 1;
+  margin-bottom: 32px;
 }
 
 .search-box i {
   position: absolute;
-  left: 14px;
-  top: 13px;
+  left: 16px;
+  top: 14px;
   color: #1F6F5B;
 }
 
-.search-box input,
-.filters select {
+.search-box input {
   width: 100%;
-  height: 44px;
-  padding: 8px 12px;
+  height: 48px;
+  padding: 8px 12px 8px 44px;
   border: 1px solid #B2DBBF;
   border-radius: 10px;
   outline: none;
   font-family: inherit;
 }
 
-.search-box input {
-  padding-left: 40px;
+.cars-layout {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
 }
 
-.filters button {
-  height: 44px;
-  padding: 0 20px;
+.sidebar {
+  width: 260px;
+  flex-shrink: 0;
+  padding: 20px;
+  background: white;
+  border: 1px solid #B2DBBF;
+  border-radius: 16px;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.sidebar-header h2 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.sidebar-header button {
   border: none;
-  border-radius: 10px;
-  background: #102A27;
-  color: white;
+  background: none;
+  color: #1F6F5B;
+  font-size: 14px;
   font-weight: 600;
+}
+
+.filter-group {
+  margin-bottom: 20px;
+}
+
+.filter-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.filter-group select {
+  width: 100%;
+  height: 42px;
+  padding: 8px;
+  border: 1px solid #B2DBBF;
+  border-radius: 10px;
+  outline: none;
+  font-family: inherit;
+}
+
+.cars-section {
+  flex: 1;
+  min-width: 0;
 }
 
 .results-header {
@@ -367,18 +486,19 @@ function showDetails(car) {
 }
 
 .car-image {
-  height: 200px;
+  height: 220px;
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow: hidden;
+  background: #B2DBBF;
 }
 
-.car-icon {
-  font-size: 75px;
+.car-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.condition {
+.match {
   position: absolute;
   top: 14px;
   right: 14px;
@@ -388,6 +508,7 @@ function showDetails(car) {
   color: white;
   font-size: 13px;
 }
+
 .favorite {
   position: absolute;
   top: 14px;
@@ -423,7 +544,7 @@ function showDetails(car) {
 .specs {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
   margin-bottom: 20px;
 }
 
@@ -467,17 +588,36 @@ function showDetails(car) {
   font-weight: 600;
 }
 
+.details-btn:hover {
+  background: #102A27;
+}
+
+.loading,
 .no-results {
   padding: 50px;
   text-align: center;
 }
 
+.loading i,
 .no-results i {
   font-size: 45px;
   color: #1F6F5B;
 }
 
+@media (max-width: 992px) {
+
+  .cars-layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+  }
+
+}
+
 @media (max-width: 768px) {
+
   .cars-page {
     padding: 40px 0;
   }
@@ -486,12 +626,9 @@ function showDetails(car) {
     font-size: 36px;
   }
 
-  .filters {
-    flex-direction: column;
-  }
-
   .results-header h2 {
     font-size: 24px;
   }
+
 }
 </style>
