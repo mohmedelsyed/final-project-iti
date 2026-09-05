@@ -3,9 +3,9 @@
     <div class="container">
 
       <!-- Logo -->
-      <a class="navbar-brand" href="#">
+      <RouterLink class="navbar-brand" to="/">
         CarHub
-      </a>
+      </RouterLink>
 
       <!-- Navbar Links -->
       <div class="collapse navbar-collapse" id="navbarNav">
@@ -13,9 +13,9 @@
         <ul class="navbar-nav mx-auto">
 
           <li class="nav-item">
-            <a class="nav-link browse-link" href="#featured-cars">
-              Browse Car
-            </a>
+            <RouterLink class="nav-link browse-link" to="/cars">
+              Browse Cars
+            </RouterLink>
           </li>
 
           <li class="nav-item">

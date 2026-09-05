@@ -131,6 +131,9 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const search = ref('')
 const selectedBrand = ref('all')
@@ -258,7 +261,7 @@ function resetFilters() {
 }
 
 function showDetails(car) {
-  console.log('Selected car:', car)
+  router.push({ name: 'CarDetails', params: { id: car.id } })
 }
 </script>
 
