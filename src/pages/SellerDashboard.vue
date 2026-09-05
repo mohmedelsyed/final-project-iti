@@ -4,11 +4,11 @@
       <!-- Header Section -->
       <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
         <div>
-          <h1 class="main-title">لوحة تحكم البائع</h1>
-          <p class="sub-title mb-0">إدارة سياراتك المعروضة للبيع ومتابعة حالة الإعلانات</p>
+          <h1 class="main-title">Seller Dashboard</h1>
+          <p class="sub-title mb-0">Manage your listed cars and monitor your active ads</p>
         </div>
         <button class="btn-carhub-primary" @click="showAddModal = true">
-          + إضافة سيارة جديدة
+          + Add New Car
         </button>
       </div>
 
@@ -16,9 +16,9 @@
       <div class="row g-4 mb-5">
         <div class="col-12 col-md-4">
           <div class="carhub-card">
-            <span class="text-muted small">إجمالي السيارات</span>
+            <span class="text-muted small">Total Cars</span>
             <h3 class="fs-2 fw-bold text-dark my-1">{{ cars.length }}</h3>
-            <span class="badge bg-light-carhub">سيارات معروضة</span>
+            <span class="badge bg-light-carhub">Listed Cars</span>
           </div>
         </div>
       </div>
@@ -26,13 +26,13 @@
       <!-- Loading State -->
       <div v-if="loading" class="text-center my-5">
         <div class="spinner-border text-success" role="status">
-          <span class="visually-hidden">جاري التحميل...</span>
+          <span class="visually-hidden">Loading...</span>
         </div>
       </div>
 
       <!-- Cars Grid -->
       <div v-else>
-        <h2 class="section-title mb-4">قائمة سياراتي</h2>
+        <h2 class="section-title mb-4">My Listings</h2>
         <div class="row g-4">
           <div class="col-12 col-md-6 col-lg-4" v-for="car in cars" :key="car.id">
             <div class="carhub-card h-100 d-flex flex-column justify-content-between">
@@ -40,15 +40,15 @@
                 <img :src="car.image" :alt="car.name || car.brand" class="car-img mb-3" />
                 <div class="d-flex justify-content-between align-items-center mb-2">
                   <h3 class="card-title mb-0">{{ car.name || car.brand }}</h3>
-                  <span class="price-tag">{{ Number(car.price).toLocaleString() }} ج.م</span>
+                  <span class="price-tag">EGP {{ Number(car.price).toLocaleString() }}</span>
                 </div>
                 <p class="text-muted small mb-3">
-                  الماركة: {{ car.brand }} | السنة: {{ car.year }} | الموقع: {{ car.location || 'القاهرة' }}
+                  Brand: {{ car.brand }} | Year: {{ car.year }} | Location: {{ translateValue(car.location) }}
                 </p>
               </div>
               <div class="d-flex gap-2 pt-3 border-top">
-                <button class="btn-outline-carhub w-50" @click="editCar(car)">تعديل السعر</button>
-                <button class="btn-danger-carhub w-50" @click="deleteCar(car.id)">حذف</button>
+                <button class="btn-outline-carhub w-50" @click="editCar(car)">Edit Price</button>
+                <button class="btn-danger-carhub w-50" @click="deleteCar(car.id)">Delete</button>
               </div>
             </div>
           </div>
@@ -59,39 +59,39 @@
       <div v-if="showAddModal" class="modal-backdrop-custom" @click.self="showAddModal = false">
         <div class="carhub-card modal-content-custom">
           <div class="d-flex justify-content-between align-items-center mb-3">
-            <h3 class="card-title">إضافة سيارة جديدة</h3>
+            <h3 class="card-title">Add New Car</h3>
             <button type="button" class="btn-close" @click="showAddModal = false"></button>
           </div>
           <form @submit.prevent="addNewCar">
             <div class="mb-3">
-              <label class="form-label small fw-bold">الماركة (Brand)</label>
-              <input type="text" v-model="newCar.brand" class="form-control custom-input" placeholder="مثال: BMW" required />
+              <label class="form-label small fw-bold">Brand</label>
+              <input type="text" v-model="newCar.brand" class="form-control custom-input" placeholder="e.g. BMW" required />
             </div>
             <div class="mb-3">
-              <label class="form-label small fw-bold">اسم السيارة والموديل</label>
-              <input type="text" v-model="newCar.name" class="form-control custom-input" placeholder="مثال: BMW 3 Series" required />
+              <label class="form-label small fw-bold">Car Name & Model</label>
+              <input type="text" v-model="newCar.name" class="form-control custom-input" placeholder="e.g. BMW 3 Series" required />
             </div>
             <div class="row g-2 mb-3">
               <div class="col-6">
-                <label class="form-label small">السعر (جنيه)</label>
+                <label class="form-label small">Price (EGP)</label>
                 <input type="number" v-model="newCar.price" class="form-control custom-input" placeholder="1450000" required />
               </div>
               <div class="col-6">
-                <label class="form-label small">سنة الصنع</label>
+                <label class="form-label small">Year</label>
                 <input type="number" v-model="newCar.year" class="form-control custom-input" placeholder="2024" required />
               </div>
             </div>
             <div class="mb-3">
-              <label class="form-label small">المحافظة / المدينة</label>
-              <input type="text" v-model="newCar.location" class="form-control custom-input" placeholder="القاهرة" required />
+              <label class="form-label small">City / Location</label>
+              <input type="text" v-model="newCar.location" class="form-control custom-input" placeholder="Cairo" required />
             </div>
             <div class="mb-3">
-              <label class="form-label small">رابط صورة السيارة (Image URL)</label>
+              <label class="form-label small">Image URL</label>
               <input type="url" v-model="newCar.image" class="form-control custom-input" placeholder="https://..." />
             </div>
             <div class="d-flex gap-2 justify-content-end mt-4">
-              <button type="button" class="btn-outline-carhub" @click="showAddModal = false">إلغاء</button>
-              <button type="submit" class="btn-carhub-primary">حفظ السيارة</button>
+              <button type="button" class="btn-outline-carhub" @click="showAddModal = false">Cancel</button>
+              <button type="submit" class="btn-carhub-primary">Save Car</button>
             </div>
           </form>
         </div>
@@ -117,7 +117,7 @@ export default {
         price: '',
         year: '',
         location: '',
-        transmission: 'أوتوماتيك',
+        transmission: 'Automatic',
         match: 95,
         image: ''
       }
@@ -133,10 +133,20 @@ export default {
         const response = await axios.get('http://localhost:3000/cars');
         this.cars = response.data;
       } catch (error) {
-        console.error('خطأ في جلب البيانات:', error);
+        console.error('Error fetching data:', error);
       } finally {
         this.loading = false;
       }
+    },
+    translateValue(val) {
+      if (!val) return 'Cairo';
+      const dictionary = {
+        'القاهرة': 'Cairo',
+        'الجيزة': 'Giza',
+        'الإسكندرية': 'Alexandria',
+        'أوتوماتيك': 'Automatic'
+      };
+      return dictionary[val] || val;
     },
     async addNewCar() {
       if (!this.newCar.image) {
@@ -152,57 +162,57 @@ export default {
         this.cars.push(response.data);
         this.showAddModal = false;
         this.resetForm();
-        Swal.fire({ title: 'تمت الإضافة!', icon: 'success', confirmButtonColor: '#1F6F5B' });
+        Swal.fire({ title: 'Car Added!', icon: 'success', confirmButtonColor: '#1F6F5B' });
       } catch (error) {
-        console.error('خطأ في الإضافة:', error);
+        console.error('Error adding car:', error);
       }
     },
     deleteCar(id) {
       Swal.fire({
-        title: 'هل أنت متأكد؟',
-        text: 'سيتم حذف السيارة بشكل نهائي',
+        title: 'Are you sure?',
+        text: 'This car will be permanently deleted',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#102A27',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'نعم، احذفها',
-        cancelButtonText: 'إلغاء'
+        confirmButtonText: 'Yes, delete it',
+        cancelButtonText: 'Cancel'
       }).then(async (result) => {
         if (result.isConfirmed) {
           try {
             await axios.delete(`http://localhost:3000/cars/${id}`);
             this.cars = this.cars.filter((car) => car.id !== id);
-            Swal.fire({ title: 'تم الحذف', icon: 'success', confirmButtonColor: '#1F6F5B' });
+            Swal.fire({ title: 'Deleted!', icon: 'success', confirmButtonColor: '#1F6F5B' });
           } catch (error) {
-            console.error('خطأ أثناء الحذف:', error);
+            console.error('Error deleting car:', error);
           }
         }
       });
     },
     editCar(car) {
       Swal.fire({
-        title: 'تعديل السعر',
+        title: 'Update Price',
         input: 'number',
         inputValue: car.price,
         showCancelButton: true,
         confirmButtonColor: '#1F6F5B',
-        confirmButtonText: 'حفظ',
-        cancelButtonText: 'إلغاء'
+        confirmButtonText: 'Save',
+        cancelButtonText: 'Cancel'
       }).then(async (result) => {
         if (result.isConfirmed && result.value) {
           const newPrice = Number(result.value);
           try {
             await axios.patch(`http://localhost:3000/cars/${car.id}`, { price: newPrice });
             car.price = newPrice;
-            Swal.fire({ title: 'تم التحديث!', icon: 'success', confirmButtonColor: '#1F6F5B' });
+            Swal.fire({ title: 'Updated!', icon: 'success', confirmButtonColor: '#1F6F5B' });
           } catch (error) {
-            console.error('خطأ في التحديث:', error);
+            console.error('Error updating price:', error);
           }
         }
       });
     },
     resetForm() {
-      this.newCar = { brand: '', name: '', price: '', year: '', location: '', transmission: 'أوتوماتيك', match: 95, image: '' };
+      this.newCar = { brand: '', name: '', price: '', year: '', location: '', transmission: 'Automatic', match: 95, image: '' };
     }
   }
 };
@@ -210,8 +220,8 @@ export default {
 
 <style scoped>
 .seller-dashboard-page {
-  direction: rtl;
-  text-align: right;
+  direction: ltr;
+  text-align: left;
   width: 100%;
 }
 
@@ -310,7 +320,7 @@ export default {
   align-items: center;
   justify-content: center;
   z-index: 1050;
-  direction: rtl;
+  direction: ltr;
 }
 
 .modal-content-custom {
