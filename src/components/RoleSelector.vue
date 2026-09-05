@@ -122,11 +122,10 @@ const selectRole = (role) => {
 <style scoped>
 .role-section {
   padding: 65px 0;
-  background:
+   background:
     linear-gradient(
-      135deg,
-      #F7FFF7,
-      #B2DBBF
+      45deg,
+      #70C1B3
     );
 
   font-family: "Poppins", "Cairo", sans-serif;

@@ -203,8 +203,15 @@ const register = async () => {
 <style scoped>
 .register-page {
   min-height: 100vh;
-  background: #f7fff7;
-}
+  background:
+    linear-gradient(
+      45deg,
+      #102A27,
+      #1F6F5B,
+      #70C1B3,
+      #B2DBBF,
+      #F7FFF7
+    );}
 
 .register-header {
   padding: 16px 0;

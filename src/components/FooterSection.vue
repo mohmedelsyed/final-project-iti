@@ -47,7 +47,7 @@
 
 
         <!-- Navigation -->
-        <div class="footer-column">
+        <!-- div class="footer-column">
 
           <h4>Explore</h4>
 
@@ -69,11 +69,11 @@
             </li>
           </ul>
 
-        </div>
+        </div>< -->
 
 
         <!-- Services -->
-        <div class="footer-column">
+        <!-- <div class="footer-column">
 
           <h4>Services</h4>
 
@@ -150,7 +150,7 @@
 
         </div>
 
-      </div>
+      </div> 
 
 
       <!-- Newsletter -->
@@ -210,7 +210,16 @@
 <style scoped>
 .footer {
   position: relative;
-  background: var(--dark);
+  /* background: var(--dark); */
+    background:
+    linear-gradient(
+      45deg,
+      #102A27,
+      #1F6F5B,
+      #70C1B3,
+      #B2DBBF,
+      #F7FFF7
+    );
   color: var(--white);
   padding: 75px 0 25px;
   overflow: hidden;
@@ -254,15 +263,10 @@
 
 .footer-top {
   position: relative;
-
   z-index: 1;
-
   display: grid;
-
   grid-template-columns: 2fr 1fr 1fr 1.5fr;
-
   gap: 50px;
-
   padding-bottom: 55px;
 }
 
@@ -273,19 +277,12 @@
 
 .logo {
   display: inline-flex;
-
   align-items: center;
-
   gap: 10px;
-
   color: var(--white);
-
   text-decoration: none;
-
   font-size: 25px;
-
   font-weight: 800;
-
   letter-spacing: -0.5px;
 }
 
@@ -296,18 +293,12 @@
 .logo-icon {
   width: 42px;
   height: 42px;
-
   display: flex;
-
   align-items: center;
   justify-content: center;
-
   border-radius: 12px;
-
   background: var(--primary);
-
   color: var(--white);
-
   font-size: 20px;
 }
 
@@ -322,6 +313,7 @@
   color: var(--text);
   font-size: 14px;
   line-height: 1.8;
+  font-weight: bold;
 }
 
 
@@ -331,7 +323,6 @@
 
 .social-links {
   display: flex;
-
   gap: 10px;
 }
 
@@ -360,16 +351,17 @@
 
 .footer-column h4 {
   margin-bottom: 22px;
-  color: var(--text);
+  color: var(--secondary);
   font-size: 16px;
   font-weight: 700;
 }
 
 .footer-column ul {
   list-style: none;
-
   margin: 0;
   padding: 0;
+  color: white;
+  font-family: bold;
 }
 
 .footer-column li {
@@ -409,8 +401,8 @@
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  background: rgba(112, 193, 179, 0.12);
-  color: var(--secondary);
+  background: var (--background);
+  color: var(--background);
 }
 
 .contact-item span {
@@ -423,9 +415,9 @@
 .contact-item a,
 .contact-item p {
   margin: 0;
-  color: var(--text);
+  color:white;
   text-decoration: none;
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .contact-item a:hover {
