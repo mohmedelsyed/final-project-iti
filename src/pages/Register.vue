@@ -1,22 +1,7 @@
 <template>
   <div class="register-page">
 
-    <header class="register-header">
-      <div class="container">
-        <div class="header-content">
-
-          <div class="logo">
-            <span class="logo-icon">🚗</span>
-            <span>CarHub</span>
-          </div>
-
-          <button class="menu-btn" type="button">
-            <i class="bi bi-list"></i>
-          </button>
-
-        </div>
-      </div>
-    </header>
+    <Navbar />
 
     <main class="register-content">
       <div class="container">
@@ -115,9 +100,9 @@
 
           <p class="login-text">
             Already registered?
-            <a href="#">
+            <RouterLink to="/login">
               Sign in
-            </a>
+            </RouterLink>
           </p>
 
           <div
@@ -138,6 +123,10 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import Navbar from '../components/Navbar.vue'
+
+const router = useRouter()
 
 const name = ref('')
 const email = ref('')
@@ -163,33 +152,53 @@ const register = async () => {
 
   try {
     const nameParts = name.value.trim().split(' ')
-
     const firstName = nameParts[0]
     const lastName = nameParts.slice(1).join(' ') || 'User'
 
-    const response = await fetch('https://dummyjson.com/users/add', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        firstName: firstName,
-        lastName: lastName,
-        email: email.value,
-        phone: phone.value,
-        password: password.value
-      })
-    })
-
-    const data = await response.json()
-
-    if (!response.ok) {
-      throw new Error(data.message || 'Registration failed')
+    // Try API registration
+    let userRecord = {
+      id: Date.now(),
+      name: name.value.trim(),
+      firstName: firstName,
+      lastName: lastName,
+      email: email.value.trim(),
+      phone: phone.value.trim(),
+      password: password.value
     }
 
-    message.value = `Account created successfully for ${data.firstName}!`
+    try {
+      const response = await fetch('https://dummyjson.com/users/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          firstName: firstName,
+          lastName: lastName,
+          email: email.value,
+          phone: phone.value,
+          password: password.value
+        })
+      })
 
-    console.log('Registered user:', data)
+      if (response.ok) {
+        const data = await response.json()
+        userRecord.id = data.id || userRecord.id
+      }
+    } catch (apiErr) {
+      console.warn('DummyJSON add user notice:', apiErr)
+    }
+
+    // Always persist to local registered users for seamless offline/local login
+    const existing = JSON.parse(localStorage.getItem('carhub_registered_users') || '[]')
+    existing.push(userRecord)
+    localStorage.setItem('carhub_registered_users', JSON.stringify(existing))
+
+    message.value = `Account created successfully for ${firstName}! Redirecting to login...`
+
+    setTimeout(() => {
+      router.push('/login')
+    }, 1200)
 
   } catch (err) {
     error.value = true
@@ -203,13 +212,20 @@ const register = async () => {
 <style scoped>
 .register-page {
   min-height: 100vh;
-  background: #f7fff7;
-}
+  background:
+    linear-gradient(
+      45deg,
+      #102A27,
+      #1F6F5B,
+      #70C1B3,
+      #B2DBBF,
+      #F7FFF7
+    );}
 
 .register-header {
   padding: 16px 0;
   background: #ffffff;
-  border-bottom: 1px solid #e5eee9;
+  border-bottom: 1px solid #043319;
 }
 
 .header-content {

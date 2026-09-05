@@ -9,13 +9,13 @@
         <!-- Brand -->
         <div class="footer-brand">
 
-          <a href="#" class="logo">
+          <RouterLink to="/" class="logo text-decoration-none">
             <span class="logo-icon">
               <i class="bi bi-car-front-fill"></i>
             </span>
 
             <span>CAR<span>HUB</span></span>
-          </a>
+          </RouterLink>
 
           <p>
             Your trusted destination to discover, compare,
@@ -53,19 +53,19 @@
 
           <ul>
             <li>
-              <a href="#">Home</a>
+              <RouterLink to="/">Home</RouterLink>
             </li>
 
             <li>
-              <a href="#">Browse Cars</a>
+              <RouterLink to="/cars">Browse Cars</RouterLink>
             </li>
 
             <li>
-              <a href="#">Featured Cars</a>
+              <RouterLink to="/dashboard">Smart Match</RouterLink>
             </li>
 
             <li>
-              <a href="#">Features</a>
+              <RouterLink to="/cars">All Models</RouterLink>
             </li>
           </ul>
 
@@ -79,19 +79,19 @@
 
           <ul>
             <li>
-              <a href="#">Find a Car</a>
+              <RouterLink to="/dashboard">Find a Car</RouterLink>
             </li>
 
             <li>
-              <a href="#">Compare Cars</a>
+              <RouterLink to="/cars">Compare Cars</RouterLink>
             </li>
 
             <li>
-              <a href="#">Favorites</a>
+              <RouterLink to="/dashboard">Favorites</RouterLink>
             </li>
 
             <li>
-              <a href="#">Car Details</a>
+              <RouterLink to="/cars">Car Specs</RouterLink>
             </li>
           </ul>
 
@@ -210,10 +210,9 @@
 <style scoped>
 .footer {
   position: relative;
-  background: var(--dark);
-  color: var(--white);
   padding: 75px 0 25px;
   overflow: hidden;
+
 }
 
 
@@ -243,7 +242,6 @@
   opacity: 0.07;
   bottom: -180px;
   left: -100px;
-
   pointer-events: none;
 }
 
@@ -254,16 +252,12 @@
 
 .footer-top {
   position: relative;
-
   z-index: 1;
-
   display: grid;
-
   grid-template-columns: 2fr 1fr 1fr 1.5fr;
-
   gap: 50px;
-
   padding-bottom: 55px;
+  
 }
 
 
@@ -273,19 +267,12 @@
 
 .logo {
   display: inline-flex;
-
   align-items: center;
-
   gap: 10px;
-
   color: var(--white);
-
   text-decoration: none;
-
   font-size: 25px;
-
   font-weight: 800;
-
   letter-spacing: -0.5px;
 }
 
@@ -296,18 +283,12 @@
 .logo-icon {
   width: 42px;
   height: 42px;
-
   display: flex;
-
   align-items: center;
   justify-content: center;
-
   border-radius: 12px;
-
   background: var(--primary);
-
   color: var(--white);
-
   font-size: 20px;
 }
 
