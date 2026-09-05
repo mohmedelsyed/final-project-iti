@@ -136,66 +136,81 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from 'vue'
-
-const name = ref('')
-const email = ref('')
-const phone = ref('')
-const password = ref('')
-const confirmPassword = ref('')
-
-const loading = ref(false)
-const message = ref('')
-const error = ref(false)
-
-const register = async () => {
-  message.value = ''
-  error.value = false
-
-  if (password.value !== confirmPassword.value) {
-    error.value = true
-    message.value = 'Passwords do not match.'
-    return
-  }
-
-  loading.value = true
-
-  try {
-    const nameParts = name.value.trim().split(' ')
-
-    const firstName = nameParts[0]
-    const lastName = nameParts.slice(1).join(' ') || 'User'
-
-    const response = await fetch('https://dummyjson.com/users/add', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        firstName: firstName,
-        lastName: lastName,
-        email: email.value,
-        phone: phone.value,
-        password: password.value
-      })
-    })
-
-    const data = await response.json()
-
-    if (!response.ok) {
-      throw new Error(data.message || 'Registration failed')
+<script>
+export default {
+  data() {
+    return {
+      name: '',
+      email: '',
+      phone: '',
+      password: '',
+      confirmPassword: '',
+      loading: false,
+      message: '',
+      error: false
     }
+  },
 
-    message.value = `Account created successfully for ${data.firstName}!`
+  methods: {
+    async register() {
+      this.message = ''
+      this.error = false
 
-    console.log('Registered user:', data)
+      if (this.password !== this.confirmPassword) {
+        this.error = true
+        this.message = 'Passwords do not match.'
+        return
+      }
 
-  } catch (err) {
-    error.value = true
-    message.value = err.message
-  } finally {
-    loading.value = false
+      this.loading = true
+
+      try {
+        const nameParts = this.name.trim().split(' ')
+
+        const firstName = nameParts[0]
+        const lastName = nameParts.slice(1).join(' ') || 'User'
+
+        const response = await fetch(
+          'https://dummyjson.com/users/add',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              firstName: firstName,
+              lastName: lastName,
+              email: this.email,
+              phone: this.phone,
+              password: this.password
+            })
+          }
+        )
+
+        const data = await response.json()
+
+        if (!response.ok) {
+          throw new Error(
+            data.message || 'Registration failed'
+          )
+        }
+
+        alert(
+          `Account created successfully for ${data.firstName}!`
+        )
+
+        this.message =
+          `Account created successfully for ${data.firstName}!`
+
+        console.log('Registered user:', data)
+
+      } catch (err) {
+        this.error = true
+        this.message = err.message
+      } finally {
+        this.loading = false
+      }
+    }
   }
 }
 </script>
