@@ -7,21 +7,35 @@
         Back to Cars
       </button>
 
-      <div class="car-details">
+      <div v-if="loading" class="loading">
+        <i class="bi bi-arrow-repeat"></i>
+        <p>Loading car details...</p>
+      </div>
+
+      <div v-else-if="car" class="car-details">
 
         <div class="car-image">
-          <span class="condition">
-            {{ car.condition === 'new' ? 'New' : 'Used' }}
-          </span>
+          <img
+            :src="car.image"
+            :alt="car.name"
+          />
 
-          <span class="car-icon">{{ car.icon }}</span>
+          <span class="match">
+            {{ car.match }}% Match
+          </span>
         </div>
 
         <div class="details-content">
 
-          <span class="brand">{{ car.make }}</span>
-          <h1>{{ car.title }}</h1>
-          <p class="year">{{ car.year }} • {{ car.condition }}</p>
+          <span class="brand">
+            {{ car.brand }}
+          </span>
+
+          <h1>{{ car.name }}</h1>
+
+          <p class="year">
+            {{ car.year }}
+          </p>
 
           <div class="price">
             {{ car.price.toLocaleString() }}
@@ -31,11 +45,30 @@
           <h2>Specifications</h2>
 
           <div class="row g-3">
+
+            <div class="col-md-4">
+              <div class="spec">
+                <i class="bi bi-calendar"></i>
+                <span>Year</span>
+                <strong>{{ car.year }}</strong>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="spec">
+                <i class="bi bi-fuel-pump"></i>
+                <span>Fuel</span>
+                <strong>{{ car.fuel }}</strong>
+              </div>
+            </div>
+
             <div class="col-md-4">
               <div class="spec">
                 <i class="bi bi-speedometer2"></i>
                 <span>Mileage</span>
-                <strong>{{ car.mileage }}</strong>
+                <strong>
+                  {{ car.mileage.toLocaleString() }} km
+                </strong>
               </div>
             </div>
 
@@ -49,34 +82,60 @@
 
             <div class="col-md-4">
               <div class="spec">
-                <i class="bi bi-fuel-pump"></i>
-                <span>Fuel</span>
-                <strong>{{ car.fuel }}</strong>
+                <i class="bi bi-palette"></i>
+                <span>Color</span>
+                <strong>{{ car.color }}</strong>
               </div>
             </div>
+
+            <div class="col-md-4">
+              <div class="spec">
+                <i class="bi bi-geo-alt"></i>
+                <span>Location</span>
+                <strong>{{ car.location }}</strong>
+              </div>
+            </div>
+
           </div>
 
           <div class="location">
             <i class="bi bi-geo-alt"></i>
-            <span>Location: Cairo, Egypt</span>
+            <span>
+              Location: {{ car.location }}, Egypt
+            </span>
           </div>
 
           <div class="actions">
-            <button class="contact-btn" @click="contactSeller">
+
+            <button
+              class="contact-btn"
+              @click="contactSeller"
+            >
               Contact Seller
             </button>
 
-            <button class="favorite-btn" @click="toggleFavorite">
+            <button
+              class="favorite-btn"
+              @click="toggleFavorite"
+            >
               <i
                 :class="car.isFavorite
                   ? 'bi bi-heart-fill'
                   : 'bi bi-heart'"
               ></i>
+
               {{ car.isFavorite ? 'Saved' : 'Favorite' }}
             </button>
+
           </div>
 
         </div>
+
+      </div>
+
+      <div v-else class="no-results">
+        <i class="bi bi-car-front"></i>
+        <h3>Car not found</h3>
       </div>
 
     </div>
@@ -84,21 +143,34 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
-const car = ref({
-  id: 1,
-  title: 'Mercedes-Benz E200 AMG',
-  make: 'Mercedes-Benz',
-  year: 2024,
-  price: 4250000,
-  mileage: '0 km',
-  transmission: 'Automatic',
-  fuel: 'Petrol',
-  condition: 'new',
-  icon: '🏎️',
-  isFavorite: false
-})
+const car = ref(null)
+const loading = ref(true)
+
+async function getCar() {
+  try {
+
+    const response = await fetch(
+      'http://localhost:3000/cars/1'
+    )
+
+    car.value = await response.json()
+
+    car.value.isFavorite = false
+
+  } catch (error) {
+
+    console.error(
+      'Error loading car:',
+      error
+    )
+
+  } finally {
+
+    loading.value = false
+  }
+}
 
 function toggleFavorite() {
   car.value.isFavorite = !car.value.isFavorite
@@ -107,13 +179,17 @@ function toggleFavorite() {
 function contactSeller() {
   alert('Seller contact information will be available soon.')
 }
-
 function goBack() {
   window.history.back()
 }
+
+onMounted(() => {
+  getCar()
+})
 </script>
 
 <style scoped>
+
 .details-page {
   min-height: 100vh;
   padding: 64px 0;
@@ -129,6 +205,10 @@ function goBack() {
   margin-bottom: 24px;
 }
 
+.back-btn i {
+  margin-right: 6px;
+}
+
 .car-details {
   overflow: hidden;
   background: white;
@@ -137,19 +217,19 @@ function goBack() {
 }
 
 .car-image {
-  height: 320px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #B2DBBF;
+  height: 380px;
   position: relative;
+  overflow: hidden;
+  background: #B2DBBF;
 }
 
-.car-icon {
-  font-size: 120px;
+.car-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.condition {
+.match {
   position: absolute;
   top: 20px;
   right: 20px;
@@ -213,6 +293,12 @@ function goBack() {
   color: #777;
   font-size: 14px;
 }
+
+.spec strong {
+  display: block;
+  margin-top: 4px;
+}
+
 .location {
   margin: 24px 0;
   padding: 14px;
@@ -249,17 +335,34 @@ function goBack() {
   color: #1F6F5B;
 }
 
+.contact-btn:hover {
+  background: #102A27;
+}
+
+.favorite-btn:hover {
+  background: #F7FFF7;
+}
+
+.loading,
+.no-results {
+  padding: 60px;
+  text-align: center;
+}
+
+.loading i,
+.no-results i {
+  font-size: 45px;
+  color: #1F6F5B;
+}
+
 @media (max-width: 768px) {
+
   .details-page {
     padding: 40px 0;
   }
 
   .car-image {
     height: 240px;
-  }
-
-  .car-icon {
-    font-size: 90px;
   }
 
   .details-content {
@@ -273,5 +376,7 @@ function goBack() {
   .actions {
     flex-direction: column;
   }
+
 }
+
 </style>

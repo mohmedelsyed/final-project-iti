@@ -47,13 +47,13 @@
         <!-- Buttons -->
         <div class="d-flex gap-2">
 
-          <button class="btn btn-dark px-3 rounded-4">
+          <RouterLink to="/login" class="btn btn-dark px-3 rounded-4">
             Login
-          </button>
+          </RouterLink>
 
-          <button class="btn btn-primary px-3 rounded-4">
+          <RouterLink to="/register" class="btn btn-primary px-3 rounded-4">
             Register
-          </button>
+          </RouterLink>
 
         </div>
 
