@@ -85,10 +85,12 @@
 
 <script setup>
 import { ref } from 'vue'
+
 import { useRouter } from 'vue-router'
 import Navbar from '../components/Navbar.vue'
 
 const router = useRouter()
+
 
 const email = ref('')
 const password = ref('')
@@ -171,9 +173,9 @@ const login = async () => {
 
     console.log('Login successful:', data)
 
-    setTimeout(() => {
-      router.push('/dashboard')
-    }, 1000)
+
+    setTimeout(() => router.push('/dashboard'), 1000)
+
 
   } catch (err) {
     error.value = true
