@@ -1,5 +1,7 @@
 <template>
-  <section class="cars-page">
+  <div>
+    <Navbar />
+    <section class="cars-page">
     <div class="container">
 
       <div class="page-header">
@@ -226,10 +228,12 @@
 
     </div>
   </section>
+  </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import Navbar from '../components/Navbar.vue'
 
 const cars = ref([])
 

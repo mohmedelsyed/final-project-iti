@@ -1,29 +1,6 @@
 <template>
   <div class="dashboard-page">
-
-    <!-- Navbar -->
-    <nav class="dashboard-navbar">
-      <div class="container">
-        <div class="navbar-content">
-
-          <div class="logo">
-            <span>🚗</span>
-            <strong>CarHub</strong>
-          </div>
-
-          <div class="nav-links">
-            <a href="#">Register</a>
-            <a href="#">Login</a>
-
-            <button class="menu-btn" type="button">
-              <i class="bi bi-list"></i>
-            </button>
-          </div>
-
-        </div>
-      </div>
-    </nav>
-
+    <Navbar/>
 
     <!-- Hero -->
     <section class="hero-section">
@@ -688,92 +665,7 @@
     </section>
 
 
-    <!-- Footer -->
-    <footer class="footer">
-
-      <div class="container">
-
-        <div class="footer-content">
-
-          <div class="footer-logo">
-            🚗 CarHub
-          </div>
-
-
-          <div class="footer-column">
-
-            <h4>
-              Explore
-            </h4>
-
-            <a href="#">
-              Browse Cars
-            </a>
-
-            <a href="#">
-              Categories
-            </a>
-
-            <a href="#">
-              Brands
-            </a>
-
-          </div>
-
-
-          <div class="footer-column">
-
-            <h4>
-              Tools
-            </h4>
-
-            <a href="#">
-              Financing
-            </a>
-
-            <a href="#">
-              Car Quiz
-            </a>
-
-            <a href="#">
-              Services
-            </a>
-
-          </div>
-
-
-          <div class="footer-column">
-
-            <h4>
-              Account
-            </h4>
-
-            <a href="#">
-              Login
-            </a>
-
-            <a href="#">
-              Register
-            </a>
-
-            <a href="#">
-              Dashboard
-            </a>
-
-          </div>
-
-        </div>
-
-
-        <div class="footer-bottom">
-
-          © 2026 CarHub. All rights reserved.
-
-        </div>
-
-      </div>
-
-    </footer>
+    <FooterSection/>
 
   </div>
 </template>
@@ -781,6 +673,10 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import FooterSection from '../components/FooterSection.vue'
+import Navbar from '../components/Navbar.vue'
+
+
 
 const API_URL = 'http://localhost:3000/cars'
 
@@ -1011,8 +907,15 @@ onMounted(() => {
 
 .dashboard-page {
   min-height: 100vh;
-  background: #f7fff7;
-  color: #102a27;
+   background:
+    linear-gradient(
+      45deg,
+      #102A27,
+      #1F6F5B,
+      #70C1B3,
+      #B2DBBF,
+      #F7FFF7
+    );
 }
 
 .dashboard-navbar {

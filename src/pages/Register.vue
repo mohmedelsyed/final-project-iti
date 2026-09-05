@@ -1,22 +1,6 @@
 <template>
   <div class="register-page">
-
-    <header class="register-header">
-      <div class="container">
-        <div class="header-content">
-
-          <div class="logo">
-            <span class="logo-icon">🚗</span>
-            <span>CarHub</span>
-          </div>
-
-          <button class="menu-btn" type="button">
-            <i class="bi bi-list"></i>
-          </button>
-
-        </div>
-      </div>
-    </header>
+    <Navbar />
 
     <main class="register-content">
       <div class="container">
@@ -115,9 +99,9 @@
 
           <p class="login-text">
             Already registered?
-            <a href="#">
+            <RouterLink to="/login">
               Sign in
-            </a>
+            </RouterLink>
           </p>
 
           <div
@@ -138,6 +122,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import Navbar from '../components/Navbar.vue'
 
 const name = ref('')
 const email = ref('')

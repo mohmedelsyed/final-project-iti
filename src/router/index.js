@@ -5,12 +5,20 @@ import CarDetails from '../pages/CarDetails.vue'
 import Login from '../pages/Login.vue'
 import Register from '../pages/Register.vue'
 import BuyerDashboard from '../pages/BuyerDashboard.vue'
+import SellerDashboard from '../pages/SellerDashboard.vue'
+import Compare from '../pages/Compare.vue'
+import Home from '../pages/Home.vue'
 
 const routes = [
   {
     path: '/',
     name: 'Home',
     component: HomePage
+  },
+  {
+    path: '/home',
+    name: 'HomeNew',
+    component: Home
   },
   {
     path: '/cars',
@@ -37,6 +45,17 @@ const routes = [
     path: '/dashboard',
     name: 'BuyerDashboard',
     component: BuyerDashboard
+  },
+  {
+    path: '/seller-dashboard',
+    alias: '/seller',
+    name: 'SellerDashboard',
+    component: SellerDashboard
+  },
+  {
+    path: '/compare',
+    name: 'Compare',
+    component: Compare
   }
 ]
 

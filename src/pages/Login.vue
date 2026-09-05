@@ -1,22 +1,6 @@
 <template>
   <div class="login-page">
-
-    <header class="login-header">
-      <div class="container">
-        <div class="header-content">
-
-          <div class="logo">
-            <span class="logo-icon">🚗</span>
-            <span>CarHub</span>
-          </div>
-
-          <button class="menu-btn" type="button">
-            <i class="bi bi-list"></i>
-          </button>
-
-        </div>
-      </div>
-    </header>
+    <Navbar />
 
     <main class="login-content">
       <div class="container">
@@ -102,6 +86,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import Navbar from '../components/Navbar.vue'
 
 const router = useRouter()
 

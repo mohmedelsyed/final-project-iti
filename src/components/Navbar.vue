@@ -19,28 +19,30 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <RouterLink class="nav-link" to="/compare">
               Compare
-            </a>
+            </RouterLink>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="#">
-              Nearby Services
-            </a>
+            <RouterLink class="nav-link" to="/seller-dashboard">
+              Seller Dashboard
+            </RouterLink>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="#">
-              Offer
-            </a>
+            <RouterLink class="nav-link" to="/dashboard">
+              Buyer Dashboard
+            </RouterLink>
           </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              Perfect Car
-            </a>
-          </li>
+          <!-- <li class="nav-item">
+            <RouterLink class="nav-link" to="/Home">
+              Cars
+            </RouterLink>
+          </li> -->
+
+
 
         </ul>
 

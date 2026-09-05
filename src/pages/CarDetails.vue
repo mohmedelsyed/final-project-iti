@@ -1,5 +1,8 @@
 <template>
-  <section class="details-page">
+  <div>
+    <Navbar />
+    <useRouter/>
+    <section class="details-page">
     <div class="container">
 
       <button class="back-btn" @click="goBack">
@@ -140,10 +143,13 @@
 
     </div>
   </section>
+  </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import Navbar from '../components/Navbar.vue'
 
 const car = ref(null)
 const loading = ref(true)

@@ -1,4 +1,3 @@
-```vue
 <template>
   <section class="services-section">
 
@@ -528,4 +527,3 @@
 }
 
 </style>
-```

@@ -1,4 +1,3 @@
-```vue
 <template>
   <section class="role-section">
 
@@ -103,19 +102,20 @@
 
 
 <script setup>
-
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const selectedRole = ref(null);
 
 const selectRole = (role) => {
-
   selectedRole.value = role;
-
-  console.log("Selected Role:", role);
-
+  if (role === 'seller') {
+    router.push('/seller-dashboard');
+  } else if (role === 'buyer') {
+    router.push('/cars');
+  }
 };
-
 </script>
 
 
@@ -350,4 +350,3 @@ const selectRole = (role) => {
 }
 
 </style>
-```
