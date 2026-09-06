@@ -3,63 +3,12 @@
     <div class="container">
 
       <!-- Logo -->
-      <RouterLink class="navbar-brand" to="/">
+      <RouterLink
+        class="navbar-brand"
+        to="/"
+      >
         CarHub
       </RouterLink>
-
-      <!-- Navbar Links -->
-      <div class="collapse navbar-collapse" id="navbarNav">
-
-        <ul class="navbar-nav mx-auto">
-
-          <li class="nav-item">
-            <RouterLink class="nav-link browse-link" to="/cars">
-              Browse Cars
-            </RouterLink>
-          </li>
-
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/compare">
-              Compare
-            </RouterLink>
-          </li>
-
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/seller-dashboard">
-              Seller Dashboard
-            </RouterLink>
-          </li>
-
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/dashboard">
-              Buyer Dashboard
-            </RouterLink>
-          </li>
-
-          <!-- <li class="nav-item">
-            <RouterLink class="nav-link" to="/Home">
-              Cars
-            </RouterLink>
-          </li> -->
-
-
-
-        </ul>
-
-        <!-- Buttons -->
-        <div class="d-flex gap-2">
-
-          <RouterLink to="/login" class="btn btn-dark px-3 rounded-4">
-            Login
-          </RouterLink>
-
-          <RouterLink to="/register" class="btn btn-primary px-3 rounded-4">
-            Register
-          </RouterLink>
-
-        </div>
-
-      </div>
 
       <!-- Mobile Button -->
       <button
@@ -73,6 +22,73 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
+
+      <!-- Navbar Links -->
+      <div
+        class="collapse navbar-collapse"
+        id="navbarNav"
+      >
+
+        <ul class="navbar-nav mx-auto">
+
+          <li class="nav-item">
+            <RouterLink
+              class="nav-link"
+              to="/cars"
+            >
+              Browse Cars
+            </RouterLink>
+          </li>
+
+          <li class="nav-item">
+            <RouterLink
+              class="nav-link"
+              to="/compare"
+            >
+              Compare
+            </RouterLink>
+          </li>
+
+          <li class="nav-item">
+            <RouterLink
+              class="nav-link"
+              to="/seller-dashboard"
+            >
+              Seller Dashboard
+            </RouterLink>
+          </li>
+
+          <li class="nav-item">
+            <RouterLink
+              class="nav-link"
+              to="/dashboard"
+            >
+              Buyer Dashboard
+            </RouterLink>
+          </li>
+
+        </ul>
+
+        <!-- Buttons -->
+        <div class="d-flex gap-2">
+
+          <RouterLink
+            to="/login"
+            class="btn btn-dark px-3 rounded-4"
+          >
+            Login
+          </RouterLink>
+
+          <RouterLink
+            to="/register"
+            class="btn btn-primary px-3 rounded-4"
+          >
+            Register
+          </RouterLink>
+
+        </div>
+
+      </div>
 
     </div>
   </nav>
@@ -107,12 +123,7 @@
 .carhub-navbar .nav-link:hover {
   color: #70C1B3 !important;
   background-color: rgba(255, 255, 255, 0.05);
-  border-radius:10px;
-}
- 
-
-.carhub-navbar .browse-link:hover {
-  background-color: #1F6F5B !important;
+  border-radius: 10px;
 }
 
 .carhub-navbar .navbar-toggler {
@@ -125,7 +136,6 @@
 }
 
 @media (max-width: 991px) {
-
   .carhub-navbar .navbar-nav {
     padding-top: 16px;
   }
@@ -137,14 +147,11 @@
   .carhub-navbar .d-flex {
     margin-top: 12px;
   }
-
 }
 
 @media (max-width: 576px) {
-
   .carhub-navbar {
     padding: 12px 0;
   }
-
 }
 </style>

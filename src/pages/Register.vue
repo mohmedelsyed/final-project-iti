@@ -6,17 +6,20 @@
       <div class="register-card">
 
         <div class="text-center mb-4">
+
           <h2>Create Account</h2>
 
           <p class="text-muted">
             Join CarHub today
           </p>
+
         </div>
 
         <form @submit.prevent="handleRegister">
 
           <!-- Name -->
           <div class="mb-3">
+
             <label class="form-label">
               Full Name
             </label>
@@ -28,10 +31,12 @@
               placeholder="Enter your name"
               required
             />
+
           </div>
 
           <!-- Email -->
           <div class="mb-3">
+
             <label class="form-label">
               Email
             </label>
@@ -43,10 +48,12 @@
               placeholder="Enter your email"
               required
             />
+
           </div>
 
           <!-- Phone -->
           <div class="mb-3">
+
             <label class="form-label">
               Phone
             </label>
@@ -58,10 +65,12 @@
               placeholder="Enter your phone"
               required
             />
+
           </div>
 
           <!-- Password -->
           <div class="mb-3">
+
             <label class="form-label">
               Password
             </label>
@@ -74,10 +83,12 @@
               minlength="6"
               required
             />
+
           </div>
 
           <!-- Role -->
           <div class="mb-3">
+
             <label class="form-label">
               Account Type
             </label>
@@ -87,6 +98,7 @@
               class="form-select"
               required
             >
+
               <option value="buyer">
                 Buyer
               </option>
@@ -94,7 +106,9 @@
               <option value="seller">
                 Seller
               </option>
+
             </select>
+
           </div>
 
           <!-- Error -->
@@ -105,7 +119,7 @@
             {{ errorMessage }}
           </div>
 
-          <!-- Register Button -->
+          <!-- Register -->
           <button
             type="submit"
             class="btn btn-primary w-100"
@@ -117,13 +131,16 @@
         </form>
 
         <div class="text-center mt-4">
+
           <p>
             Already have an account?
 
             <RouterLink to="/login">
               Login
             </RouterLink>
+
           </p>
+
         </div>
 
       </div>
@@ -153,13 +170,14 @@ const form = reactive({
 })
 
 async function handleRegister() {
+
   errorMessage.value = ''
   loading.value = true
 
   try {
 
-    // Check existing email
-    const checkResponse = await axios.get(
+    // Check if email already exists
+    const existingResponse = await axios.get(
       'http://localhost:3000/users',
       {
         params: {
@@ -168,13 +186,15 @@ async function handleRegister() {
       }
     )
 
-    if (checkResponse.data.length > 0) {
+    if (existingResponse.data.length > 0) {
+
       errorMessage.value =
         'This email is already registered.'
+
       return
     }
 
-    // Create user
+    // Create new user
     const response = await axios.post(
       'http://localhost:3000/users',
       {
@@ -188,14 +208,11 @@ async function handleRegister() {
 
     const user = response.data
 
-    console.log('User created:', user)
-
     localStorage.setItem(
       'currentUser',
       JSON.stringify(user)
     )
-
-    localStorage.setItem(
+localStorage.setItem(
       'isLoggedIn',
       'true'
     )
@@ -216,7 +233,10 @@ async function handleRegister() {
 
   } catch (error) {
 
-    console.error('Registration error:', error)
+    console.error(
+      'Registration error:',
+      error
+    )
 
     errorMessage.value =
       'Unable to connect to the API. Make sure JSON Server is running on port 3000.'
@@ -228,40 +248,3 @@ async function handleRegister() {
   }
 }
 </script>
-
-<style scoped>
-.register-page {
-  min-height: 100vh;
-  background:
-    linear-gradient(
-      45deg,
-      #102A27,
-      #1F6F5B,
-      #70C1B3,
-      #B2DBBF,
-      #F7FFF7
-    );}
-
-.register-container {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px;
-}
-
-.register-card {
-  width: 100%;
-  max-width: 560px;
-  padding: 32px;
-  background: #ffffff;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(16, 42, 39, 0.08);
-}
-
-@media (max-width: 576px) {
-  .register-card {
-    padding: 24px;
-  }
-}
-</style>

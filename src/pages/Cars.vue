@@ -1,153 +1,153 @@
 <template>
-  <section class="cars-page">
-    <div class="container">
+  <div class="cars-page">
+    <Navbar />
+
+    <main>
+      <!-- Hero -->
+      <section class="cars-hero">
+        <div class="container">
+          <span class="section-kicker">
+            <i class="bi bi-car-front-fill"></i>
+            Explore our cars
+          </span>
+
+          <h1>Find your next car</h1>
+
+          <p>
+            Search, filter, compare, and discover the car that fits your needs.
+          </p>
+        </div>
+      </section>
+
+      <!-- Cars Section -->
+      <section class="cars-section">
+        <div class="container">
 
           <!-- Filters -->
           <div class="filter-bar">
 
+            <!-- Search -->
             <div class="filter-control filter-search">
               <i class="bi bi-search"></i>
 
-              <input
-                v-model.trim="searchTerm"
-                type="search"
-                placeholder="Search by name or brand"
-              />
+              <input v-model.trim="searchTerm" type="search" placeholder="Search by name or brand" />
             </div>
 
+            <!-- Brand -->
             <div class="filter-control">
               <select v-model="selectedBrand">
                 <option value="all">All brands</option>
 
-                <option
-                  v-for="brand in brands"
-                  :key="brand"
-                  :value="brand"
-                >
+                <option v-for="brand in brands" :key="brand" :value="brand">
                   {{ brand }}
                 </option>
               </select>
             </div>
 
+            <!-- Fuel -->
             <div class="filter-control">
               <select v-model="selectedFuel">
                 <option value="all">All fuel types</option>
 
-                <option
-                  v-for="fuel in fuelTypes"
-                  :key="fuel"
-                  :value="fuel"
-                >
+                <option v-for="fuel in fuelTypes" :key="fuel" :value="fuel">
                   {{ fuel }}
                 </option>
               </select>
             </div>
 
+            <!-- Location -->
             <div class="filter-control">
               <select v-model="selectedLocation">
                 <option value="all">All locations</option>
 
-                <option
-                  v-for="location in locations"
-                  :key="location"
-                  :value="location"
-                >
+                <option v-for="location in locations" :key="location" :value="location">
                   {{ location }}
                 </option>
               </select>
             </div>
 
+            <!-- Transmission -->
             <div class="filter-control">
               <select v-model="selectedTransmission">
                 <option value="all">All transmissions</option>
 
-                <option
-                  v-for="transmission in transmissions"
-                  :key="transmission"
-                  :value="transmission"
-                >
+                <option v-for="transmission in transmissions" :key="transmission" :value="transmission">
                   {{ transmission }}
                 </option>
               </select>
             </div>
 
+            <!-- Price -->
             <div class="filter-control">
               <select v-model="maxPrice">
                 <option value="all">Any price</option>
-                <option :value="1000000">Up to 1,000,000 EGP</option>
-                <option :value="1500000">Up to 1,500,000 EGP</option>
-                <option :value="2000000">Up to 2,000,000 EGP</option>
+                <option :value="1000000">
+                  Up to 1,000,000 EGP
+                </option>
+                <option :value="1500000">
+                  Up to 1,500,000 EGP
+                </option>
+                <option :value="2000000">
+                  Up to 2,000,000 EGP
+                </option>
               </select>
             </div>
 
-            <button
-              v-if="hasActiveFilters"
-              class="clear-button"
-              type="button"
-              @click="clearFilters"
-            >
+            <!-- Clear -->
+            <button v-if="hasActiveFilters" class="clear-button" type="button" @click="clearFilters">
               Clear filters
             </button>
 
           </div>
 
           <!-- Loading -->
-          <div
-            v-if="loading"
-            class="feedback-card"
-          >
-            <div class="spinner-border" role="status"></div>
-            <p>Loading cars...</p>
-          </div>
+          <div v-if="loading" class="feedback-card">
+            <div class="spinner-border text-success" role="status">
+              <span class="visually-hidden">
+                Loading...
+              </span>
+            </div>
 
+            <p class="mt-3">
+              Loading cars...
+            </p>
+          </div>
           <!-- Error -->
-          <div
-            v-else-if="errorMessage"
-            class="feedback-card error-card"
-          >
+          <div v-else-if="errorMessage" class="feedback-card error-card">
             <i class="bi bi-wifi-off"></i>
 
             <h3>We couldn't load the cars</h3>
 
-            <p>{{ errorMessage }}</p>
+            <p>
+              {{ errorMessage }}
+            </p>
 
-            <button
-              class="retry-button"
-              type="button"
-              @click="getCars"
-            >
+            <button class="retry-button" type="button" @click="getCars">
               <i class="bi bi-arrow-clockwise"></i>
               Try Again
             </button>
           </div>
 
           <!-- Cars -->
-          <div
-            v-else-if="filteredCars.length"
-            class="row g-4"
-          >
+          <div v-else-if="filteredCars.length" class="row g-4">
 
-            <div
-              v-for="car in filteredCars"
-              :key="car.id"
-              class="col-12 col-md-6 col-lg-4"
-            >
+            <div v-for="car in filteredCars" :key="car.id" class="col-12 col-md-6 col-lg-4">
 
               <article class="car-card">
 
+                <!-- Image -->
                 <div class="car-image-wrap">
-                  <img
-                    :src="car.image"
-                    :alt="car.name"
-                    class="car-image"
-                  />
+
+                  <img :src="car.image" :alt="car.name" class="car-image" @error="handleImageError" />
 
                   <span class="match-badge">
                     <i class="bi bi-stars"></i>
                     {{ car.match }}% Match
                   </span>
+
                 </div>
 
+                <!-- Body -->
                 <div class="car-card-body">
 
                   <div class="car-topline">
@@ -155,8 +155,11 @@
                     <span>{{ car.year }}</span>
                   </div>
 
-                  <h2>{{ car.name }}</h2>
+                  <h2>
+                    {{ car.name }}
+                  </h2>
 
+                  <!-- Specs -->
                   <div class="car-specs">
 
                     <span>
@@ -181,21 +184,20 @@
 
                   </div>
 
+                  <!-- Footer -->
                   <div class="car-footer">
 
                     <div>
-                      <small>Starting from</small>
+                      <small>
+                        Starting from
+                      </small>
 
                       <strong>
                         {{ formatPrice(car.price) }}
                       </strong>
                     </div>
 
-                    <button
-                      class="details-link"
-                      type="button"
-                      @click="showDetails(car)"
-                    >
+                    <button class="details-link" type="button" @click="showDetails(car)">
                       Details
                       <i class="bi bi-arrow-right"></i>
                     </button>
@@ -211,23 +213,18 @@
           </div>
 
           <!-- Empty -->
-          <div
-            v-else
-            class="feedback-card"
-          >
+          <div v-else class="feedback-card">
             <i class="bi bi-car-front"></i>
 
-            <h3>No cars found</h3>
+            <h3>
+              No cars found
+            </h3>
 
             <p>
               Try changing your search or filters.
             </p>
 
-            <button
-              class="retry-button"
-              type="button"
-              @click="clearFilters"
-            >
+            <button class="retry-button" type="button" @click="clearFilters">
               Clear filters
             </button>
           </div>
@@ -236,25 +233,39 @@
       </section>
     </main>
 
-      </div>
-
-    </div>
-  </section>
+    <FooterSection />
+  </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import {
+  computed,
+  onMounted,
+  ref
+} from 'vue'
+
+import { useRouter } from 'vue-router'
+
+import Navbar from '../components/Navbar.vue'
+import FooterSection from '../components/FooterSection.vue'
+
+const API_URL = 'http://localhost:3000/cars'
+
+const router = useRouter()
 
 const cars = ref([])
 const loading = ref(true)
 const errorMessage = ref('')
-
 const searchTerm = ref('')
 const selectedBrand = ref('all')
 const selectedFuel = ref('all')
 const selectedLocation = ref('all')
 const selectedTransmission = ref('all')
 const maxPrice = ref('all')
+
+/* ================================
+   Filter Options
+================================ */
 
 const brands = computed(() => {
   return [
@@ -296,40 +307,52 @@ const transmissions = computed(() => {
   ].sort()
 })
 
+/* ================================
+   Filter Cars
+================================ */
+
 const filteredCars = computed(() => {
   const text = searchTerm.value.toLowerCase()
 
   return cars.value.filter((car) => {
 
-    const name = String(car.name || '').toLowerCase()
-    const brand = String(car.brand || '').toLowerCase()
-    const location = String(car.location || '').toLowerCase()
+    const name = String(
+      car.name || ''
+    ).toLowerCase()
+
+    const brand = String(
+      car.brand || ''
+    ).toLowerCase()
+
+    const location = String(
+      car.location || ''
+    ).toLowerCase()
 
     const searchMatch =
-      !text ||
-      name.includes(text) ||
-      brand.includes(text) ||
-      location.includes(text)
+      !text
+    name.includes(text)
+    brand.includes(text)
+    location.includes(text)
 
     const brandMatch =
-      selectedBrand.value === 'all' ||
-      car.brand === selectedBrand.value
+      selectedBrand.value === 'all'
+    car.brand === selectedBrand.value
 
     const fuelMatch =
-      selectedFuel.value === 'all' ||
-      car.fuel === selectedFuel.value
+      selectedFuel.value === 'all'
+    car.fuel === selectedFuel.value
 
     const locationMatch =
-      selectedLocation.value === 'all' ||
-      car.location === selectedLocation.value
+      selectedLocation.value === 'all'
+    car.location === selectedLocation.value
 
     const transmissionMatch =
-      selectedTransmission.value === 'all' ||
-      car.transmission === selectedTransmission.value
+      selectedTransmission.value === 'all'
+    car.transmission === selectedTransmission.value
 
     const priceMatch =
-      maxPrice.value === 'all' ||
-      Number(car.price) <= Number(maxPrice.value)
+      maxPrice.value === 'all'
+    Number(car.price) <= Number(maxPrice.value)
 
     return (
       searchMatch &&
@@ -342,6 +365,10 @@ const filteredCars = computed(() => {
   })
 })
 
+/* ================================
+   Active Filters
+================================ */
+
 const hasActiveFilters = computed(() => {
   return Boolean(
     searchTerm.value ||
@@ -353,43 +380,51 @@ const hasActiveFilters = computed(() => {
   )
 })
 
+/* ================================
+   Get Cars From Fake API
+================================ */
+
 async function getCars() {
   loading.value = true
   errorMessage.value = ''
+try {
+  const response = await fetch(API_URL)
 
-  try {
-    const response = await fetch(API_URL)
-
-    if (!response.ok) {
-      throw new Error(
-        `The car service returned ${response.status}.`
-      )
-    }
-
-    const data = await response.json()
-
-    if (!Array.isArray(data)) {
-      throw new Error(
-        'The car service returned an unexpected response.'
-      )
-    }
-
-    cars.value = data.map((car) => ({
-      ...car,
-      isFavorite: car.isFavorite || false
-    }))
-
-  } catch (error) {
-    cars.value = []
-
-    errorMessage.value =
-      error instanceof Error
-        ? error.message
-        : 'Unable to load cars.'
-  } finally {
-    loading.value = false
+  if (!response.ok) {
+    throw new Error(
+      `The car service returned ${response.status}.`
+    )
   }
+
+  const data = await response.json()
+
+  if (!Array.isArray(data)) {
+    throw new Error(
+      'The car service returned an unexpected response.'
+    )
+  }
+
+  cars.value = data.map((car) => ({
+    ...car,
+    isFavorite: Boolean(car.isFavorite)
+  }))
+
+} catch (error) {
+  cars.value = []
+
+  errorMessage.value =
+    error instanceof Error
+      ? error.message
+      : 'Unable to load cars.'
+} finally {
+  loading.value = false
 }
+}
+
+
+/* ================================
+   Clear Filters
+================================ */
 
 function clearFilters() {
   searchTerm.value = ''
@@ -400,15 +435,35 @@ function clearFilters() {
   maxPrice.value = 'all'
 }
 
+/* ================================
+   Car Details
+================================ */
+
 function showDetails(car) {
-  router.push(`/cars/${car.id}`)
+  router.push(/cars/`${car.id }`)
 }
+
+/* ================================
+   Price
+================================ */
 
 function formatPrice(price) {
   return `${new Intl.NumberFormat('en-US').format(
     Number(price) || 0
   )} EGP`
 }
+
+/* ================================
+   Image Error
+================================ */
+function handleImageError(event) {
+  event.target.src =
+    'https://via.placeholder.com/800x500?text=Car+Image'
+}
+
+/* ================================
+   Start
+================================ */
 
 onMounted(getCars)
 </script>
@@ -422,35 +477,43 @@ onMounted(getCars)
 
 .cars-hero {
   padding: 80px 0;
-  background: linear-gradient(
-    125deg,
-    #102a27 0%,
-    #1f6f5b 50%,
-    #70c1b3 100%
-  );
+
+  background: linear-gradient(125deg,
+      #102a27 0%,
+      #1f6f5b 50%,
+      #70c1b3 100%);
+
   color: white;
 }
 
 .cars-hero h1 {
   margin: 15px 0;
+
   font-size: clamp(40px, 5vw, 60px);
   font-weight: 750;
 }
 
 .cars-hero p {
   max-width: 600px;
+
   margin: 0;
+
   color: rgba(255, 255, 255, 0.88);
+
   font-size: 18px;
 }
 
 .section-kicker {
   display: inline-flex;
+
   gap: 8px;
   align-items: center;
+
   color: #b2dbbf;
+
   font-size: 14px;
   font-weight: 700;
+
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
@@ -459,15 +522,21 @@ onMounted(getCars)
   padding: 70px 0;
 }
 
+/* Filters */
+
 .filter-bar {
   display: flex;
+
   flex-wrap: wrap;
+
   gap: 12px;
+
   margin-bottom: 40px;
 }
 
 .filter-control {
   min-width: 180px;
+
   flex: 1;
 }
 
@@ -477,9 +546,12 @@ onMounted(getCars)
 
 .filter-search i {
   position: absolute;
+
   top: 50%;
   left: 15px;
+
   transform: translateY(-50%);
+
   color: #1f6f5b;
 }
 
@@ -487,11 +559,15 @@ onMounted(getCars)
 .filter-control select {
   width: 100%;
   height: 48px;
+
   padding: 0 15px;
+
   border: 1px solid #dce9df;
   border-radius: 10px;
+
   background: white;
   color: #102a27;
+
   outline: none;
 }
 
@@ -506,52 +582,92 @@ onMounted(getCars)
 
 .clear-button {
   height: 48px;
+
   padding: 0 20px;
+
   border: 0;
   border-radius: 10px;
+
   background: #102a27;
   color: white;
+
   cursor: pointer;
+
+  transition: 0.2s ease;
 }
+
+.clear-button:hover {
+  background: #1f6f5b;
+}
+
+/* Card */
 
 .car-card {
   height: 100%;
+
   overflow: hidden;
+
   border: 1px solid #e0ebe3;
   border-radius: 20px;
+
   background: white;
-  box-shadow: 0 10px 30px rgba(16, 42, 39, 0.08);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  box-shadow:
+    0 10px 30px rgba(16, 42, 39, 0.08);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .car-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 18px 40px rgba(16, 42, 39, 0.13);
+
+  box-shadow:
+    0 18px 40px rgba(16, 42, 39, 0.13);
 }
+
+/* Image */
 
 .car-image-wrap {
   position: relative;
+
   height: 230px;
+
   overflow: hidden;
 }
 
 .car-image {
   width: 100%;
   height: 100%;
+
   object-fit: cover;
+
+  transition: transform 0.3s ease;
+}
+
+.car-card:hover .car-image {
+  transform: scale(1.03);
 }
 
 .match-badge {
   position: absolute;
+
   top: 15px;
   right: 15px;
+
   padding: 7px 11px;
+
   border-radius: 20px;
+
   background: #b2dbbf;
   color: #102a27;
+
   font-size: 13px;
   font-weight: 700;
 }
+
+/* Body */
 
 .car-card-body {
   padding: 22px;
@@ -559,30 +675,43 @@ onMounted(getCars)
 
 .car-topline {
   display: flex;
+
   justify-content: space-between;
+
   color: #70c1b3;
+
   font-size: 14px;
   font-weight: 700;
 }
 
 .car-card h2 {
   margin: 8px 0 18px;
+
   color: #102a27;
+
   font-size: 22px;
 }
 
+/* Specs */
+
 .car-specs {
   display: flex;
+
   flex-wrap: wrap;
+
   gap: 10px;
+
   margin-bottom: 22px;
 }
 
 .car-specs span {
   padding: 7px 10px;
+
   border-radius: 8px;
+
   background: #f1f7f2;
   color: #555;
+
   font-size: 13px;
 }
 
@@ -590,39 +719,61 @@ onMounted(getCars)
   color: #1f6f5b;
 }
 
+/* Footer */
+
 .car-footer {
   display: flex;
+
   align-items: center;
   justify-content: space-between;
+
   gap: 15px;
+
   padding-top: 18px;
+
   border-top: 1px solid #edf2ee;
 }
 
 .car-footer small {
   display: block;
+
   margin-bottom: 3px;
+
   color: #888;
 }
 
 .car-footer strong {
   color: #1f6f5b;
+
   font-size: 17px;
 }
 
+/* Details */
+
 .details-link {
   display: inline-flex;
+
   align-items: center;
+  justify-content: center;
+
   gap: 7px;
+
   padding: 10px 14px;
+
   border: 0;
   border-radius: 9px;
+
   background: #1f6f5b;
   color: white;
+
   font-size: 14px;
   font-weight: 700;
+
   text-decoration: none;
+
   cursor: pointer;
+
+  transition: 0.2s ease;
 }
 
 .details-link:hover {
@@ -630,18 +781,30 @@ onMounted(getCars)
   color: white;
 }
 
+/* Feedback */
+
 .feedback-card {
   padding: 60px 20px;
+
   border-radius: 20px;
+
   background: white;
+
   text-align: center;
-  box-shadow: 0 10px 30px rgba(16, 42, 39, 0.07);
+
+  box-shadow:
+    0 10px 30px rgba(16, 42, 39, 0.07);
 }
 
 .feedback-card i {
   margin-bottom: 15px;
   color: #1f6f5b;
+
   font-size: 42px;
+}
+
+.feedback-card h3 {
+  margin-bottom: 10px;
 }
 
 .feedback-card p {
@@ -654,12 +817,23 @@ onMounted(getCars)
 
 .retry-button {
   padding: 11px 20px;
+
   border: 0;
   border-radius: 9px;
+
   background: #1f6f5b;
   color: white;
+
   cursor: pointer;
+
+  transition: 0.2s ease;
 }
+
+.retry-button:hover {
+  background: #102a27;
+}
+
+/* Responsive */
 
 @media (max-width: 767px) {
   .cars-hero {
@@ -674,14 +848,18 @@ onMounted(getCars)
     min-width: 100%;
   }
 
+  .clear-button {
+    width: 100%;
+  }
+
   .car-footer {
     align-items: flex-start;
+
     flex-direction: column;
   }
 
   .details-link {
     width: 100%;
-    justify-content: center;
   }
 }
 </style>

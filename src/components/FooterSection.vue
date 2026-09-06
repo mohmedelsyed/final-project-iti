@@ -9,13 +9,13 @@
         <!-- Brand -->
         <div class="footer-brand">
 
-          <a href="#" class="logo">
+          <RouterLink to="/" class="logo">
             <span class="logo-icon">
               <i class="bi bi-car-front-fill"></i>
             </span>
 
             <span>CAR<span>HUB</span></span>
-          </a>
+          </RouterLink>
 
           <p>
             Your trusted destination to discover, compare,
@@ -47,51 +47,67 @@
 
 
         <!-- Navigation -->
-        <!-- div class="footer-column">
+        <div class="footer-column">
 
           <h4>Explore</h4>
 
           <ul>
             <li>
-              <a href="#">Home</a>
+              <RouterLink to="/">
+                Home
+              </RouterLink>
             </li>
 
             <li>
-              <a href="#">Browse Cars</a>
+              <RouterLink to="/cars">
+                Browse Cars
+              </RouterLink>
             </li>
 
             <li>
-              <a href="#">Featured Cars</a>
+              <RouterLink to="/compare">
+                Compare Cars
+              </RouterLink>
             </li>
 
             <li>
-              <a href="#">Features</a>
+              <RouterLink to="/dashboard">
+                Buyer Dashboard
+              </RouterLink>
             </li>
           </ul>
 
-        </div>< -->
+        </div>
 
 
         <!-- Services -->
-        <!-- <div class="footer-column">
+        <div class="footer-column">
 
           <h4>Services</h4>
 
           <ul>
             <li>
-              <a href="#">Find a Car</a>
+              <RouterLink to="/cars">
+                Find a Car
+              </RouterLink>
             </li>
 
             <li>
-              <a href="#">Compare Cars</a>
+              <RouterLink to="/compare">
+                Compare Cars
+              </RouterLink>
             </li>
 
             <li>
-              <a href="#">Favorites</a>
+              <RouterLink to="/cars">
+                Car Details
+              </RouterLink>
             </li>
 
             <li>
-              <a href="#">Car Details</a>
+              <RouterLink to="/seller-dashboard">
+                Sell a Car
+              </RouterLink>
             </li>
           </ul>
 
@@ -111,6 +127,7 @@
 
             <div>
               <span>Email</span>
+
               <a href="mailto:hello@carhub.com">
                 hello@carhub.com
               </a>
@@ -127,6 +144,7 @@
 
             <div>
               <span>Phone</span>
+
               <a href="tel:+2010xxxxxxxx">
                 +20 10xxxxxxxxx
               </a>
@@ -143,6 +161,7 @@
 
             <div>
               <span>Location</span>
+
               <p>Egypt</p>
             </div>
 
@@ -150,7 +169,7 @@
 
         </div>
 
-      </div> 
+      </div>
 
 
       <!-- Newsletter -->
@@ -173,16 +192,23 @@
         </div>
 
 
-        <div class="newsletter-form">
+        <form
+          class="newsletter-form"
+          @submit.prevent="subscribe"
+        >
+<input
+            v-model="email"
+            type="email"
+            placeholder="Enter your email address"
+            required
+          />
 
-          <input type="email" placeholder="Enter your email address" />
-
-          <button>
+          <button type="submit">
             Subscribe
             <i class="bi bi-arrow-right"></i>
           </button>
 
-        </div>
+        </form>
 
       </div>
 
@@ -195,8 +221,15 @@
         </p>
 
         <div class="footer-bottom-links">
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms & Conditions</a>
+
+          <a href="#">
+            Privacy Policy
+          </a>
+
+          <a href="#">
+            Terms & Conditions
+          </a>
+
         </div>
 
       </div>
@@ -207,11 +240,26 @@
 </template>
 
 
+<script setup>
+import { ref } from 'vue'
+
+const email = ref('')
+
+function subscribe() {
+  if (!email.value) {
+    return
+  }
+
+  alert('Thank you for subscribing!')
+
+  email.value = ''
+}
+</script>
 <style scoped>
 .footer {
   position: relative;
-  /* background: var(--dark); */
-    background:
+
+  background:
     linear-gradient(
       45deg,
       #102A27,
@@ -220,22 +268,33 @@
       #B2DBBF,
       #F7FFF7
     );
+
   color: var(--white);
+
   padding: 75px 0 25px;
+
   overflow: hidden;
 }
 
 
-/* Decorative Circle */
+/* =========================
+   DECORATIVE CIRCLES
+========================= */
 
 .footer::before {
   content: "";
+
   position: absolute;
+
   width: 450px;
   height: 450px;
+
   border-radius: 50%;
+
   background: var(--primary);
+
   opacity: 0.12;
+
   top: -250px;
   right: -150px;
 
@@ -244,12 +303,18 @@
 
 .footer::after {
   content: "";
+
   position: absolute;
+
   width: 300px;
   height: 300px;
+
   border-radius: 50%;
+
   background: var(--primary);
+
   opacity: 0.07;
+
   bottom: -180px;
   left: -100px;
 
@@ -263,10 +328,16 @@
 
 .footer-top {
   position: relative;
+
   z-index: 1;
+
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1.5fr;
+
+  grid-template-columns:
+    2fr 1fr 1fr 1.5fr;
+
   gap: 50px;
+
   padding-bottom: 55px;
 }
 
@@ -277,28 +348,45 @@
 
 .logo {
   display: inline-flex;
+
   align-items: center;
+
   gap: 10px;
+
   color: var(--white);
+
   text-decoration: none;
+
   font-size: 25px;
+
   font-weight: 800;
+
   letter-spacing: -0.5px;
 }
 
-.logo>span:last-child>span {
+.logo:hover {
+  color: var(--white);
+}
+
+.logo > span:last-child > span {
   color: var(--secondary);
 }
 
 .logo-icon {
   width: 42px;
   height: 42px;
+
   display: flex;
+
   align-items: center;
   justify-content: center;
+
   border-radius: 12px;
+
   background: var(--primary);
+
   color: var(--white);
+
   font-size: 20px;
 }
 
@@ -309,11 +397,14 @@
 
 .footer-brand p {
   max-width: 330px;
+
   margin: 20px 0 25px;
-  color: var(--text);
+
+  color: rgba(255, 255, 255, 0.85);
+
   font-size: 14px;
+
   line-height: 1.8;
-  font-weight: bold;
 }
 
 
@@ -323,24 +414,35 @@
 
 .social-links {
   display: flex;
+
   gap: 10px;
 }
 
 .social-links a {
   width: 38px;
   height: 38px;
+
   display: flex;
+
   align-items: center;
   justify-content: center;
+
   border-radius: 50%;
+
   background: rgba(255, 255, 255, 0.08);
-  color: var(--text);
+
+  color: var(--white);
+
   text-decoration: none;
+
   transition: 0.3s ease;
 }
 
 .social-links a:hover {
   background: var(--primary);
+
+  color: var(--white);
+
   transform: translateY(-4px);
 }
 
@@ -351,17 +453,20 @@
 
 .footer-column h4 {
   margin-bottom: 22px;
+
   color: var(--secondary);
+
   font-size: 16px;
+
   font-weight: 700;
 }
 
 .footer-column ul {
   list-style: none;
+
   margin: 0;
+
   padding: 0;
-  color: white;
-  font-family: bold;
 }
 
 .footer-column li {
@@ -369,9 +474,12 @@
 }
 
 .footer-column li a {
-  color: var(--text);
+  color: rgba(255, 255, 255, 0.85);
+
   text-decoration: none;
+
   font-size: 14px;
+
   transition: 0.3s ease;
 }
 
@@ -388,35 +496,49 @@
 
 .contact-item {
   display: flex;
+
   align-items: center;
+
   gap: 12px;
+
   margin-bottom: 17px;
 }
 
 .contact-icon {
   width: 38px;
   height: 38px;
+
   flex-shrink: 0;
+
   display: flex;
+
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
-  background: var (--background);
-  color: var(--background);
-}
 
+  border-radius: 10px;
+
+  background: var(--background);
+
+  color: var(--dark);
+}
 .contact-item span {
   display: block;
+
   margin-bottom: 2px;
-  color: var(--text);
+
+  color: rgba(255, 255, 255, 0.65);
+
   font-size: 11px;
 }
 
 .contact-item a,
 .contact-item p {
   margin: 0;
-  color:white;
+
+  color: var(--white);
+
   text-decoration: none;
+
   font-size: 15px;
 }
 
@@ -431,90 +553,138 @@
 
 .newsletter {
   position: relative;
+
   z-index: 1;
+
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
+
   gap: 30px;
+
   padding: 28px 30px;
+
   border-radius: var(--radius-card);
+
   background:
-    linear-gradient(135deg,
+    linear-gradient(
+      135deg,
       rgba(31, 111, 91, 0.35),
-      rgba(112, 193, 179, 0.12));
+      rgba(112, 193, 179, 0.12)
+    );
+
   border: 1px solid rgba(255, 255, 255, 0.08);
+
   margin-bottom: 40px;
 }
 
 
-/* Newsletter text */
+/* Newsletter Text */
 
 .newsletter-text {
   display: flex;
+
   align-items: center;
+
   gap: 15px;
 }
 
 .newsletter-icon {
   width: 48px;
   height: 48px;
+
   display: flex;
+
   align-items: center;
   justify-content: center;
+
   border-radius: 13px;
+
   background: var(--secondary);
+
   color: var(--dark);
+
   font-size: 21px;
 }
 
 .newsletter h3 {
   margin: 0 0 3px;
+
+  color: var(--white);
+
   font-size: 17px;
+
   font-weight: 700;
 }
 
 .newsletter p {
   margin: 0;
-  color: var(--text);
+
+  color: rgba(255, 255, 255, 0.75);
+
   font-size: 12px;
 }
 
 
-/* Newsletter form */
+/* =========================
+   NEWSLETTER FORM
+========================= */
 
 .newsletter-form {
   display: flex;
+
   width: 400px;
+
   max-width: 100%;
+
   padding: 5px;
+
   border-radius: 12px;
+
   background: rgba(255, 255, 255, 0.08);
 }
 
 .newsletter-form input {
   flex: 1;
+
   min-width: 0;
+
   border: none;
+
   outline: none;
+
   padding: 10px 14px;
+
   background: transparent;
-  color: var(--text);
+
+  color: var(--white);
+
   font-size: 13px;
 }
 
 .newsletter-form input::placeholder {
-  color: var(--text);
+  color: rgba(255, 255, 255, 0.65);
 }
 
 .newsletter-form button {
   border: none;
+
   padding: 10px 17px;
+
   border-radius: 9px;
+
   background: var(--secondary);
+
   color: var(--dark);
+
   font-size: 12px;
+
   font-weight: 700;
+
   cursor: pointer;
+
   transition: 0.3s ease;
 }
 
@@ -533,29 +703,41 @@
 
 .footer-bottom {
   position: relative;
+
   z-index: 1;
+
   display: flex;
+
   justify-content: space-between;
+
   align-items: center;
+
   padding-top: 22px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .footer-bottom p {
   margin: 0;
-  color: var(--text);
+
+  color: rgba(255, 255, 255, 0.75);
+
   font-size: 12px;
 }
 
 .footer-bottom-links {
   display: flex;
+
   gap: 25px;
 }
 
 .footer-bottom-links a {
-  color: var(--text);
+  color: rgba(255, 255, 255, 0.75);
+
   text-decoration: none;
+
   font-size: 12px;
+
   transition: 0.3s ease;
 }
 
@@ -569,6 +751,7 @@
 ========================= */
 
 @media (max-width: 991px) {
+
   .footer-top {
     grid-template-columns: 1fr 1fr;
   }
@@ -579,6 +762,7 @@
 
   .newsletter {
     flex-direction: column;
+
     align-items: flex-start;
   }
 
@@ -597,6 +781,7 @@
 
   .footer-top {
     grid-template-columns: 1fr;
+
     gap: 35px;
   }
 
@@ -614,15 +799,21 @@
 
   .newsletter-form {
     flex-direction: column;
+
     background: transparent;
+
     padding: 0;
+
     gap: 8px;
   }
 
   .newsletter-form input {
     width: 100%;
+
     padding: 12px;
+
     border-radius: 9px;
+
     background: rgba(255, 255, 255, 0.08);
   }
 
@@ -632,7 +823,9 @@
 
   .footer-bottom {
     flex-direction: column;
+
     gap: 15px;
+
     align-items: flex-start;
   }
 
@@ -641,4 +834,4 @@
   }
 
 }
-</style>  
+</style>

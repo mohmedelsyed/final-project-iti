@@ -1,30 +1,37 @@
 <template>
   <div class="dashboard-page">
-    <Navbar />
+    <Navbar/>
 
+    <!-- Hero -->
     <section class="hero-section">
       <div class="container">
+
         <div class="hero-content">
+
           <span class="hero-badge">
             SMART CAR MATCHING
           </span>
 
           <h1>
-            <span>Find the right car</span>
-            <span>for your budget</span>
-            <span>and your city.</span>
-          </h1>
+  <span>Find the right car</span>
+  <span>for your budget</span>
+  <span>and your city.</span>
+</h1>
 
-          <p>
-            Discover verified cars that match your needs,
-            budget and location.
-          </p>
+<p>
+  Discover verified cars that match your needs,
+  budget and location.
+</p>
+
         </div>
 
+        <!-- Search -->
         <div class="search-card">
+
           <div class="row g-4 align-items-end">
 
             <div class="col-12 col-md-4">
+
               <label>
                 Your budget
               </label>
@@ -40,15 +47,18 @@
                 max="5000000"
                 step="50000"
                 class="budget-slider"
-              />
+              >
+
             </div>
 
             <div class="col-12 col-md-3">
+
               <label>
                 Your location
               </label>
 
               <select v-model="location">
+
                 <option value="">
                   Select city
                 </option>
@@ -68,16 +78,20 @@
                 <option value="Giza">
                   Giza
                 </option>
+
               </select>
+
             </div>
 
             <div class="col-12 col-md-2">
+
               <button
                 type="button"
                 class="location-btn"
                 :disabled="detectingLocation"
                 @click="detectLocation"
               >
+
                 <i class="bi bi-geo-alt"></i>
 
                 {{
@@ -85,16 +99,20 @@
                     ? 'Detecting...'
                     : 'Detect my location'
                 }}
+
               </button>
+
             </div>
 
             <div class="col-12 col-md-3">
+
               <button
                 type="button"
                 class="search-btn"
                 :disabled="loading"
                 @click="searchCars"
               >
+
                 <i class="bi bi-search"></i>
 
                 {{
@@ -102,53 +120,82 @@
                     ? 'Loading...'
                     : 'Search matching cars'
                 }}
+
               </button>
+
             </div>
 
           </div>
+
         </div>
+
       </div>
     </section>
 
+
+    <!-- Stats -->
     <section class="stats-section">
+
       <div class="container">
+
         <div class="row g-4">
 
           <div class="col-12 col-md-4">
+
             <div class="stat-item">
+
               <strong>10K+</strong>
+
               <span>
                 Listings
               </span>
+
             </div>
+
           </div>
 
           <div class="col-12 col-md-4">
+
             <div class="stat-item">
+
               <strong>25+</strong>
+
               <span>
                 Cities
               </span>
+
             </div>
+
           </div>
 
           <div class="col-12 col-md-4">
+
             <div class="stat-item">
+
               <strong>500+</strong>
+
               <span>
                 Services
               </span>
+
             </div>
+
           </div>
 
         </div>
+
       </div>
+
     </section>
 
+
+    <!-- Categories -->
     <section class="categories-section">
+
       <div class="container">
 
         <div class="section-heading">
+
           <span>
             EXPLORE
           </span>
@@ -160,19 +207,22 @@
           <p>
             Find the perfect car based on your lifestyle.
           </p>
+
         </div>
 
         <div class="row g-4">
-
-          <div
+<div
             v-for="category in categories"
             :key="category.name"
             class="col-12 col-md-6 col-lg-4"
           >
+
             <div class="category-card">
 
               <div class="category-image">
+
                 <i :class="category.icon"></i>
+
               </div>
 
               <div class="category-content">
@@ -186,14 +236,21 @@
                 </p>
 
               </div>
+
             </div>
+
           </div>
 
         </div>
+
       </div>
+
     </section>
 
+
+    <!-- Matches -->
     <section class="matches-section">
+
       <div class="container">
 
         <div class="section-heading">
@@ -212,10 +269,13 @@
 
         </div>
 
+
+        <!-- Active Brand Filter -->
         <div
           v-if="activeBrandFilter"
           class="filter-chip"
         >
+
           Filtering by:
 
           <strong>
@@ -226,25 +286,39 @@
             type="button"
             @click="clearBrandFilter"
           >
+
             <i class="bi bi-x"></i>
+
           </button>
+
         </div>
 
+
+        <!-- Loading -->
         <div
           v-if="loading"
           class="api-message"
         >
+
           <i class="bi bi-arrow-repeat"></i>
+
           Loading cars from API...
+
         </div>
 
+
+        <!-- Error -->
         <div
           v-if="apiError"
           class="api-message error"
         >
+
           {{ apiError }}
+
         </div>
 
+
+        <!-- Cars -->
         <div class="row g-4">
 
           <div
@@ -262,7 +336,7 @@
                   :alt="car.name"
                   class="car-photo"
                   @error="handleImageError"
-                />
+                >
 
                 <span class="match-badge">
                   {{ car.match }}% Match
@@ -273,6 +347,7 @@
                   class="favorite-btn"
                   @click="toggleFavorite(car)"
                 >
+
                   <i
                     :class="
                       car.favorite
@@ -280,9 +355,11 @@
                         : 'bi bi-heart'
                     "
                   ></i>
+
                 </button>
 
               </div>
+
 
               <div class="car-content">
 
@@ -306,40 +383,54 @@
 
                 </div>
 
+
                 <div class="car-info">
 
                   <span>
+
                     <i class="bi bi-calendar3"></i>
+
                     {{ car.year }}
+
                   </span>
 
                   <span>
+
                     <i class="bi bi-gear"></i>
+
                     {{ car.transmission }}
+
                   </span>
 
                   <span>
+
                     <i class="bi bi-geo-alt"></i>
+
                     {{ car.location }}
+
                   </span>
 
                 </div>
+
 
                 <button
                   type="button"
                   class="details-btn"
                   @click="viewDetails(car)"
                 >
+
                   View details
+
                 </button>
 
               </div>
+
             </div>
 
           </div>
 
         </div>
-
+<!-- No Cars -->
         <div
           v-if="
             !loading &&
@@ -348,14 +439,18 @@
           "
           class="api-message"
         >
+
           No cars found. Try changing your budget
           or clearing the brand filter.
+
         </div>
 
       </div>
-    </section>
 
+    </section>
+      <!-- Brands & Tools -->
     <section class="tools-section">
+
       <div class="container">
 
         <div class="section-heading">
@@ -370,6 +465,8 @@
 
         </div>
 
+
+        <!-- Brands -->
         <div class="brands-list">
 
           <button
@@ -382,11 +479,15 @@
             }"
             @click="selectBrand(brand)"
           >
+
             {{ brand }}
+
           </button>
 
         </div>
 
+
+        <!-- Tools -->
         <div class="section-heading tools-heading">
 
           <span>
@@ -398,6 +499,7 @@
           </h2>
 
         </div>
+
 
         <div class="row g-4">
 
@@ -418,13 +520,17 @@
               </p>
 
               <button type="button">
+
                 Try calculator
+
                 <i class="bi bi-arrow-right"></i>
+
               </button>
 
             </div>
 
           </div>
+
 
           <div class="col-12 col-md-4">
 
@@ -443,13 +549,17 @@
               </p>
 
               <button type="button">
+
                 Start quiz
+
                 <i class="bi bi-arrow-right"></i>
+
               </button>
 
             </div>
 
           </div>
+
 
           <div class="col-12 col-md-4">
 
@@ -468,8 +578,11 @@
               </p>
 
               <button type="button">
+
                 Explore services
+
                 <i class="bi bi-arrow-right"></i>
+
               </button>
 
             </div>
@@ -477,10 +590,15 @@
           </div>
 
         </div>
+
       </div>
+
     </section>
 
+
+    <!-- Verification -->
     <section class="verification-section">
+
       <div class="container">
 
         <div class="verification-banner">
@@ -488,7 +606,9 @@
           <div class="verification-content">
 
             <div class="verification-icon">
+
               <i class="bi bi-shield-check"></i>
+
             </div>
 
             <div>
@@ -513,64 +633,88 @@
         </div>
 
       </div>
+
     </section>
 
-    <FooterSection />
+    <FooterSection/>
+
   </div>
 </template>
 
+
 <script setup>
+
 import { ref, computed, onMounted } from 'vue'
+
 import { useRouter } from 'vue-router'
+
 import FooterSection from '../components/FooterSection.vue'
+
 import Navbar from '../components/Navbar.vue'
+
 
 const API_URL = 'http://localhost:3000/cars'
 
 const router = useRouter()
 
+
 const budget = ref(5000000)
+
 const location = ref('')
+
 const cars = ref([])
+
 const loading = ref(false)
+
 const apiError = ref('')
 const detectingLocation = ref(false)
+
 const activeBrandFilter = ref('')
 
+
 const categories = [
+
   {
     name: 'Sedan',
     description: 'Comfortable cars for everyday driving.',
     icon: 'bi bi-car-front-fill'
   },
+
   {
     name: 'SUV',
     description: 'Spacious vehicles for family and adventure.',
     icon: 'bi bi-truck'
   },
+
   {
     name: 'Hatchback',
     description: 'Practical and compact city cars.',
     icon: 'bi bi-car-front'
   },
+
   {
     name: 'Coupe',
     description: 'Sporty cars with a stylish design.',
     icon: 'bi bi-car-front-fill'
   },
+
   {
     name: 'Pickup',
     description: 'Powerful vehicles built for work.',
     icon: 'bi bi-truck-front-fill'
   },
+
   {
     name: 'Electric',
     description: 'Modern cars with efficient electric power.',
     icon: 'bi bi-lightning-charge-fill'
   }
+
 ]
 
+
 const brands = [
+
   'BMW',
   'Toyota',
   'Hyundai',
@@ -579,44 +723,68 @@ const brands = [
   'Nissan',
   'Honda',
   'Tesla'
+
 ]
 
+
+// Get cars from Fake API
 const loadCars = async () => {
+
   loading.value = true
+
   apiError.value = ''
 
   try {
-    const response = await fetch(API_URL)
+
+    const response =
+      await fetch(API_URL)
 
     if (!response.ok) {
       throw new Error('Failed to load cars')
     }
 
-    const data = await response.json()
+    const data =
+      await response.json()
 
-    cars.value = data.map(car => ({
-      ...car,
-      favorite: car.favorite || false
-    }))
+   cars.value =
+  data.map(car => ({
+    ...car,
+    favorite: car.favorite || false
+  }))
+
   } catch (error) {
-    console.error('API Error:', error)
+
+    console.error(
+      'API Error:',
+      error
+    )
 
     apiError.value =
       'Unable to load cars from API. Make sure JSON Server is running.'
+
   } finally {
+
     loading.value = false
+
   }
+
 }
 
+
+// Filter cars
 const filteredCars = computed(() => {
+
   return cars.value
+
     .filter(car => {
+
       const budgetMatch =
         Number(car.price) <= budget.value
 
       const locationMatch =
-        !location.value ||
-        car.location?.toLowerCase() === location.value.toLowerCase()
+        !location.value 
+        car.location?.toLowerCase() ===
+        location.value.toLowerCase()
 
       const brandMatch =
         !activeBrandFilter.value ||
@@ -627,84 +795,151 @@ const filteredCars = computed(() => {
         locationMatch &&
         brandMatch
       )
+
     })
+
     .sort((a, b) => {
-      return Number(b.match) - Number(a.match)
+
+      return Number(b.match) -
+        Number(a.match)
+
     })
+
     .slice(0, 6)
+
 })
 
+
+// Search
 const searchCars = () => {
+
   loadCars()
+
 }
 
+
+// Detect location
 const detectLocation = () => {
+
   if (!navigator.geolocation) {
+
     apiError.value =
       'Geolocation is not supported by your browser.'
+
     return
+
   }
 
   detectingLocation.value = true
+
   apiError.value = ''
 
   navigator.geolocation.getCurrentPosition(
+
     () => {
+
+      // Fake API project
+      // We use Cairo as the detected location
+
       location.value = 'Cairo'
+
       detectingLocation.value = false
+
       loadCars()
+
     },
+
     error => {
-      console.error('Location Error:', error)
+
+      console.error(
+        'Location Error:',
+        error
+      )
 
       apiError.value =
         'Unable to detect your location.'
 
       detectingLocation.value = false
+
     }
+
   )
+
 }
 
-const toggleFavorite = car => {
-  car.favorite = !car.favorite
+
+// Favorite
+const toggleFavorite = (car) => {
+
+  car.favorite =
+    !car.favorite
+
 }
 
-const viewDetails = car => {
-  router.push(`/cars/${car.id}`)
+
+// View details
+const viewDetails = (car) => {
+
+ router.push(`/cars/${car.id}`)
+
 }
 
-const selectBrand = brand => {
-  if (activeBrandFilter.value === brand) {
+
+// Select brand
+const selectBrand = (brand) => {
+
+  if (
+    activeBrandFilter.value === brand
+  ) {
+
     activeBrandFilter.value = ''
+
   } else {
+
     activeBrandFilter.value = brand
+
   }
+
 }
 
+
+// Clear brand filter
 const clearBrandFilter = () => {
+
   activeBrandFilter.value = ''
+
 }
 
-const handleImageError = event => {
+
+// Handle broken image
+const handleImageError = (event) => {
+
   event.target.style.display = 'none'
+
 }
 
-onMounted(() => {
-  loadCars()
-})
-</script>
 
-<style scoped>
+// Load cars when page opens
+onMounted(() => {
+
+  loadCars()
+
+})
+
+</script>
+  <style scoped>
+
 .dashboard-page {
   min-height: 100vh;
-  background: linear-gradient(
-    45deg,
-    #102A27,
-    #1F6F5B,
-    #70C1B3,
-    #B2DBBF,
-    #F7FFF7
-  );
+  background:
+    linear-gradient(
+      45deg,
+      #102A27,
+      #1F6F5B,
+      #70C1B3,
+      #B2DBBF,
+      #F7FFF7
+    );
 }
 
 .dashboard-navbar {
@@ -730,7 +965,6 @@ onMounted(() => {
 .logo span {
   font-size: 24px;
 }
-
 .nav-links {
   display: flex;
   align-items: center;
@@ -806,7 +1040,6 @@ onMounted(() => {
   line-height: 1.7;
   text-align: center;
 }
-
 .search-card {
   padding: 24px;
   background: #ffffff;
@@ -1000,7 +1233,6 @@ onMounted(() => {
   color: #ffffff;
   cursor: pointer;
 }
-
 .car-card {
   height: 100%;
   overflow: hidden;
@@ -1263,6 +1495,7 @@ onMounted(() => {
 }
 
 @media (max-width: 768px) {
+
   .hero-section {
     padding: 40px 0;
   }
@@ -1277,8 +1510,7 @@ onMounted(() => {
   .verification-section {
     padding: 40px 0;
   }
-
-  .verification-banner {
+.verification-banner {
     flex-direction: column;
     align-items: flex-start;
   }
@@ -1290,9 +1522,11 @@ onMounted(() => {
   .footer-content {
     grid-template-columns: 1fr 1fr;
   }
+
 }
 
 @media (max-width: 576px) {
+
   .nav-links {
     gap: 8px;
   }
@@ -1312,5 +1546,7 @@ onMounted(() => {
   .footer-content {
     grid-template-columns: 1fr;
   }
+
 }
+
 </style>

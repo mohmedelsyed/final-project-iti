@@ -1,152 +1,92 @@
 <template>
-  <section class="hero-section">
+  <section class="role-section">
+
     <div class="container">
 
-      <!-- Title -->
-      <div class="text-center mb-5">
-        <h2 class="text-white">Search Cars</h2>
+      <!-- Section Header -->
+      <div class="role-header">
+
+        <span class="role-badge">
+          GET STARTED
+        </span>
+
+        <h2>
+          What are you <span>looking for?</span>
+        </h2>
+
+        <p>
+          Choose how you want to use our platform.
+        </p>
+
       </div>
 
-      <div class="row align-items-center g-5">
 
-        <!-- LEFT : Search Card -->
-        <div class="col-lg-5">
+      <!-- Roles -->
+      <div class="row g-4 justify-content-center">
 
-          <div class="search-car bg-white rounded-4 shadow p-4">
+        <!-- Buyer -->
+        <div class="col-lg-4 col-md-6">
 
-            <h2 class="fw-bold mb-4">
-              Start your search
-            </h2>
+          <div
+            class="role-card"
+            @click="selectRole('buyer')"
+            :class="{ active: selectedRole === 'buyer' }"
+          >
 
-            <!-- Budget -->
-            <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="role-icon">
+              <i class="bi bi-car-front-fill"></i>
+            </div>
 
-              <label class="fw-bold text-black">
-                Your budget
-              </label>
+            <div class="role-content">
 
-              <span class="budget-value text-primary fw-bold">
-                EGP 500,000
-              </span>
+              <h3>
+                I'm Looking for a Car
+              </h3>
+
+              <p>
+                Browse cars and find the perfect one
+                for your needs and budget.
+              </p>
 
             </div>
 
-            <!-- Range -->
-            <input
-              type="range"
-              class="form-range mb-2"
-              min="300000"
-              max="5000000"
-              step="50000"
-              value="1000000"
-            />
-
-            <div class="d-flex justify-content-between text-secondary small mb-4">
-              <span>300K</span>
-              <span>5M EGP</span>
+            <div class="role-arrow">
+              <i class="bi bi-arrow-right"></i>
             </div>
-
-            <!-- Location -->
-            <label class="form-label fw-bold text-black">
-              Your Location
-            </label>
-
-            <select
-              v-model="city"
-              class="form-select mb-3"
-            >
-
-              <option value="">
-                📍 Select your city
-              </option>
-
-              <option value="Cairo">
-                Cairo
-              </option>
-
-              <option value="Giza">
-                Giza
-              </option>
-
-              <option value="Alexandria">
-                Alexandria
-              </option>
-
-              <option value="Mansoura">
-                Mansoura
-              </option>
-
-              <option value="Tanta">
-                Tanta
-              </option>
-
-              <option value="Ismailia">
-                Ismailia
-              </option>
-
-            </select>
-
-            <!-- Detect Location -->
-            <button
-              class="btn btn-dark rounded-3 w-100 mb-3"
-              @click="detectLocation"
-            >
-              {{ detecting ? "Detecting..." : "◎ Detect my location" }}
-            </button>
-
-            <!-- Search -->
-            <button
-              class="btn btn-primary rounded-3 w-100"
-              @click="searchCars"
-            >
-              <span>⌕</span>
-              Search matching cars
-            </button>
 
           </div>
 
         </div>
 
 
-        <!-- RIGHT : Hero Content -->
-        <div class="col-lg-7">
+        <!-- Seller -->
+        <div class="col-lg-4 col-md-6">
 
-          <div class="hero-content">
+          <div
+            class="role-card"
+            @click="selectRole('seller')"
+            :class="{ active: selectedRole === 'seller' }"
+          >
 
-            <div class="badge">
-              ✨ SMART CAR MATCHING
+            <div class="role-icon">
+              <i class="bi bi-tag-fill"></i>
             </div>
 
-            <h1>
-              <span>Find the right car</span><br>
-              <span>for your budget</span><br>
-              <span>and your city.</span>
-            </h1>
+            <div class="role-content">
 
-            <p>
-              Tell CarHub what you can spend and where you are.
-              We calculate real distance to every dealer, score each
-              car against your preferences and show you the best matches first.
-            </p>
+              <h3>
+                I'm Selling a Car
+              </h3>
 
-            <!-- Stats -->
-            <div class="stats">
+              <p>
+                List your car and reach people
+                looking for their next vehicle.
+              </p>
 
-              <div class="stat">
-                <strong>18</strong>
-                <span>VERIFIED LISTINGS</span>
-              </div>
+            </div>
 
-              <div class="stat">
-                <strong>6</strong>
-                <span>CITIES COVERED</span>
-              </div>
-
-              <div class="stat">
-                <strong>8</strong>
-                <span>AUTO SERVICES</span>
-              </div>
-
+            <div class="role-arrow">
+              <i class="bi bi-arrow-right"></i>
             </div>
 
           </div>
@@ -156,252 +96,204 @@
       </div>
 
     </div>
+
   </section>
 </template>
 
-<style >
 
-.hero-section {
-  min-height: 80vh;
-  padding: 64px 0;
+<script setup>
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 
-  display: flex;
-  align-items: center;
+const router = useRouter();
+const selectedRole = ref(null);
 
-  background:
+const selectRole = (role) => {
+  selectedRole.value = role;
+  if (role === 'seller') {
+    router.push('/seller-dashboard');
+  } else if (role === 'buyer') {
+    router.push('/cars');
+  }
+};
+</script>
+
+
+<style scoped>
+.role-section {
+  padding: 65px 0;
+   background:
     linear-gradient(
       45deg,
-      #102A27,
-      #1F6F5B,
-      #70C1B3,
-      #B2DBBF,
-      #F7FFF7
+      #70C1B3
     );
-}
-
-
-/* =========================
-   SEARCH CARD
-========================= */
-
-.search-car {
-  width: 100%;
-  max-width: 470px;
-  margin: auto;
-
-  background-color: var(--white);
-  color: var(--text);
-
-  border-radius: var(--radius-card);
-
-  box-shadow: var(--shadow-card);
-
-  padding: 24px;
-}
-
-
-/* Search Title */
-
-.search-car h2 {
-  color: var(--dark);
-  font-size: 28px;
-  font-weight: 700;
-}
-
-
-/* Budget */
-
-.budget-value {
-  color: var(--primary) !important;
-  font-size: 18px;
-}
-
-
-/* Range */
-
-.search-car .form-range {
-  accent-color: var(--primary);
-}
-
-
-/* Location */
-
-.search-car .form-label {
-  color: var(--dark) !important;
-  font-weight: 600;
-}
-
-.search-car .form-select {
-  border: 1px solid var(--light);
-  border-radius: var(--radius-input);
-
-  color: var(--dark);
-  background-color: var(--white);
-}
-
-.search-car .form-select:focus {
-  border-color: var(--primary);
-
-  box-shadow:
-    0 0 0 3px rgba(112, 193, 179, 0.25);
-}
-
-
-/* Buttons */
-
-.search-car .btn-dark {
-  background-color: var(--dark);
-  border-color: var(--dark);
-}
-
-.search-car .btn-dark:hover {
-  background-color: var(--primary);
-  border-color: var(--primary);
-}
-
-.search-car .btn-primary {
-  background-color: var(--primary);
-  border-color: var(--primary);
-}
-
-.search-car .btn-primary:hover {
-  background-color: var(--dark);
-  border-color: var(--dark);
-}
-
-
-/* =========================
-   HERO CONTENT
-========================= */
-
-.hero-content {
-  max-width: 650px;
-
-  color: var(--white);
 
   font-family: "Poppins", "Cairo", sans-serif;
 }
 
 
-/* Badge */
+/* =========================
+   HEADER
+========================= */
 
-.hero-content .badge {
+.role-header {
+  text-align: center;
+  max-width: 650px;
+  margin: 0 auto 35px;
+}
+
+
+.role-badge {
   display: inline-block;
-
-  padding: 8px 15px;
-
-  border: 1px solid var(--secondary);
+  padding: 6px 15px;
+  margin-bottom: 12px;
   border-radius: 30px;
-
-  color: var(--secondary);
-
-  background-color: transparent;
-
-  font-size: 13px;
-  font-weight: 700;
-
-  letter-spacing: .4px;
-
-  margin-bottom: 24px;
-}
-
-
-/* Title */
-
-.hero-content h1 {
-  margin-bottom: 24px;
-
-  font-size: clamp(45px, 6vw, 75px);
-
-  line-height: 1;
-
-  letter-spacing: -3px;
-
-  font-weight: 700;
-
-  color: var(--white);
-}
-
-.hero-content h1 span {
-  background-color: var(--primary);
-
-  padding: 0 5px;
-
-  box-shadow:
-    8px 0 var(--primary),
-    -3px 0 var(--primary);
-
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
-}
-
-
-/* Description */
-
-.hero-content p {
-  max-width: 620px;
-
-  margin-bottom: 32px;
-
-  color: var(--white);
-
-  font-size: 18px;
-
-  line-height: 1.6;
-}
-
-
-/* =========================
-   STATS
-========================= */
-
-.stats {
-  display: flex;
-  gap: 48px;
-  border-radius: 8px;
-  background-color: var(--light);
-}
-
-.stat {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  
-  
-}
-
-.stat strong {
-  color: var(--secondary);
-  font-size: 28px;
-  font-weight: 700;
-}
-
-.stat span {
-  color: var(--light);
+  border: 1px solid #70C1B3;
+  background: rgba(112, 193, 179, .12);
+  color: #1F6F5B;
   font-size: 11px;
-  letter-spacing: .4px;
+  font-weight: 700;
+  letter-spacing: .8px;
+}
+
+
+.role-header h2 {
+  margin-bottom: 10px;
+  color: #102A27;
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+
+
+.role-header h2 span {
+  color: #1F6F5B;
+}
+
+
+.role-header p {
+  margin: 0;
+  color: #102A27;
+  opacity: .65;
+  font-size: 14px;
 }
 
 
 /* =========================
-   TABLET
+   ROLE CARD
 ========================= */
 
-@media (max-width: 991px) {
+.role-card {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 24px;
+  cursor: pointer;
+  background: rgba(247, 255, 247, .9);
+  border: 1px solid rgba(112, 193, 179, .35);
+  border-radius: 18px;
+  box-shadow:
+    0 8px 25px rgba(16, 42, 39, .07);
+  transition: all .3s ease;
+}
 
-  .hero-section {
-    padding: 50px 0;
-  }
-  .search-car {
-    margin-bottom: 40px;
-  }
-  .hero-content {
-    max-width: 100%;
-    text-align: center;
-  }
-  .stats {
-    justify-content: center;
-  }
+
+/* Hover */
+
+.role-card:hover {
+  transform: translateY(-6px);
+  border-color: #70C1B3;
+  box-shadow:
+    0 15px 35px rgba(16, 42, 39, .13);
+}
+
+
+/* Active */
+
+.role-card.active {
+  border-color: #1F6F5B;
+  background: #F7FFF7;
+  box-shadow:
+    0 0 0 3px rgba(31, 111, 91, .15);
+}
+
+
+/* =========================
+   ICON
+========================= */
+.role-icon {
+  min-width: 55px;
+  width: 55px;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background:
+    linear-gradient(
+      135deg,
+      #1F6F5B,
+      #70C1B3
+    );
+
+  color: #F7FFF7;
+  font-size: 23px;
+  box-shadow:
+    0 7px 18px rgba(31, 111, 91, .2);
+  transition: .3s ease;
+}
+
+
+.role-card:hover .role-icon {
+  transform: scale(1.08);
+
+}
+
+
+/* =========================
+   CONTENT
+========================= */
+
+.role-content {
+  flex: 1;
+}
+
+
+.role-content h3 {
+  margin: 0 0 6px;
+  color: #102A27;
+  font-size: 18px;
+  font-weight: 700;
+
+}
+
+
+.role-content p {
+  margin: 0;
+  color: #102A27;
+  opacity: .65;
+  font-size: 13px;
+  line-height: 1.5;
+
+}
+
+
+/* =========================
+   ARROW
+========================= */
+
+.role-arrow {
+  color: #1F6F5B;
+  font-size: 18px;
+  transition: .3s ease;
+}
+
+
+.role-card:hover .role-arrow {
+  transform: translateX(5px);
+  color: #102A27;
 
 }
 
@@ -412,29 +304,46 @@
 
 @media (max-width: 576px) {
 
-  .hero-section {
-    padding: 40px 0;
+  .role-section {
+
+    padding: 50px 0;
+
   }
 
-  .hero-content h1 {
-    font-size: 40px;
-    letter-spacing: -2px;
+  .role-header h2 {
+
+    font-size: 30px;
+
   }
 
-  .hero-content p {
+  .role-card {
+
+    padding: 19px;
+
+  }
+
+  .role-icon {
+
+    min-width: 48px;
+
+    width: 48px;
+
+    height: 48px;
+
+    font-size: 20px;
+
+  }
+
+  .role-content h3 {
+
     font-size: 16px;
+
   }
 
-  .stats {
-    gap: 20px;
-  }
+  .role-content p {
 
-  .stat strong {
-    font-size: 23px;
-  }
+    font-size: 12px;
 
-  .stat span {
-    font-size: 9px;
   }
 
 }

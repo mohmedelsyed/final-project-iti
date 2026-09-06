@@ -223,7 +223,6 @@ const selectRole = (role) => {
 /* =========================
    ICON
 ========================= */
-
 .role-icon {
   min-width: 55px;
   width: 55px;
