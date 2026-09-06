@@ -1,5 +1,7 @@
-﻿<template>
-  <main class="home-page">
+<template>
+  <div>
+    <Navbar />
+    <main class="home-page">
     <section class="hero-section">
       <div class="hero-orb hero-orb-one" aria-hidden="true"></div>
       <div class="hero-orb hero-orb-two" aria-hidden="true"></div>
@@ -37,7 +39,7 @@
             <div class="hero-stat-card">
               <span class="stat-icon"><i class="bi bi-car-front-fill"></i></span>
               <p>Find your perfect match</p>
-              <strong>{{ cars.length || 'ΓÇö' }} <small>cars to explore</small></strong>
+              <strong>{{ cars.length || '—' }} <small>cars to explore</small></strong>
               <div class="stat-line"><span></span></div>
               <div class="stat-foot"><i class="bi bi-shield-check"></i> Curated choices, clear details</div>
             </div>
@@ -102,7 +104,7 @@
         <div v-else-if="errorMessage" class="feedback-card error-card" role="alert">
           <span class="feedback-icon"><i class="bi bi-wifi-off"></i></span>
           <div>
-            <h3>We couldnΓÇÖt load the cars</h3>
+            <h3>We couldn’t load the cars</h3>
             <p>{{ errorMessage }}</p>
           </div>
           <button class="retry-button" type="button" @click="fetchCars"><i class="bi bi-arrow-clockwise"></i> Try Again</button>
@@ -157,10 +159,12 @@
       </div>
     </section>
   </main>
+  </div>
 </template>
 
 <script setup>
 import { computed, onMounted, ref } from 'vue'
+import Navbar from '../components/Navbar.vue'
 
 const API_URL = 'http://localhost:3000/cars'
 

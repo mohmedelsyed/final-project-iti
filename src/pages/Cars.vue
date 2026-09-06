@@ -1,5 +1,5 @@
 <template>
-  <div class="cars-page-wrapper">
+  <div>
     <Navbar />
     <section class="cars-page">
     <div class="container">
@@ -228,17 +228,13 @@
 
     </div>
   </section>
-  <FooterSection />
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
 import Navbar from '../components/Navbar.vue'
-import FooterSection from '../components/FooterSection.vue'
 
-const router = useRouter()
 const cars = ref([])
 
 const search = ref('')
@@ -251,25 +247,26 @@ const maxPrice = ref('all')
 const loading = ref(true)
 
 const brands = computed(() => {
-  return [...new Set(cars.value.map(car => car.brand).filter(Boolean))]
+  return [...new Set(cars.value.map(car => car.brand))]
 })
 
 const fuelTypes = computed(() => {
-  return [...new Set(cars.value.map(car => car.fuel).filter(Boolean))]
+  return [...new Set(cars.value.map(car => car.fuel))]
 })
 
 const locations = computed(() => {
-  return [...new Set(cars.value.map(car => car.location).filter(Boolean))]
+  return [...new Set(cars.value.map(car => car.location))]
 })
 
 const filteredCars = computed(() => {
+
   return cars.value.filter(car => {
+
     const text = search.value.toLowerCase()
 
-    const nameStr = (car.name || '').toLowerCase()
-    const brandStr = (car.brand || '').toLowerCase()
-
-    const searchMatch = !text || nameStr.includes(text) || brandStr.includes(text)
+    const searchMatch =
+      car.name.toLowerCase().includes(text) ||
+      car.brand.toLowerCase().includes(text)
 
     const brandMatch =
       selectedBrand.value === 'all' ||
@@ -303,34 +300,28 @@ const filteredCars = computed(() => {
 })
 
 async function getCars() {
-  loading.value = true
+
   try {
-    let data = null
-    try {
-      const response = await fetch('http://localhost:3000/cars')
-      if (response.ok) {
-        data = await response.json()
-      }
-    } catch {
-      // JSON server not available, use static db.json fallback
-    }
 
-    if (!data) {
-      const fallback = await fetch('/db.json')
-      if (fallback.ok) {
-        const json = await fallback.json()
-        data = json.cars || []
-      }
-    }
+    const response = await fetch(
+      'http://localhost:3000/cars'
+    )
 
-    cars.value = (data || []).map(car => ({
-      ...car,
-      isFavorite: false
-    }))
+    cars.value = await response.json()
+
+    cars.value.forEach(car => {
+      car.isFavorite = false
+    })
 
   } catch (error) {
-    console.error('Error loading cars:', error)
+
+    console.error(
+      'Error loading cars:',
+      error
+    )
+
   } finally {
+
     loading.value = false
   }
 }
@@ -340,6 +331,7 @@ function toggleFavorite(car) {
 }
 
 function resetFilters() {
+
   search.value = ''
   selectedBrand.value = 'all'
   selectedFuel.value = 'all'
@@ -349,7 +341,7 @@ function resetFilters() {
 }
 
 function showDetails(car) {
-  router.push(`/cars/${car.id}`)
+  console.log('Selected car:', car)
 }
 
 onMounted(() => {

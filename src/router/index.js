@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Home from '../pages/Home.vue'
+import HomePage from '../pages/HomePage.vue'
 import Cars from '../pages/Cars.vue'
 import CarDetails from '../pages/CarDetails.vue'
 import Login from '../pages/Login.vue'
@@ -7,11 +7,17 @@ import Register from '../pages/Register.vue'
 import BuyerDashboard from '../pages/BuyerDashboard.vue'
 import SellerDashboard from '../pages/SellerDashboard.vue'
 import Compare from '../pages/Compare.vue'
+import Home from '../pages/Home.vue'
 
 const routes = [
   {
     path: '/',
     name: 'Home',
+    component: HomePage
+  },
+  {
+    path: '/home',
+    name: 'HomeNew',
     component: Home
   },
   {
@@ -42,6 +48,7 @@ const routes = [
   },
   {
     path: '/seller-dashboard',
+    alias: '/seller',
     name: 'SellerDashboard',
     component: SellerDashboard
   },

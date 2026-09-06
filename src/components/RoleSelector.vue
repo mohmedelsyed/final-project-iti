@@ -1,4 +1,3 @@
-```vue
 <template>
   <section class="role-section">
 
@@ -103,42 +102,32 @@
 
 
 <script setup>
-
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const selectedRole = ref(null);
 
 const selectRole = (role) => {
-
   selectedRole.value = role;
-
-  console.log("Selected Role:", role);
-
+  if (role === 'seller') {
+    router.push('/seller-dashboard');
+  } else if (role === 'buyer') {
+    router.push('/cars');
+  }
 };
-
 </script>
 
 
 <style scoped>
 .role-section {
   padding: 65px 0;
-  
-  /* background:
-    linear-gradient(
-      135deg,
-      #F7FFF7,
-      #B2DBBF
-    ); */
-
-      background:
+   background:
     linear-gradient(
       45deg,
-      #102A27,
-      #1F6F5B,
-      #70C1B3,
-      #B2DBBF,
-      #F7FFF7
+      #70C1B3
     );
+
   font-family: "Poppins", "Cairo", sans-serif;
 }
 
@@ -361,4 +350,3 @@ const selectRole = (role) => {
 }
 
 </style>
-```

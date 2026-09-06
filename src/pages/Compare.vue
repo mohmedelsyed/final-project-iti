@@ -1,5 +1,7 @@
 <template>
-  <div class="compare-page container my-5">
+  <div>
+    <Navbar />
+    <div class="compare-page container my-5">
     <div class="text-center mb-5">
       <h1 class="main-title">مقارنة السيارات</h1>
       <p class="text-muted fs-6">قارن المواصفات التقنية والأسعار جنبًا إلى جنب لاختيار السيارة الأنسب</p>
@@ -54,13 +56,18 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
 import axios from 'axios';
+import Navbar from '../components/Navbar.vue';
 
 export default {
   name: 'CompareView',
+  components: {
+    Navbar
+  },
   data() {
     return {
       compareCars: [],
@@ -97,6 +104,7 @@ export default {
 <style scoped>
 .compare-page {
   padding: 64px 0;
+  
 }
 
 @media (max-width: 768px) {
@@ -107,8 +115,9 @@ export default {
 
 .main-title {
   font-size: 48px;
-  color: #102A27;
+  color:  #1F6F5B;
   font-weight: bold;
+  
 }
 
 .carhub-card.large-container {
@@ -116,6 +125,15 @@ export default {
   padding: 24px;
   border-radius: 20px;
   box-shadow: 0 4px 16px rgba(16, 42, 39, 0.08);
+   background:
+    linear-gradient(
+      45deg,
+      #102A27,
+      #1F6F5B,
+      #70C1B3,
+      #B2DBBF,
+      #F7FFF7
+    );
 }
 
 .compare-img {
@@ -128,13 +146,14 @@ export default {
 
 .card-title {
   font-size: 20px;
-  color: #102A27;
+  color:  #1F6F5B;
   font-weight: bold;
+  
 }
 
 .badge-price {
   background-color: #B2DBBF;
-  color: #102A27;
+  color: #1F6F5B;
   padding: 6px 16px;
   border-radius: 10px;
   font-weight: 700;
@@ -158,5 +177,6 @@ table td, table th {
   border-radius: 50%;
   padding: 6px;
   z-index: 2;
+  
 }
 </style>

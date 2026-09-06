@@ -1,6 +1,5 @@
 <template>
   <div class="login-page">
-
     <Navbar />
 
     <main class="login-content">
@@ -20,14 +19,14 @@
 
             <div class="form-group">
               <label for="email">
-                Email or Username
+                Email
               </label>
 
               <input
                 id="email"
                 v-model="email"
-                type="text"
-                placeholder="you@example.com or emilys"
+                type="email"
+                placeholder="you@example.com"
                 required
               />
             </div>
@@ -72,19 +71,8 @@
           </div>
 
           <div class="demo-box">
-            <div class="d-flex justify-content-between align-items-center">
-              <div>
-                <strong>Demo Account:</strong>
-                <div><code>emilys</code> / <code>emilyspass</code></div>
-              </div>
-              <button
-                type="button"
-                class="btn btn-sm btn-outline-success"
-                @click="fillDemo"
-              >
-                Fill Demo
-              </button>
-            </div>
+            <strong>Demo:</strong>
+            Use a DummyJSON test user account to test the API login.
           </div>
 
         </div>
@@ -108,62 +96,24 @@ const loading = ref(false)
 const message = ref('')
 const error = ref(false)
 
-const fillDemo = () => {
-  email.value = 'emily.johnson@x.dummyjson.com'
-  password.value = 'emilyspass'
-}
-
 const login = async () => {
   loading.value = true
   message.value = ''
   error.value = false
 
-  const inputVal = email.value.trim()
-  const passVal = password.value
-
   try {
-    // 1. Check local registered users first
-    const registeredUsers = JSON.parse(localStorage.getItem('carhub_registered_users') || '[]')
-    const localUser = registeredUsers.find(
-      u => u.email.toLowerCase() === inputVal.toLowerCase() ||
-           (u.username && u.username.toLowerCase() === inputVal.toLowerCase())
+    const usersResponse = await fetch(
+      `https://dummyjson.com/users/search?q=${encodeURIComponent(email.value)}`
     )
 
-    if (localUser) {
-      if (localUser.password !== passVal) {
-        throw new Error('Invalid email or password')
-      }
-      const sessionData = {
-        id: localUser.id || Date.now(),
-        username: localUser.username || inputVal.split('@')[0],
-        email: localUser.email,
-        firstName: localUser.firstName || localUser.name || 'User',
-        lastName: localUser.lastName || '',
-        gender: 'male',
-        image: 'https://dummyjson.com/icon/emilys/128'
-      }
-      localStorage.setItem('carhub_token', 'local-token-' + Date.now())
-      localStorage.setItem('carhub_user', JSON.stringify(sessionData))
-      message.value = `Welcome back, ${sessionData.firstName}!`
-      setTimeout(() => router.push('/dashboard'), 800)
-      return
-    }
+    const usersData = await usersResponse.json()
 
-    // 2. Fallback to DummyJSON authentication
-    let usernameToLogin = inputVal
-    if (inputVal.includes('@')) {
-      const usersResponse = await fetch(
-        `https://dummyjson.com/users/search?q=${encodeURIComponent(inputVal)}`
-      )
-      const usersData = await usersResponse.json()
-      const user = usersData.users?.find(
-        item => item.email.toLowerCase() === inputVal.toLowerCase()
-      )
-      if (user) {
-        usernameToLogin = user.username
-      } else {
-        throw new Error('User not found. Please register or use the demo account.')
-      }
+    const user = usersData.users.find(
+      item => item.email.toLowerCase() === email.value.toLowerCase()
+    )
+
+    if (!user) {
+      throw new Error('User not found')
     }
 
     const response = await fetch('https://dummyjson.com/auth/login', {
@@ -172,25 +122,27 @@ const login = async () => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        username: usernameToLogin,
-        password: passVal,
+        username: user.username,
+        password: password.value,
         expiresInMins: 30
-      })
+      }),
+      credentials: 'include'
     })
 
     const data = await response.json()
 
     if (!response.ok) {
-      throw new Error(data.message || 'Invalid username/email or password')
+      throw new Error(data.message || 'Invalid email or password')
     }
 
     localStorage.setItem('carhub_token', data.accessToken)
     localStorage.setItem('carhub_user', JSON.stringify(data))
 
     message.value = `Welcome back, ${data.firstName}!`
+
     console.log('Login successful:', data)
 
-    setTimeout(() => router.push('/dashboard'), 800)
+    setTimeout(() => router.push('/dashboard'), 1000)
 
   } catch (err) {
     error.value = true
@@ -204,7 +156,7 @@ const login = async () => {
 <style scoped>
 .login-page {
   min-height: 100vh;
-   background:
+  background:
     linear-gradient(
       45deg,
       #102A27,

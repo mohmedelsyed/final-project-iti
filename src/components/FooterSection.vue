@@ -9,13 +9,13 @@
         <!-- Brand -->
         <div class="footer-brand">
 
-          <RouterLink to="/" class="logo text-decoration-none">
+          <a href="#" class="logo">
             <span class="logo-icon">
               <i class="bi bi-car-front-fill"></i>
             </span>
 
             <span>CAR<span>HUB</span></span>
-          </RouterLink>
+          </a>
 
           <p>
             Your trusted destination to discover, compare,
@@ -47,51 +47,51 @@
 
 
         <!-- Navigation -->
-        <div class="footer-column">
+        <!-- div class="footer-column">
 
           <h4>Explore</h4>
 
           <ul>
             <li>
-              <RouterLink to="/">Home</RouterLink>
+              <a href="#">Home</a>
             </li>
 
             <li>
-              <RouterLink to="/cars">Browse Cars</RouterLink>
+              <a href="#">Browse Cars</a>
             </li>
 
             <li>
-              <RouterLink to="/dashboard">Smart Match</RouterLink>
+              <a href="#">Featured Cars</a>
             </li>
 
             <li>
-              <RouterLink to="/cars">All Models</RouterLink>
+              <a href="#">Features</a>
             </li>
           </ul>
 
-        </div>
+        </div>< -->
 
 
         <!-- Services -->
-        <div class="footer-column">
+        <!-- <div class="footer-column">
 
           <h4>Services</h4>
 
           <ul>
             <li>
-              <RouterLink to="/dashboard">Find a Car</RouterLink>
+              <a href="#">Find a Car</a>
             </li>
 
             <li>
-              <RouterLink to="/cars">Compare Cars</RouterLink>
+              <a href="#">Compare Cars</a>
             </li>
 
             <li>
-              <RouterLink to="/dashboard">Favorites</RouterLink>
+              <a href="#">Favorites</a>
             </li>
 
             <li>
-              <RouterLink to="/cars">Car Specs</RouterLink>
+              <a href="#">Car Details</a>
             </li>
           </ul>
 
@@ -150,7 +150,7 @@
 
         </div>
 
-      </div>
+      </div> 
 
 
       <!-- Newsletter -->
@@ -210,9 +210,19 @@
 <style scoped>
 .footer {
   position: relative;
+  /* background: var(--dark); */
+    background:
+    linear-gradient(
+      45deg,
+      #102A27,
+      #1F6F5B,
+      #70C1B3,
+      #B2DBBF,
+      #F7FFF7
+    );
+  color: var(--white);
   padding: 75px 0 25px;
   overflow: hidden;
-
 }
 
 
@@ -242,6 +252,7 @@
   opacity: 0.07;
   bottom: -180px;
   left: -100px;
+
   pointer-events: none;
 }
 
@@ -257,7 +268,6 @@
   grid-template-columns: 2fr 1fr 1fr 1.5fr;
   gap: 50px;
   padding-bottom: 55px;
-  
 }
 
 
@@ -303,6 +313,7 @@
   color: var(--text);
   font-size: 14px;
   line-height: 1.8;
+  font-weight: bold;
 }
 
 
@@ -312,7 +323,6 @@
 
 .social-links {
   display: flex;
-
   gap: 10px;
 }
 
@@ -341,16 +351,17 @@
 
 .footer-column h4 {
   margin-bottom: 22px;
-  color: var(--text);
+  color: var(--secondary);
   font-size: 16px;
   font-weight: 700;
 }
 
 .footer-column ul {
   list-style: none;
-
   margin: 0;
   padding: 0;
+  color: white;
+  font-family: bold;
 }
 
 .footer-column li {
@@ -390,8 +401,8 @@
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  background: rgba(112, 193, 179, 0.12);
-  color: var(--secondary);
+  background: var (--background);
+  color: var(--background);
 }
 
 .contact-item span {
@@ -404,9 +415,9 @@
 .contact-item a,
 .contact-item p {
   margin: 0;
-  color: var(--text);
+  color:white;
   text-decoration: none;
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .contact-item a:hover {

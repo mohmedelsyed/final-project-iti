@@ -1,6 +1,5 @@
 <template>
   <div class="register-page">
-
     <Navbar />
 
     <main class="register-content">
@@ -123,10 +122,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 import Navbar from '../components/Navbar.vue'
-
-const router = useRouter()
 
 const name = ref('')
 const email = ref('')
@@ -152,53 +148,33 @@ const register = async () => {
 
   try {
     const nameParts = name.value.trim().split(' ')
+
     const firstName = nameParts[0]
     const lastName = nameParts.slice(1).join(' ') || 'User'
 
-    // Try API registration
-    let userRecord = {
-      id: Date.now(),
-      name: name.value.trim(),
-      firstName: firstName,
-      lastName: lastName,
-      email: email.value.trim(),
-      phone: phone.value.trim(),
-      password: password.value
-    }
-
-    try {
-      const response = await fetch('https://dummyjson.com/users/add', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          firstName: firstName,
-          lastName: lastName,
-          email: email.value,
-          phone: phone.value,
-          password: password.value
-        })
+    const response = await fetch('https://dummyjson.com/users/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        firstName: firstName,
+        lastName: lastName,
+        email: email.value,
+        phone: phone.value,
+        password: password.value
       })
+    })
 
-      if (response.ok) {
-        const data = await response.json()
-        userRecord.id = data.id || userRecord.id
-      }
-    } catch (apiErr) {
-      console.warn('DummyJSON add user notice:', apiErr)
+    const data = await response.json()
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Registration failed')
     }
 
-    // Always persist to local registered users for seamless offline/local login
-    const existing = JSON.parse(localStorage.getItem('carhub_registered_users') || '[]')
-    existing.push(userRecord)
-    localStorage.setItem('carhub_registered_users', JSON.stringify(existing))
+    message.value = `Account created successfully for ${data.firstName}!`
 
-    message.value = `Account created successfully for ${firstName}! Redirecting to login...`
-
-    setTimeout(() => {
-      router.push('/login')
-    }, 1200)
+    console.log('Registered user:', data)
 
   } catch (err) {
     error.value = true
@@ -225,7 +201,7 @@ const register = async () => {
 .register-header {
   padding: 16px 0;
   background: #ffffff;
-  border-bottom: 1px solid #043319;
+  border-bottom: 1px solid #e5eee9;
 }
 
 .header-content {

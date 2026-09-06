@@ -1,9 +1,6 @@
 <template>
   <div class="dashboard-page">
-
-    <!-- Navbar -->
-    <Navbar />
-
+    <Navbar/>
 
     <!-- Hero -->
     <section class="hero-section">
@@ -44,7 +41,14 @@
                 EGP {{ budget.toLocaleString() }}
               </div>
 
-              <input v-model.number="budget" type="range" min="100000" max="5000000" step="50000" class="budget-slider">
+              <input
+                v-model.number="budget"
+                type="range"
+                min="100000"
+                max="5000000"
+                step="50000"
+                class="budget-slider"
+              >
 
             </div>
 
@@ -83,7 +87,12 @@
 
             <div class="col-12 col-md-2">
 
-              <button type="button" class="location-btn" :disabled="detectingLocation" @click="detectLocation">
+              <button
+                type="button"
+                class="location-btn"
+                :disabled="detectingLocation"
+                @click="detectLocation"
+              >
 
                 <i class="bi bi-geo-alt"></i>
 
@@ -100,7 +109,12 @@
 
             <div class="col-12 col-md-3">
 
-              <button type="button" class="search-btn" :disabled="loading" @click="searchCars">
+              <button
+                type="button"
+                class="search-btn"
+                :disabled="loading"
+                @click="searchCars"
+              >
 
                 <i class="bi bi-search"></i>
 
@@ -204,7 +218,11 @@
 
         <div class="row g-4">
 
-          <div v-for="category in categories" :key="category.name" class="col-12 col-md-6 col-lg-4">
+          <div
+            v-for="category in categories"
+            :key="category.name"
+            class="col-12 col-md-6 col-lg-4"
+          >
 
             <div class="category-card">
 
@@ -261,7 +279,10 @@
 
 
         <!-- Active Brand Filter -->
-        <div v-if="activeBrandFilter" class="filter-chip">
+        <div
+          v-if="activeBrandFilter"
+          class="filter-chip"
+        >
 
           Filtering by:
 
@@ -269,7 +290,10 @@
             {{ activeBrandFilter }}
           </strong>
 
-          <button type="button" @click="clearBrandFilter">
+          <button
+            type="button"
+            @click="clearBrandFilter"
+          >
 
             <i class="bi bi-x"></i>
 
@@ -279,7 +303,10 @@
 
 
         <!-- Loading -->
-        <div v-if="loading" class="api-message">
+        <div
+          v-if="loading"
+          class="api-message"
+        >
 
           <i class="bi bi-arrow-repeat"></i>
 
@@ -289,7 +316,10 @@
 
 
         <!-- Error -->
-        <div v-if="apiError" class="api-message error">
+        <div
+          v-if="apiError"
+          class="api-message error"
+        >
 
           {{ apiError }}
 
@@ -299,17 +329,21 @@
         <!-- Cars -->
         <div class="row g-4">
 
-          <div v-for="car in filteredCars" :key="car.id" class="col-12 col-md-6 col-lg-4">
+          <div
+            v-for="car in filteredCars"
+            :key="car.id"
+            class="col-12 col-md-6 col-lg-4"
+          >
 
             <div class="car-card">
 
               <div class="car-image">
-                <img :src="car.image" :alt="car.name" class="car-photo">
+                <img :src="car.image" :alt="car.name" class="car-photo" >
 
 
 
 
-
+                
 
                 <span class="match-badge">
 
@@ -318,12 +352,19 @@
                 </span>
 
 
-                <button type="button" class="favorite-btn" @click="toggleFavorite(car)">
+                <button
+                  type="button"
+                  class="favorite-btn"
+                  @click="toggleFavorite(car)"
+                >
 
-                  <i :class="car.favorite
-                      ? 'bi bi-heart-fill'
-                      : 'bi bi-heart'
-                    "></i>
+                  <i
+                    :class="
+                      car.favorite
+                        ? 'bi bi-heart-fill'
+                        : 'bi bi-heart'
+                    "
+                  ></i>
 
                 </button>
 
@@ -385,7 +426,11 @@
                 </div>
 
 
-                <button type="button" class="details-btn" @click="viewDetails(car)">
+                <button
+                  type="button"
+                  class="details-btn"
+                  @click="viewDetails(car)"
+                >
 
                   View details
 
@@ -401,11 +446,14 @@
 
 
         <!-- No Cars -->
-        <div v-if="
-          !loading &&
-          !apiError &&
-          filteredCars.length === 0
-        " class="api-message">
+        <div
+          v-if="
+            !loading &&
+            !apiError &&
+            filteredCars.length === 0
+          "
+          class="api-message"
+        >
 
           No cars found. Try changing your budget
           or clearing the brand filter.
@@ -438,9 +486,16 @@
         <!-- Brands -->
         <div class="brands-list">
 
-          <button v-for="brand in brands" :key="brand" type="button" class="brand-btn" :class="{
-            active: activeBrandFilter === brand
-          }" @click="selectBrand(brand)">
+          <button
+            v-for="brand in brands"
+            :key="brand"
+            type="button"
+            class="brand-btn"
+            :class="{
+              active: activeBrandFilter === brand
+            }"
+            @click="selectBrand(brand)"
+          >
 
             {{ brand }}
 
@@ -610,8 +665,7 @@
     </section>
 
 
-    <!-- Footer -->
-    <FooterSection />
+    <FooterSection/>
 
   </div>
 </template>
@@ -619,12 +673,11 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import Navbar from '../components/Navbar.vue'
 import FooterSection from '../components/FooterSection.vue'
+import Navbar from '../components/Navbar.vue'
 
-const router = useRouter()
-const user = ref(null)
+
+
 const API_URL = 'http://localhost:3000/cars'
 
 const budget = ref(5000000)
@@ -681,33 +734,19 @@ const brands = [
 ]
 
 
-// Get cars from Fake API or fallback
+// Get cars from Fake API
 const loadCars = async () => {
   loading.value = true
   apiError.value = ''
 
   try {
-    let data = null
-    try {
-      const response = await fetch(API_URL)
-      if (response.ok) {
-        data = await response.json()
-      }
-    } catch {
-      // json server not running
+    const response = await fetch(API_URL)
+
+    if (!response.ok) {
+      throw new Error('Failed to load cars')
     }
 
-    if (!data) {
-      const fallback = await fetch('/db.json')
-      if (fallback.ok) {
-        const json = await fallback.json()
-        data = json.cars || []
-      }
-    }
-
-    if (!data || data.length === 0) {
-      throw new Error('No cars available')
-    }
+    const data = await response.json()
 
     cars.value = data.map(car => ({
       ...car,
@@ -716,8 +755,9 @@ const loadCars = async () => {
 
   } catch (error) {
     console.error('API Error:', error)
+
     apiError.value =
-      'Unable to load cars. Make sure JSON Server or db.json is available.'
+      'Unable to load cars from API. Make sure JSON Server is running.'
   } finally {
     loading.value = false
   }
@@ -815,15 +855,14 @@ const toggleFavorite = (car) => {
 
 // View details
 const viewDetails = (car) => {
-  router.push('/cars/' + car.id)
+
+  console.log(
+    'Selected car:',
+    car
+  )
+
 }
 
-const logout = () => {
-  localStorage.removeItem('carhub_token')
-  localStorage.removeItem('carhub_user')
-  user.value = null
-  router.push('/login')
-}
 
 // Select brand
 const selectBrand = (brand) => {
@@ -857,24 +896,17 @@ const handleImageError = (event) => {
 }
 
 
-// Load cars and user when page opens
+// Load cars when page opens
 onMounted(() => {
-  const saved = localStorage.getItem('carhub_user')
-  if (saved) {
-    try {
-      user.value = JSON.parse(saved)
-    } catch {
-      user.value = null
-    }
-  }
+
   loadCars()
+
 })
 </script>
 <style scoped>
+
 .dashboard-page {
   min-height: 100vh;
-  /* background: #f7fff7;
-  color: #102a27; */
    background:
     linear-gradient(
       45deg,
@@ -884,12 +916,11 @@ onMounted(() => {
       #B2DBBF,
       #F7FFF7
     );
-  
 }
 
 .dashboard-navbar {
   padding: 16px 0;
-  background: var(--secondary);
+  background: #ffffff;
   border-bottom: 1px solid #e5eee9;
 }
 
@@ -937,12 +968,14 @@ onMounted(() => {
 
 .hero-section {
   padding: 64px 0;
-  background-image: linear-gradient(45deg,
-      #102a27,
-      #1f6f5b,
-      #70c1b3,
-      #b2dbbf,
-      #f7fff7);
+  background-image: linear-gradient(
+    45deg,
+    #102a27,
+    #1f6f5b,
+    #70c1b3,
+    #b2dbbf,
+    #f7fff7
+  );
 }
 
 .hero-content {
@@ -1072,7 +1105,7 @@ onMounted(() => {
   margin-bottom: 32px;
 }
 
-.section-heading>span {
+.section-heading > span {
   display: inline-block;
   margin-bottom: 8px;
   color: #1f6f5b;
@@ -1252,13 +1285,13 @@ onMounted(() => {
 }
 
 .car-info span {
-  color: var(--primary);
+  color: #666666;
   font-size: 13px;
 }
 
 .car-info i {
   margin-right: 4px;
-  color: var(--primary);
+  color: #1f6f5b;
 }
 
 .details-btn {
@@ -1386,17 +1419,8 @@ onMounted(() => {
 
 .footer {
   padding: 48px 0 24px;
-  /* background: #102a27; */
+  background: #102a27;
   color: #ffffff;
-     background:
-    linear-gradient(
-      45deg,
-      #102A27,
-      #1F6F5B,
-      #70C1B3,
-      #B2DBBF,
-      #F7FFF7
-    );
 }
 
 .footer-content {
@@ -1491,4 +1515,5 @@ onMounted(() => {
   }
 
 }
+
 </style>
