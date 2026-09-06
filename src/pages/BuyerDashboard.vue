@@ -117,27 +117,21 @@
           <div class="col-12 col-md-4">
             <div class="stat-item">
               <strong>10K+</strong>
-              <span>
-                Listings
-              </span>
+              <span>Listings</span>
             </div>
           </div>
 
           <div class="col-12 col-md-4">
             <div class="stat-item">
               <strong>25+</strong>
-              <span>
-                Cities
-              </span>
+              <span>Cities</span>
             </div>
           </div>
 
           <div class="col-12 col-md-4">
             <div class="stat-item">
               <strong>500+</strong>
-              <span>
-                Services
-              </span>
+              <span>Services</span>
             </div>
           </div>
 
@@ -149,9 +143,7 @@
       <div class="container">
 
         <div class="section-heading">
-          <span>
-            EXPLORE
-          </span>
+          <span>EXPLORE</span>
 
           <h2>
             Browse by Category
@@ -467,8 +459,11 @@
                 Find trusted services near your location.
               </p>
 
-              <button type="button">
-                Explore services
+              <button
+                type="button"
+                @click="contactSeller"
+              >
+                Contact Seller
                 <i class="bi bi-arrow-right"></i>
               </button>
 
@@ -689,11 +684,17 @@ const handleImageError = event => {
   event.target.style.display = 'none'
 }
 
+const contactSeller = () => {
+  window.open(
+    'https://wa.me/201145100992',
+    '_blank'
+  )
+}
+
 onMounted(() => {
   loadCars()
 })
 </script>
-
 <style scoped>
 .dashboard-page {
   min-height: 100vh;
