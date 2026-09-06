@@ -1,207 +1,212 @@
 <template>
   <div>
     <Navbar />
+
     <section class="cars-page">
-    <div class="container">
+      <div class="container">
 
-      <div class="page-header">
-        <h1>Browse Cars</h1>
-        <p>Find the perfect car for you</p>
-      </div>
+        <div class="page-header">
+          <h1>Browse Cars</h1>
+          <p>Find the perfect car for you</p>
+        </div>
 
-      <div class="search-box">
-        <i class="bi bi-search"></i>
+        <div class="search-box">
+          <i class="bi bi-search"></i>
 
-        <input
-          v-model="search"
-          type="text"
-          placeholder="Search by brand or model..."
-        />
-      </div>
+          <input
+            v-model="search"
+            type="text"
+            placeholder="Search by brand or model..."
+          />
+        </div>
 
-      <div class="cars-layout">
+        <div class="cars-layout">
 
-        <!-- Sidebar -->
-        <aside class="sidebar">
+          <!-- Sidebar -->
+          <aside class="sidebar">
 
-          <div class="sidebar-header">
-            <h2>Filters</h2>
+            <div class="sidebar-header">
+              <h2>Filters</h2>
 
-            <button @click="resetFilters">
-              Reset
-            </button>
-          </div>
+              <button @click="resetFilters">
+                Reset
+              </button>
+            </div>
 
-          <div class="filter-group">
-            <label>Brand</label>
+            <div class="filter-group">
+              <label>Brand</label>
 
-            <select v-model="selectedBrand">
-              <option value="all">All Brands</option>
+              <select v-model="selectedBrand">
+                <option value="all">All Brands</option>
 
-              <option
-                v-for="brand in brands"
-                :key="brand"
-                :value="brand"
+                <option
+                  v-for="brand in brands"
+                  :key="brand"
+                  :value="brand"
+                >
+                  {{ brand }}
+                </option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label>Fuel Type</label>
+
+              <select v-model="selectedFuel">
+                <option value="all">All Types</option>
+
+                <option
+                  v-for="fuel in fuelTypes"
+                  :key="fuel"
+                  :value="fuel"
+                >
+                  {{ fuel }}
+                </option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label>Location</label>
+
+              <select v-model="selectedLocation">
+                <option value="all">All Locations</option>
+
+                <option
+                  v-for="location in locations"
+                  :key="location"
+                  :value="location"
+                >
+                  {{ location }}
+                </option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label>Transmission</label>
+
+              <select v-model="selectedTransmission">
+                <option value="all">All</option>
+                <option value="Automatic">Automatic</option>
+                <option value="Manual">Manual</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label>Maximum Price</label>
+
+              <select v-model="maxPrice">
+                <option value="all">Any Price</option>
+                <option :value="1000000">1,000,000 EGP</option>
+                <option :value="1500000">1,500,000 EGP</option>
+                <option :value="2000000">2,000,000 EGP</option>
+              </select>
+            </div>
+
+          </aside>
+
+          <!-- Cars -->
+          <main class="cars-section">
+
+            <div class="results-header">
+              <h2>Available Cars</h2>
+
+              <span>
+                {{ filteredCars.length }} cars
+              </span>
+            </div>
+
+            <div v-if="loading" class="loading">
+              <i class="bi bi-arrow-repeat"></i>
+              <p>Loading cars...</p>
+            </div>
+
+            <div v-else class="row g-4">
+
+              <div
+                v-for="car in filteredCars"
+                :key="car.id"
+                class="col-lg-6"
               >
-                {{ brand }}
-              </option>
-            </select>
-          </div>
 
-          <div class="filter-group">
-            <label>Fuel Type</label>
+                <div class="car-card">
 
-            <select v-model="selectedFuel">
-              <option value="all">All Types</option>
+                  <div class="car-image">
 
-              <option
-                v-for="fuel in fuelTypes"
-                :key="fuel"
-                :value="fuel"
-              >
-                {{ fuel }}
-              </option>
-            </select>
-          </div>
+                    <img
+                      :src="car.image"
+                      :alt="car.name"
+                    />
 
-          <div class="filter-group">
-            <label>Location</label>
-
-            <select v-model="selectedLocation">
-              <option value="all">All Locations</option>
-
-              <option
-                v-for="location in locations"
-                :key="location"
-                :value="location"
-              >
-                {{ location }}
-              </option>
-            </select>
-          </div>
-
-          <div class="filter-group">
-            <label>Transmission</label>
-
-            <select v-model="selectedTransmission">
-              <option value="all">All</option>
-              <option value="Automatic">Automatic</option>
-              <option value="Manual">Manual</option>
-            </select>
-          </div>
-
-          <div class="filter-group">
-            <label>Maximum Price</label>
-
-            <select v-model="maxPrice">
-              <option value="all">Any Price</option>
-              <option :value="1000000">1,000,000 EGP</option>
-              <option :value="1500000">1,500,000 EGP</option>
-              <option :value="2000000">2,000,000 EGP</option>
-            </select>
-          </div>
-
-        </aside>
-
-        <!-- Cars -->
-        <main class="cars-section">
-
-          <div class="results-header">
-            <h2>Available Cars</h2>
-
-            <span>
-              {{ filteredCars.length }} cars
-            </span>
-          </div>
-
-          <div v-if="loading" class="loading">
-            <i class="bi bi-arrow-repeat"></i>
-            <p>Loading cars...</p>
-          </div>
-
-          <div v-else class="row g-4">
-
-            <div
-              v-for="car in filteredCars"
-              :key="car.id"
-              class="col-lg-6"
-            >
-
-              <div class="car-card">
-
-                <div class="car-image">
-
-                  <img
-                    :src="car.image"
-                    :alt="car.name"
-                  />
-
-                  <span class="match">
-                    {{ car.match }}% Match
-                  </span>
-
-                  <button
-                    class="favorite"
-                    @click="toggleFavorite(car)"
-                  >
-                    <i
-                      :class="car.isFavorite
-                        ? 'bi bi-heart-fill'
-                        : 'bi bi-heart'"
-                    ></i>
-                  </button>
-
-                </div>
-
-                <div class="card-content">
-
-                  <div class="car-info">
-                    <span>{{ car.brand }}</span>
-                    <small>{{ car.year }}</small>
-                  </div>
-                  <h3>{{ car.name }}</h3>
-
-                  <div class="specs">
-
-                    <span>
-                      <i class="bi bi-fuel-pump"></i>
-                      {{ car.fuel }}
+                    <span class="match">
+                      {{ car.match }}% Match
                     </span>
-
-                    <span>
-                      <i class="bi bi-speedometer2"></i>
-                      {{ car.mileage.toLocaleString() }} km
-                    </span>
-
-                    <span>
-                      <i class="bi bi-gear"></i>
-                      {{ car.transmission }}
-                    </span>
-
-                    <span>
-                      <i class="bi bi-geo-alt"></i>
-                      {{ car.location }}
-                    </span>
-
-                  </div>
-
-                  <div class="card-footer">
-
-                    <div>
-                      <small>Price</small>
-
-                      <strong>
-                        {{ car.price.toLocaleString() }}
-                        <em>EGP</em>
-                      </strong>
-                    </div>
 
                     <button
-                      class="details-btn"
-                      @click="showDetails(car)"
+                      class="favorite"
+                      @click="toggleFavorite(car)"
                     >
-                      Details
+                      <i
+                        :class="car.isFavorite
+                          ? 'bi bi-heart-fill'
+                          : 'bi bi-heart'"
+                      ></i>
                     </button>
+
+                  </div>
+
+                  <div class="card-content">
+
+                    <div class="car-info">
+                      <span>{{ car.brand }}</span>
+                      <small>{{ car.year }}</small>
+                    </div>
+
+                    <h3>{{ car.name }}</h3>
+
+                    <div class="specs">
+
+                      <span>
+                        <i class="bi bi-fuel-pump"></i>
+                        {{ car.fuel }}
+                      </span>
+
+                      <span>
+                        <i class="bi bi-speedometer2"></i>
+                        {{ Number(car.mileage).toLocaleString() }} km
+                      </span>
+
+                      <span>
+                        <i class="bi bi-gear"></i>
+                        {{ car.transmission }}
+                      </span>
+
+                      <span>
+                        <i class="bi bi-geo-alt"></i>
+                        {{ car.location }}
+                      </span>
+
+                    </div>
+
+                    <div class="card-footer">
+
+                      <div>
+                        <small>Price</small>
+
+                        <strong>
+                          {{ Number(car.price).toLocaleString() }}
+                          <em>EGP</em>
+                        </strong>
+                      </div>
+
+                      <button
+                        type="button"
+                        class="details-btn"
+                        @click="showDetails(car)"
+                      >
+                        Details
+                      </button>
+
+                    </div>
 
                   </div>
 
@@ -211,29 +216,30 @@
 
             </div>
 
-          </div>
+            <div
+              v-if="!loading && filteredCars.length === 0"
+              class="no-results"
+            >
+              <i class="bi bi-car-front"></i>
+              <h3>No cars found</h3>
+              <p>Try another filter or search.</p>
+            </div>
 
-          <div
-            v-if="!loading && filteredCars.length === 0"
-            class="no-results"
-          >
-            <i class="bi bi-car-front"></i>
-            <h3>No cars found</h3>
-            <p>Try another filter or search.</p>
-          </div>
+          </main>
 
-        </main>
+        </div>
 
       </div>
-
-    </div>
-  </section>
+    </section>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import Navbar from '../components/Navbar.vue'
+
+const router = useRouter()
 
 const cars = ref([])
 
@@ -307,6 +313,10 @@ async function getCars() {
       'http://localhost:3000/cars'
     )
 
+    if (!response.ok) {
+      throw new Error('Failed to load cars')
+    }
+
     cars.value = await response.json()
 
     cars.value.forEach(car => {
@@ -341,7 +351,7 @@ function resetFilters() {
 }
 
 function showDetails(car) {
-  console.log('Selected car:', car)
+  router.push(`/cars/${car.id}`)
 }
 
 onMounted(() => {
@@ -357,6 +367,7 @@ onMounted(() => {
   background: #F7FFF7;
   color: #102A27;
 }
+
 .page-header {
   text-align: center;
   margin-bottom: 32px;

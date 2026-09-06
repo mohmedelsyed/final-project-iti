@@ -1,155 +1,160 @@
 <template>
   <div>
     <Navbar />
-    <useRouter/>
+
     <section class="details-page">
-    <div class="container">
+      <div class="container">
 
-      <button class="back-btn" @click="goBack">
-        <i class="bi bi-arrow-left"></i>
-        Back to Cars
-      </button>
+        <button class="back-btn" @click="goBack">
+          <i class="bi bi-arrow-left"></i>
+          Back to Cars
+        </button>
 
-      <div v-if="loading" class="loading">
-        <i class="bi bi-arrow-repeat"></i>
-        <p>Loading car details...</p>
-      </div>
-
-      <div v-else-if="car" class="car-details">
-
-        <div class="car-image">
-          <img
-            :src="car.image"
-            :alt="car.name"
-          />
-
-          <span class="match">
-            {{ car.match }}% Match
-          </span>
+        <div v-if="loading" class="loading">
+          <i class="bi bi-arrow-repeat"></i>
+          <p>Loading car details...</p>
         </div>
 
-        <div class="details-content">
+        <div v-else-if="car" class="car-details">
 
-          <span class="brand">
-            {{ car.brand }}
-          </span>
+          <div class="car-image">
+            <img
+              :src="car.image"
+              :alt="car.name"
+            />
 
-          <h1>{{ car.name }}</h1>
-
-          <p class="year">
-            {{ car.year }}
-          </p>
-
-          <div class="price">
-            {{ car.price.toLocaleString() }}
-            <span>EGP</span>
-          </div>
-
-          <h2>Specifications</h2>
-
-          <div class="row g-3">
-
-            <div class="col-md-4">
-              <div class="spec">
-                <i class="bi bi-calendar"></i>
-                <span>Year</span>
-                <strong>{{ car.year }}</strong>
-              </div>
-            </div>
-
-            <div class="col-md-4">
-              <div class="spec">
-                <i class="bi bi-fuel-pump"></i>
-                <span>Fuel</span>
-                <strong>{{ car.fuel }}</strong>
-              </div>
-            </div>
-
-            <div class="col-md-4">
-              <div class="spec">
-                <i class="bi bi-speedometer2"></i>
-                <span>Mileage</span>
-                <strong>
-                  {{ car.mileage.toLocaleString() }} km
-                </strong>
-              </div>
-            </div>
-
-            <div class="col-md-4">
-              <div class="spec">
-                <i class="bi bi-gear"></i>
-                <span>Transmission</span>
-                <strong>{{ car.transmission }}</strong>
-              </div>
-            </div>
-
-            <div class="col-md-4">
-              <div class="spec">
-                <i class="bi bi-palette"></i>
-                <span>Color</span>
-                <strong>{{ car.color }}</strong>
-              </div>
-            </div>
-
-            <div class="col-md-4">
-              <div class="spec">
-                <i class="bi bi-geo-alt"></i>
-                <span>Location</span>
-                <strong>{{ car.location }}</strong>
-              </div>
-            </div>
-
-          </div>
-
-          <div class="location">
-            <i class="bi bi-geo-alt"></i>
-            <span>
-              Location: {{ car.location }}, Egypt
+            <span class="match">
+              {{ car.match }}% Match
             </span>
           </div>
 
-          <div class="actions">
+          <div class="details-content">
 
-            <button
-              class="contact-btn"
-              @click="contactSeller"
-            >
-              Contact Seller
-            </button>
+            <span class="brand">
+              {{ car.brand }}
+            </span>
 
-            <button
-              class="favorite-btn"
-              @click="toggleFavorite"
-            >
-              <i
-                :class="car.isFavorite
-                  ? 'bi bi-heart-fill'
-                  : 'bi bi-heart'"
-              ></i>
+            <h1>{{ car.name }}</h1>
 
-              {{ car.isFavorite ? 'Saved' : 'Favorite' }}
-            </button>
+            <p class="year">
+              {{ car.year }}
+            </p>
+
+            <div class="price">
+              {{ Number(car.price).toLocaleString() }}
+              <span>EGP</span>
+            </div>
+
+            <h2>Specifications</h2>
+
+            <div class="row g-3">
+
+              <div class="col-md-4">
+                <div class="spec">
+                  <i class="bi bi-calendar"></i>
+                  <span>Year</span>
+                  <strong>{{ car.year }}</strong>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="spec">
+                  <i class="bi bi-fuel-pump"></i>
+                  <span>Fuel</span>
+                  <strong>{{ car.fuel }}</strong>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="spec">
+                  <i class="bi bi-speedometer2"></i>
+                  <span>Mileage</span>
+                  <strong>
+                    {{ Number(car.mileage).toLocaleString() }} km
+                  </strong>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="spec">
+                  <i class="bi bi-gear"></i>
+                  <span>Transmission</span>
+                  <strong>{{ car.transmission }}</strong>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="spec">
+                  <i class="bi bi-palette"></i>
+                  <span>Color</span>
+                  <strong>{{ car.color }}</strong>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="spec">
+                  <i class="bi bi-geo-alt"></i>
+                  <span>Location</span>
+                  <strong>{{ car.location }}</strong>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="location">
+              <i class="bi bi-geo-alt"></i>
+              <span>
+                Location: {{ car.location }}, Egypt
+              </span>
+            </div>
+
+            <div class="actions">
+
+              <button
+                class="contact-btn"
+                @click="contactSeller"
+              >
+                Contact Seller
+              </button>
+
+              <button
+                class="favorite-btn"
+                @click="toggleFavorite"
+              >
+                <i
+                  :class="
+                    car.isFavorite
+                      ? 'bi bi-heart-fill'
+                      : 'bi bi-heart'
+                  "
+                ></i>
+
+                {{ car.isFavorite ? 'Saved' : 'Favorite' }}
+              </button>
+
+            </div>
 
           </div>
 
         </div>
 
-      </div>
+        <div v-else class="no-results">
+          <i class="bi bi-car-front"></i>
+          <h3>Car not found</h3>
+        </div>
 
-      <div v-else class="no-results">
-        <i class="bi bi-car-front"></i>
-        <h3>Car not found</h3>
       </div>
-
-    </div>
-  </section>
+    </section>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import Navbar from '../components/Navbar.vue'
+
+const router = useRouter()
+const route = useRoute()
 
 const car = ref(null)
 const loading = ref(true)
@@ -157,9 +162,15 @@ const loading = ref(true)
 async function getCar() {
   try {
 
+    const carId = route.params.id
+
     const response = await fetch(
-      'http://localhost:3000/cars/1'
+      `http://localhost:3000/cars/${carId}`
     )
+
+    if (!response.ok) {
+      throw new Error('Car not found')
+    }
 
     car.value = await response.json()
 
@@ -171,6 +182,8 @@ async function getCar() {
       'Error loading car:',
       error
     )
+
+    car.value = null
 
   } finally {
 
@@ -185,8 +198,9 @@ function toggleFavorite() {
 function contactSeller() {
   alert('Seller contact information will be available soon.')
 }
+
 function goBack() {
-  window.history.back()
+  router.back()
 }
 
 onMounted(() => {
