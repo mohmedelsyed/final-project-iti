@@ -2,11 +2,6 @@
   <section class="hero-section">
     <div class="container">
 
-      <!-- Title -->
-      <div class="text-center mb-5">
-        <h2 class="text-white">Search Cars</h2>
-      </div>
-
       <div class="row align-items-center g-5">
 
         <!-- LEFT : Search Card -->
@@ -26,7 +21,7 @@
               </label>
 
               <span class="budget-value text-primary fw-bold">
-                EGP 500,000
+                EGP {{ budget.toLocaleString() }}
               </span>
 
             </div>
@@ -38,7 +33,7 @@
               min="300000"
               max="5000000"
               step="50000"
-              value="1000000"
+              v-model.number="budget"
             />
 
             <div class="d-flex justify-content-between text-secondary small mb-4">
@@ -159,7 +154,43 @@
   </section>
 </template>
 
-<style >
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const emit = defineEmits(['search'])
+
+const budget = ref(1000000)
+const city = ref('')
+const detecting = ref(false)
+
+const detectLocation = () => {
+  detecting.value = true
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      () => {
+        city.value = 'Cairo'
+        detecting.value = false
+      },
+      () => {
+        city.value = 'Cairo'
+        detecting.value = false
+      }
+    )
+  } else {
+    city.value = 'Cairo'
+    detecting.value = false
+  }
+}
+
+const searchCars = () => {
+  emit('search', { budget: budget.value, city: city.value })
+  router.push('/cars')
+}
+</script>
+
+<style>
 
 .hero-section {
   min-height: 80vh;
@@ -323,16 +354,7 @@
 }
 
 .hero-content h1 span {
-  background-color: var(--primary);
-
-  padding: 0 5px;
-
-  box-shadow:
-    8px 0 var(--primary),
-    -3px 0 var(--primary);
-
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
+  color: var(--white);
 }
 
 
@@ -358,8 +380,7 @@
 .stats {
   display: flex;
   gap: 48px;
-  border-radius: 8px;
-  background-color: var(--light);
+  border-radius: 8px white;
 }
 
 .stat {
