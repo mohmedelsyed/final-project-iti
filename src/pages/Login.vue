@@ -1,158 +1,169 @@
 <template>
   <div class="login-page">
-    <Navbar />
+    <div class="login-container">
+      <div class="login-card">
 
-    <main class="login-content">
-      <div class="container">
+        <div class="text-center mb-4">
+          <h2>Welcome Back</h2>
+          <p class="text-muted">Login to your CarHub account</p>
+        </div>
 
-        <div class="login-card">
+        <form @submit.prevent="handleLogin">
 
-          <div class="text-center login-title">
-            <h1>Login</h1>
+          <!-- Email -->
+          <div class="mb-3">
+            <label class="form-label">Email</label>
 
-            <p>
-              Welcome back — your garage is waiting.
-            </p>
+            <input
+              v-model="email"
+              type="email"
+              class="form-control"
+              placeholder="Enter your email"
+              required
+            />
           </div>
 
-          <form @submit.prevent="login">
+          <!-- Password -->
+          <div class="mb-3">
+            <label class="form-label">Password</label>
 
-            <div class="form-group">
-              <label for="email">
-                Email
-              </label>
+            <input
+              v-model="password"
+              type="password"
+              class="form-control"
+              placeholder="Enter your password"
+              required
+            />
+          </div>
 
-              <input
-                id="email"
-                v-model="email"
-                type="email"
-                placeholder="you@example.com"
-                required
-              />
-            </div>
+          <!-- Error Message -->
+          <div
+            v-if="errorMessage"
+            class="alert alert-danger"
+          >
+            {{ errorMessage }}
+          </div>
 
-            <div class="form-group">
-              <label for="password">
-                Password
-              </label>
+          <!-- Login Button -->
+          <button
+            type="submit"
+            class="btn btn-primary w-100"
+            :disabled="loading"
+          >
+            {{ loading ? 'Logging in...' : 'Login' }}
+          </button>
 
-              <input
-                id="password"
-                v-model="password"
-                type="password"
-                placeholder="Enter your password"
-                required
-              />
-            </div>
+        </form>
 
-            <button
-              type="submit"
-              class="signin-btn"
-              :disabled="loading"
-            >
-              {{ loading ? 'Signing in...' : 'Sign in' }}
-            </button>
+        <!-- Register -->
+        <div class="text-center mt-4">
+          <p>
+            Don't have an account?
 
-          </form>
-
-          <p class="register-text">
-            No account yet?
             <RouterLink to="/register">
-              Create one
+              Register
             </RouterLink>
           </p>
-
-          <div
-            v-if="message"
-            class="message-box"
-            :class="{ error: error }"
-          >
-            {{ message }}
-          </div>
-
-          <div class="demo-box">
-            <strong>Demo:</strong>
-            Use a DummyJSON test user account to test the API login.
-          </div>
-
         </div>
 
       </div>
-    </main>
-
+    </div>
   </div>
 </template>
 
+
 <script setup>
 import { ref } from 'vue'
+import axios from 'axios'
 import { useRouter } from 'vue-router'
-import Navbar from '../components/Navbar.vue'
+import Swal from 'sweetalert2'
 
 const router = useRouter()
 
 const email = ref('')
 const password = ref('')
 const loading = ref(false)
-const message = ref('')
-const error = ref(false)
+const errorMessage = ref('')
 
-const login = async () => {
+
+async function handleLogin() {
+
+  errorMessage.value = ''
   loading.value = true
-  message.value = ''
-  error.value = false
 
   try {
-    const usersResponse = await fetch(
-      `https://dummyjson.com/users/search?q=${encodeURIComponent(email.value)}`
+
+    // Get all users from JSON Server
+    const response = await axios.get(
+      'http://localhost:3000/users'
     )
 
-    const usersData = await usersResponse.json()
+    console.log('All users:', response.data)
 
-    const user = usersData.users.find(
-      item => item.email.toLowerCase() === email.value.toLowerCase()
+    // Find user using email and password
+    const user = response.data.find(
+      item =>
+        item.email?.trim().toLowerCase() ===
+          email.value.trim().toLowerCase() &&
+        item.password === password.value
     )
 
+    console.log('Found user:', user)
+
+    // User not found
     if (!user) {
-      throw new Error('User not found')
+
+      errorMessage.value =
+        'Invalid email or password.'
+
+      return
     }
 
-    const response = await fetch('https://dummyjson.com/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        username: user.username,
-        password: password.value,
-        expiresInMins: 30
-      }),
-      credentials: 'include'
+    // Save logged-in user
+    localStorage.setItem(
+      'currentUser',
+      JSON.stringify(user)
+    )
+
+    localStorage.setItem(
+      'isLoggedIn',
+      'true'
+    )
+
+    // Success message
+    await Swal.fire({
+      icon: 'success',
+      title: 'Login Successful',
+      text: `Welcome ${user.name}!`,
+      timer: 1500,
+      showConfirmButton: false
     })
 
-    const data = await response.json()
+    // Redirect according to role
+    if (user.role === 'seller') {
 
-    if (!response.ok) {
-      throw new Error(data.message || 'Invalid email or password')
+      router.push('/seller-dashboard')
+
+    } else {
+
+      router.push('/dashboard')
+
     }
 
-    localStorage.setItem('carhub_token', data.accessToken)
-    localStorage.setItem('carhub_user', JSON.stringify(data))
+  } catch (error) {
 
-    message.value = `Welcome back, ${data.firstName}!`
+    console.error('Login error:', error)
 
-    console.log('Login successful:', data)
+    errorMessage.value =
+      'Unable to connect to the API. Make sure JSON Server is running on port 3000.'
 
-    setTimeout(() => router.push('/dashboard'), 1000)
-
-  } catch (err) {
-    error.value = true
-    message.value = err.message
   } finally {
+
     loading.value = false
+
   }
 }
 </script>
-
 <style scoped>
 .login-page {
   min-height: 100vh;
@@ -164,7 +175,8 @@ const login = async () => {
       #70C1B3,
       #B2DBBF,
       #F7FFF7
-    );}
+    );
+}
 
 .login-header {
   padding: 16px 0;
